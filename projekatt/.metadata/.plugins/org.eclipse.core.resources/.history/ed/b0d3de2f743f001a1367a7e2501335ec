@@ -1,0 +1,11 @@
+package model;
+
+public class Kategorija {
+	
+	private String ime;
+	private int brojJezgara;
+	private int RAM;
+	private int GPU;
+	
+
+}

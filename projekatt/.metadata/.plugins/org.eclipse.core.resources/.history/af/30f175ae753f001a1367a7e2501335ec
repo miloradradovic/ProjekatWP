@@ -1,0 +1,13 @@
+package rest;
+
+public class SparkMain {
+	
+	private static Gson g = new Gson();
+
+	public static void main(String[] args) {
+		
+		
+
+	}
+
+}

@@ -1,0 +1,9 @@
+package model;
+
+public class Disk extends Resurs {
+	
+	private String ime;
+	private TipDiska tip;
+	
+
+}

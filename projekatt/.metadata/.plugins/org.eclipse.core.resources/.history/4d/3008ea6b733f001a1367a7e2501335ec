@@ -1,0 +1,13 @@
+package model;
+
+import java.util.ArrayList;
+
+public class Organizacija {
+	
+	private String ime;
+	private String opis;
+	private String slika; //putanja do slike
+	private ArrayList<Korisnik> korisnici;
+	private ArrayList<Resurs> resursi;
+
+}

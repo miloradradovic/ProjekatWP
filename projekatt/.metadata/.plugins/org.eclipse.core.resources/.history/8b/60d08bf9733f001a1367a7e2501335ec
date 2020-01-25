@@ -1,0 +1,10 @@
+package model;
+
+public class Disk extends Resurs {
+	
+	private String ime;
+	private TipDiska tip;
+	private int kapacitet;
+	private VM virtuelna;
+
+}

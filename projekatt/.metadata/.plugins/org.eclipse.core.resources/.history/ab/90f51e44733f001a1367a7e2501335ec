@@ -1,0 +1,12 @@
+package model;
+
+import java.util.ArrayList;
+
+public class VM extends Resurs {
+	
+	private String ime;
+	private Kategorija kategorija;
+	private ArrayList<Disk> zakaceniDiskovi;
+	private ArrayList<LocalDateTime> aktivnost;
+
+}

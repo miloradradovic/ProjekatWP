@@ -1,0 +1,20 @@
+package model;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+public class VM extends Resurs {
+	
+	private String ime;
+	private Kategorija kategorija;
+	private ArrayList<Disk> zakaceniDiskovi;
+	private ArrayList<LocalDateTime> aktivnost;
+	
+	public VM() {
+		super();
+		this.kategorija = new Kategorija();
+		this.zakaceniDiskovi = new ArrayList<Disk>();
+		this.aktivnost = new ArrayList<LocalDateTime>();
+	}
+
+}

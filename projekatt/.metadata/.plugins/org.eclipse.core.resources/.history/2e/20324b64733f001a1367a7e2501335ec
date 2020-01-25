@@ -1,0 +1,12 @@
+package model;
+
+public class Korisnik {
+	
+	private String email;
+	private String lozinka;
+	private String ime;
+	private String prezime;
+	private Organizacija organizacija;
+	private TipKorisnika tip;
+
+}

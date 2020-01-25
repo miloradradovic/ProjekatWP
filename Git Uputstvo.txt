@@ -1,0 +1,13 @@
+Kad hoces da cloneujes:
+	git clone putanja_do_rep
+
+Kad hoces da komitujes:
+	git add .
+	git commit -m "komentar"
+
+Kad hoces da skines poslednju verziju:
+	git fetch
+	git merge
+
+Kad hoces da proveris jel imas poslednju verziju:
+	git status

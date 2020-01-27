@@ -2,7 +2,7 @@ package model;
 
 public class Korisnik {
 	
-	private String email;
+	private String korisnickoIme;
 	private String lozinka;
 	private String ime;
 	private String prezime;
@@ -14,10 +14,10 @@ public class Korisnik {
 		this.organizacija = new Organizacija();
 	}
 
-	public Korisnik(String email, String lozinka, String ime, String prezime, Organizacija organizacija,
+	public Korisnik(String korisnickoIme, String lozinka, String ime, String prezime, Organizacija organizacija,
 			TipKorisnika uloga) {
 		super();
-		this.email = email;
+		this.korisnickoIme = korisnickoIme;
 		this.lozinka = lozinka;
 		this.ime = ime;
 		this.prezime = prezime;
@@ -25,12 +25,12 @@ public class Korisnik {
 		this.uloga = uloga;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getKorisnickoIme() {
+		return korisnickoIme;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setKorisnickoIme(String korisnickoIme) {
+		this.korisnickoIme = korisnickoIme;
 	}
 
 	public String getLozinka() {

@@ -13,6 +13,7 @@ $(document).ready(function(){
 				type:"post",
 				data: JSON.stringify({korisnickoIme: username, lozinka:password}),
 				success : function(data){
+					console.log(data);
 					if(data==false){
 						alert("Korisnik "+username+" ne postoji!");
 					}else{

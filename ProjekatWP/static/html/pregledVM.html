@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset = "utf-8">
+		<title>Pregled VM</title>
+	
+		<script type = "text/javascript" src = "js/jquery.min.js"></script>
+		<script type = "text/javascript" src = "js/pregledVM.js></script>
+		<script type = "text/javascript">
+		function pregledVM(){
+	var user = localStorage.getItem("USER")
+	console.log("woho")
+	$.ajax({
+		type: "POST",
+		url: "pregledVM",
+		data: 0,
+		contentType: "application/json",
+		dataType: "json",
+		success: function(data){
+			if(data == false){
+				alert("Morate biti ulogovani da biste pristupili ovoj stranici")
+				location.href = "/index.html"
+			}else{
+				if (user.uloga == TipKorisnika.SuperAdmin){
+					data.forEach(element => {
+						$("#tabelaVM").append($("<tr>")
+								  	  	.append($("<td>")
+								  				.text(element.ime))
+							  		  	.append($("<td>")
+							  		  			.text(element.kategorija.brojJezgara))
+						  		  	  	.append($("<td>")
+						  		  	  			.text(element.kategorija.RAM))
+					  		  	  	  	.append($("<td>")
+					  		  	  	  			.text(element.kategorija.GPU))
+				  		  	  	  	  	.append($("<td>")
+				  		  	  	  	  			.append($("<a>")
+				  		  	  	  	  				.attr("href", "#")
+				  		  	  	  	  				.attr("ime", element.ime)
+				  		  	  	  	  				.attr("onclick", "/izmenaVM.html")
+				  		  	  	  	  				.text("Izmeni")))
+			  		  	  	  	  	)
+					})
+				}else if (user.uloga == TipKorisnika.Admin){
+					$("#organizacija").hide();
+					data.forEach(element => {
+						$("#tabelaVM").append($("<tr>")
+								  	  	.append($("<td>")
+								  				.text(element.ime))
+							  		  	.append($("<td>")
+							  		  			.text(element.kategorija.brojJezgara))
+						  		  	  	.append($("<td>")
+						  		  	  			.text(element.kategorija.RAM))
+					  		  	  	  	.append($("<td>")
+					  		  	  	  			.text(element.kategorija.GPU))
+				  		  	  	  	  	.append($("<td>")
+				  		  	  	  	  			.append($("<a>")
+				  		  	  	  	  				.attr("href", "#")
+				  		  	  	  	  				.attr("ime", element.ime)
+				  		  	  	  	  				.attr("onclick", "/izmeniVM.html")
+				  		  	  	  	  				.text("Izmeni")))
+			  		  	  	  	  	)
+					})
+					
+				}
+			}
+		}
+	})
+}
+</script>
+	</head>
+	
+	<body onload = "pregledVM()">
+		<h2>Virtuelne masine</h2>
+		
+		<table border = "1" id = "tabelaVM">
+			<thead>
+				<tr>
+					<th>Ime</th>
+					<th>Broj jezgara</th>
+					<th>RAM</th>
+					<th>GPU</th>
+					<th id = "organizacija">Organizacija</th>
+					<th>Izmena</th>
+				</tr>
+			</thead>
+		</table>
+		
+		<hr>
+		<input id = "dodajNovuVM" type="button" value="Dodaj novu VM"></input>
+		
+		<form id = filtriranjePretragaVM>
+			<table>
+				<tr>
+					<h3>Filtriranje i pretraga</h3>
+				</tr>
+			
+				<tr>
+					<td>Broj jezgara:</td>
+					<td>od</td>
+					<td><input type = "number" name = "minBrJezgara"></td>
+					</td>do</td>
+					<td><input type = "number" name = maxBrJezgara"></td>
+				</tr>
+				
+				<tr>
+					<td>RAM:</td>
+					<td>od</td>
+					<td><input type = "number" name = "minRAM"></td>
+					</td>do</td>
+					<td><input type = "number" name = maxRAM"></td>
+				</tr> 
+				
+				<tr>
+					<td>GPU jezgara:</td>
+					<td>od</td>
+					<td><input type = "number" name = "minGPUJezgara"></td>
+					</td>do</td>
+					<td><input type = "number" name = maxGPUJezgara"></td>
+				</tr>
+				
+				<tr>
+					<td>Ime:</td>
+					<td><input type = "text" name = "imeJezgra"</td>
+				</tr>
+				
+				<tr>
+					<td><input id = "filtrirajVM" type = "button" value = "Filtriraj"></td>
+				</tr>
+				
+			</table>
+		</form>
+				
+	</body>
+	
+</html>
+					
+
+		

@@ -22,47 +22,77 @@
 				alert("Morate biti ulogovani da biste pristupili ovoj stranici")
 				location.href = "/index.html"
 			}else{
-				if (user.uloga == TipKorisnika.SuperAdmin){
-					data.forEach(element => {
-						$("#tabelaVM").append($("<tr>")
-								  	  	.append($("<td>")
-								  				.text(element.ime))
-							  		  	.append($("<td>")
-							  		  			.text(element.kategorija.brojJezgara))
-						  		  	  	.append($("<td>")
-						  		  	  			.text(element.kategorija.RAM))
-					  		  	  	  	.append($("<td>")
-					  		  	  	  			.text(element.kategorija.GPU))
-				  		  	  	  	  	.append($("<td>")
-				  		  	  	  	  			.append($("<a>")
-				  		  	  	  	  				.attr("href", "#")
-				  		  	  	  	  				.attr("ime", element.ime)
-				  		  	  	  	  				.attr("onclick", "/izmenaVM.html")
-				  		  	  	  	  				.text("Izmeni")))
-			  		  	  	  	  	)
-					})
-				}else if (user.uloga == TipKorisnika.Admin){
-					$("#organizacija").hide();
-					data.forEach(element => {
-						$("#tabelaVM").append($("<tr>")
-								  	  	.append($("<td>")
-								  				.text(element.ime))
-							  		  	.append($("<td>")
-							  		  			.text(element.kategorija.brojJezgara))
-						  		  	  	.append($("<td>")
-						  		  	  			.text(element.kategorija.RAM))
-					  		  	  	  	.append($("<td>")
-					  		  	  	  			.text(element.kategorija.GPU))
-				  		  	  	  	  	.append($("<td>")
-				  		  	  	  	  			.append($("<a>")
-				  		  	  	  	  				.attr("href", "#")
-				  		  	  	  	  				.attr("ime", element.ime)
-				  		  	  	  	  				.attr("onclick", "/izmeniVM.html")
-				  		  	  	  	  				.text("Izmeni")))
-			  		  	  	  	  	)
-					})
-					
-				}
+				var podaci = data;
+				$.ajax({
+					type:"GET",
+					url:"dobaviTrenutnogKorisnika",
+					data:0,
+					contentType:"application/json",
+					dataType:"json",
+					success: function(data){
+						if (data==0){
+							podaci.forEach(element => {
+								$("#tabelaVM").append($("<tr>")
+												.append($("<td>")
+														.text(element.ime))
+												.append($("<td>")
+														.text(element.kategorija.brojJezgara))
+												.append($("<td>")
+														.text(element.kategorija.RAM))
+												.append($("<td>")
+														.text(element.kategorija.GPU))
+												.append($("<td>")
+														.append($("<a>")
+															.attr("href", "#")
+															.attr("ime", element.ime)
+															.attr("onclick", "/izmenaVM.html")
+															.text("Izmeni")))
+											)
+							})
+						}else if (data==1){
+							$("#organizacija").hide();
+							podaci.forEach(element => {
+								$("#tabelaVM").append($("<tr>")
+												.append($("<td>")
+														.text(element.ime))
+												.append($("<td>")
+														.text(element.kategorija.brojJezgara))
+												.append($("<td>")
+														.text(element.kategorija.RAM))
+												.append($("<td>")
+														.text(element.kategorija.GPU))
+												.append($("<td>")
+														.append($("<a>")
+															.attr("href", "#")
+															.attr("ime", element.ime)
+															.attr("onclick", "/izmeniVM.html")
+															.text("Izmeni")))
+											)
+							})
+							
+						}else{
+							$("#organizacija").hide();
+							podaci.forEach(element => {
+								$("#tabelaVM").append($("<tr>")
+												.append($("<td>")
+														.text(element.ime))
+												.append($("<td>")
+														.text(element.kategorija.brojJezgara))
+												.append($("<td>")
+														.text(element.kategorija.RAM))
+												.append($("<td>")
+														.text(element.kategorija.GPU))
+												.append($("<td>")
+														.append($("<a>")
+															.attr("href", "#")
+															.attr("ime", element.ime)
+															.attr("onclick", "/izmeniVM.html")
+															.text("Detalji")))
+											)
+							})
+						}
+					}
+				})
 			}
 		}
 	})

@@ -8,7 +8,8 @@ import model.VM;
 import model.Kategorija;
 import model.Aktivnost;
 import model.Disk;
-
+import model.Organizacija;
+import model.Resurs;
 import spark.Session;
 
 import static spark.Spark.get;
@@ -28,6 +29,8 @@ public class SparkMain {
 	private static ArrayList<VM> VM = new ArrayList<VM>();
 	private static ArrayList<Disk> diskovi = new ArrayList<Disk>();
 	private static ArrayList<Aktivnost> ak = new ArrayList<Aktivnost>();
+	private static ArrayList<Organizacija> organizacije = new ArrayList<Organizacija>();
+
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -64,9 +67,26 @@ public class SparkMain {
 		post("/pregledVM", (req, res) ->{
 			res.type("application/json");
 			Session ss = req.session(true);
-			if(!proveraUlogovanog(ss)) {
-				res.status(200);
-				return g.toJson(VM);
+			Korisnik u = ss.attribute("user");
+			if(u!=null) {
+				Korisnik m = ss.attribute("user");
+				if(m.getUloga()==TipKorisnika.SuperAdmin) {
+					res.status(200);
+					return g.toJson(VM);
+				}else {
+					res.status(200);
+					ArrayList<VM> virtuelne = new ArrayList<VM>();
+					for (Organizacija o : organizacije) {
+						if (o.getIme().equals(m.getOrganizacija().getIme())) {
+							for(Resurs r : o.getResursi()) {
+								if(r.getClass()==VM.class) {
+									virtuelne.add((model.VM) r);
+								}
+							}
+						}
+					}
+					return g.toJson(virtuelne);
+				}
 			}else {
 				res.status(200);
 				return false;

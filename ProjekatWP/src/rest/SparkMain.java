@@ -30,7 +30,8 @@ public class SparkMain {
 	private static ArrayList<Disk> diskovi = new ArrayList<Disk>();
 	private static ArrayList<Aktivnost> ak = new ArrayList<Aktivnost>();
 	private static ArrayList<Organizacija> organizacije = new ArrayList<Organizacija>();
-
+	private static ArrayList<Kategorija> kategorije = new ArrayList<Kategorija>();
+	
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -64,35 +65,29 @@ public class SparkMain {
 			return false;
 		});
 		
-		post("/pregledVM", (req, res) ->{
+		get("/pregledVM", (req, res) ->{
 			res.type("application/json");
 			Session ss = req.session(true);
-			Korisnik u = ss.attribute("user");
-			if(u!=null) {
-				Korisnik m = ss.attribute("user");
-				if(m.getUloga()==TipKorisnika.SuperAdmin) {
-					res.status(200);
-					return g.toJson(VM);
-				}else {
-					res.status(200);
-					ArrayList<VM> virtuelne = new ArrayList<VM>();
-					for (Organizacija o : organizacije) {
-						if (o.getIme().equals(m.getOrganizacija().getIme())) {
-							for(Resurs r : o.getResursi()) {
-								if(r.getClass()==VM.class) {
-									virtuelne.add((model.VM) r);
-								}
+			Korisnik m = ss.attribute("user");
+			if(m.getUloga()==TipKorisnika.SuperAdmin) {
+				res.status(200);
+				return g.toJson(VM);
+			}else {
+				res.status(200);
+				ArrayList<VM> virtuelne = new ArrayList<VM>();
+				for (Organizacija o : organizacije) {
+					if (o.getIme().equals(m.getOrganizacija().getIme())) {
+						for(Resurs r : o.getResursi()) {
+							if(r.getClass()==VM.class) {
+								virtuelne.add((model.VM) r);
 							}
 						}
 					}
-					return g.toJson(virtuelne);
 				}
-			}else {
-				res.status(200);
-				return false;
+				return g.toJson(virtuelne);
 			}
 		}
-		);
+	);
 		
 		get("/dobaviTrenutnogKorisnika",(req,res)->{
 			res.type("application/json");
@@ -103,18 +98,13 @@ public class SparkMain {
 				return 0;
 			}else if(k.getUloga()==TipKorisnika.Admin) {
 				return 1;
-			}else {
+			}else if(k.getUloga()==TipKorisnika.Korisnik) {
 				return 2;
+			}else {
+				return false;
 			}
 		});
-	}
-
-	private static boolean proveraUlogovanog(Session ss) {
-		Korisnik u = ss.attribute("user");
-		if(u==null) {
-			return false;
-		}
-		return true;
+		
 	}
 
 }

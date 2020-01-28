@@ -9,94 +9,90 @@
 		<script type = "text/javascript" src = "js/pregledVM.js"></script>
 		<script type = "text/javascript">
 		function pregledVM(){
-	var user = localStorage.getItem("USER")
-	console.log("woho")
-	$.ajax({
-		type: "POST",
-		url: "pregledVM",
-		data: 0,
-		contentType: "application/json",
-		dataType: "json",
-		success: function(data){
-			if(data == false){
-				alert("Morate biti ulogovani da biste pristupili ovoj stranici")
-				location.href = "/index.html"
-			}else{
-				var podaci = data;
-				$.ajax({
-					type:"GET",
-					url:"dobaviTrenutnogKorisnika",
-					data:0,
-					contentType:"application/json",
-					dataType:"json",
-					success: function(data){
-						if (data==0){
-							podaci.forEach(element => {
-								$("#tabelaVM").append($("<tr>")
-												.append($("<td>")
-														.text(element.ime))
-												.append($("<td>")
-														.text(element.kategorija.brojJezgara))
-												.append($("<td>")
-														.text(element.kategorija.RAM))
-												.append($("<td>")
-														.text(element.kategorija.GPU))
-												.append($("<td>")
-														.append($("<a>")
-															.attr("href", "#")
-															.attr("ime", element.ime)
-															.attr("onclick", "/izmenaVM.html")
-															.text("Izmeni")))
-											)
-							})
-						}else if (data==1){
-							$("#organizacija").hide();
-							podaci.forEach(element => {
-								$("#tabelaVM").append($("<tr>")
-												.append($("<td>")
-														.text(element.ime))
-												.append($("<td>")
-														.text(element.kategorija.brojJezgara))
-												.append($("<td>")
-														.text(element.kategorija.RAM))
-												.append($("<td>")
-														.text(element.kategorija.GPU))
-												.append($("<td>")
-														.append($("<a>")
-															.attr("href", "#")
-															.attr("ime", element.ime)
-															.attr("onclick", "/izmeniVM.html")
-															.text("Izmeni")))
-											)
-							})
-							
-						}else{
-							$("#organizacija").hide();
-							podaci.forEach(element => {
-								$("#tabelaVM").append($("<tr>")
-												.append($("<td>")
-														.text(element.ime))
-												.append($("<td>")
-														.text(element.kategorija.brojJezgara))
-												.append($("<td>")
-														.text(element.kategorija.RAM))
-												.append($("<td>")
-														.text(element.kategorija.GPU))
-												.append($("<td>")
-														.append($("<a>")
-															.attr("href", "#")
-															.attr("ime", element.ime)
-															.attr("onclick", "/izmeniVM.html")
-															.text("Detalji")))
-											)
-							})
-						}
+			console.log("woho")
+			$.ajax({
+				type: "GET",
+				url: "dobaviTrenutnogKorisnika",
+				data: 0,
+				contentType: "application/json",
+				dataType: "json",
+				success: function(data){
+					if(data == false){
+						alert("Morate biti ulogovani da biste pristupili ovoj stranici")
+						location.href = "/index.html"
+					}else{
+						var korisnik = data;
+						$.ajax({
+							type:"GET",
+							url:"pregledVM",
+							data:0,
+							contentType:"application/json",
+							dataType:"json",
+							success: function(data){
+								if (korisnik==0){
+									data.forEach(element => {
+										$("#tabelaVM").append($("<tr>")
+														.append($("<td>")
+																.text(element.ime))
+														.append($("<td>")
+																.text(element.kategorija.brojJezgara))
+														.append($("<td>")
+																.text(element.kategorija.RAM))
+														.append($("<td>")
+																.text(element.kategorija.GPU))
+														.append($("<td>")
+																.append($("<a>")
+																	.attr("href", "#")
+																	.attr("id", element.ime)
+																	.text("Izmeni")))
+													)
+									})
+								}else if (korisnik==1){
+									$("#organizacija").hide();
+									data.forEach(element => {
+										$("#tabelaVM").append($("<tr>")
+														.append($("<td>")
+																.text(element.ime))
+														.append($("<td>")
+																.text(element.kategorija.brojJezgara))
+														.append($("<td>")
+																.text(element.kategorija.RAM))
+														.append($("<td>")
+																.text(element.kategorija.GPU))
+														.append($("<td>")
+																.append($("<a>")
+																	.attr("href", "#")
+																	.attr("id", element.ime)
+																	.text("Izmeni")))
+													)
+									})
+									
+								}else{
+									$("#organizacija").hide();
+									data.forEach(element => {
+										$("#tabelaVM").append($("<tr>")
+														.append($("<td>")
+																.text(element.ime))
+														.append($("<td>")
+																.text(element.kategorija.brojJezgara))
+														.append($("<td>")
+																.text(element.kategorija.RAM))
+														.append($("<td>")
+																.text(element.kategorija.GPU))
+														.append($("<td>")
+																.append($("<a>")
+																	.attr("href", "#")
+																	.attr("id", element.ime)
+																	.text("Detalji")))
+													)
+									})
+								}
+							}
+						})
 					}
-				})
-			}
+				}
+			})
 		}
-	})
-}
 </script>
 		
 	</head>
@@ -152,7 +148,7 @@
 				
 				<tr>
 					<td>Ime:</td>
-					<td><input type = "text" name = "imeJezgra"</td>
+					<td><input type = "text" name = "imeJezgra"/></td>
 				</tr>
 				
 				<tr>

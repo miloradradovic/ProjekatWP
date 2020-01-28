@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 
 import model.Korisnik;
+import model.TipKorisnika;
 import model.VM;
 import model.Kategorija;
 import model.Aktivnost;
@@ -41,6 +42,7 @@ public class SparkMain {
 		a.setKorisnickoIme("maki");
 		a.setLozinka("123");
 		korisnici.add(a);
+		
 		post("/login", (req, res) ->{
 			res.type("application/json");
 			String korisnik = req.body();
@@ -61,10 +63,38 @@ public class SparkMain {
 		
 		post("/pregledVM", (req, res) ->{
 			res.type("application/json");
-			res.status(200);
-			return g.toJson(VM);
+			Session ss = req.session(true);
+			if(!proveraUlogovanog(ss)) {
+				res.status(200);
+				return g.toJson(VM);
+			}else {
+				res.status(200);
+				return false;
+			}
 		}
 		);
+		
+		get("/dobaviTrenutnogKorisnika",(req,res)->{
+			res.type("application/json");
+			Session ss = req.session(true);
+			Korisnik k = ss.attribute("user");
+			res.status(200);
+			if(k.getUloga()==TipKorisnika.SuperAdmin) {
+				return 0;
+			}else if(k.getUloga()==TipKorisnika.Admin) {
+				return 1;
+			}else {
+				return 2;
+			}
+		});
+	}
+
+	private static boolean proveraUlogovanog(Session ss) {
+		Korisnik u = ss.attribute("user");
+		if(u==null) {
+			return false;
+		}
+		return true;
 	}
 
 }

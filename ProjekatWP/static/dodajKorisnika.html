@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Dodavanje korisnika</title>
+</head>
+
+<script type = "text/javascript" src="js/jquery.js"></script>
+<script type = "text/javascript" src="js/dodajKorisnika.js"></script>
+<script type="text/javascript" src="js/proveraLogovanja.js"></script>
+
+
+<body onload = "myFunction()">
+	<h2>Dodavanje korisnika</h2>
+	<form id="addUser">
+	<table id="tabelaAddUser">
+		<tr>
+			<td>Korisničko ime</td>
+			<td><input class="username" type="text" name="usename"></td>
+		</tr>
+		<tr>
+			<td>Lozinka</td>
+			<td><input type="password" class="password" name="password"></td>
+		</tr>
+		<tr>
+			<td>Ime</td>
+			<td><input type="text" class="ime" name="ime"></td>
+		</tr>
+		<tr>
+			<td>Prezime</td>
+			<td><input type="text" class="prezime" name="prezime"></td>
+		</tr>
+		<tr id="organizacija">
+			<td>Izbor organizacije</td>
+			<td>
+				<select id = "izborOrganizacije">
+				</select>
+			</td>
+		</tr>
+		<tr id="organizacijaAdmin">
+			<td>Organizacija</td>
+		</tr>
+		<tr>
+			<td>Izbor uloge</td>
+			<td>
+				<select id="izborUloge">
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><button id="addUserButton">Dodaj korisnika</button></td>
+		</tr>
+	</table>
+	</form>
+</body>
+</html>

@@ -9,20 +9,23 @@ public class VM extends Resurs {
 	private Kategorija kategorija;
 	private ArrayList<Disk> zakaceniDiskovi;
 	private ArrayList<Aktivnost> aktivnost;
+	private Organizacija organizacija;
 	
 	public VM() {
 		super();
 		this.kategorija = new Kategorija();
 		this.zakaceniDiskovi = new ArrayList<Disk>();
 		this.aktivnost = new ArrayList<Aktivnost>();
+		this.organizacija = new Organizacija();
 	}
 
-	public VM(String ime, Kategorija kategorija, ArrayList<Disk> zakaceniDiskovi, ArrayList<Aktivnost> aktivnost) {
+	public VM(String ime, Kategorija kategorija, ArrayList<Disk> zakaceniDiskovi, ArrayList<Aktivnost> aktivnost, Organizacija organizacija) {
 		super();
 		this.ime = ime;
 		this.kategorija = kategorija;
 		this.zakaceniDiskovi = zakaceniDiskovi;
 		this.aktivnost = aktivnost;
+		this.organizacija = organizacija;
 	}
 
 	public String getIme() {
@@ -55,6 +58,14 @@ public class VM extends Resurs {
 
 	public void setAktivnost(ArrayList<Aktivnost> aktivnost) {
 		this.aktivnost = aktivnost;
+	}
+
+	public Organizacija getOrganizacija() {
+		return organizacija;
+	}
+
+	public void setOrganizacija(Organizacija organizacija) {
+		this.organizacija = organizacija;
 	}
 	
 	

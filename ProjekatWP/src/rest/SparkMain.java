@@ -39,23 +39,29 @@ public class SparkMain {
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 		
 		Kategorija ka = new Kategorija("bla", 2, 3, 5);
-		VM vm = new VM("bla", ka, diskovi, ak);
+		Organizacija org = new Organizacija();
+		VM vm = new VM("bla", ka, diskovi, ak, org);
+		org.setIme("org1");
+		org.getResursi().add(vm);
 		VM.add(vm);
 
 		Korisnik a = new Korisnik();
 		a.setKorisnickoIme("maki");
 		a.setLozinka("123");
+		a.setUloga(TipKorisnika.SuperAdmin);
 		korisnici.add(a);
 		
 		post("/login", (req, res) ->{
 			res.type("application/json");
 			String korisnik = req.body();
 			Korisnik k = g.fromJson(korisnik, Korisnik.class);
-			
+			Session ss = req.session(true);
+			Korisnik u = ss.attribute("user");
 			for(Korisnik k2 : korisnici) {
 				if(k2.getKorisnickoIme().equals(k.getKorisnickoIme()) && k2.getLozinka().equals(k.getLozinka())) {
-					Session ss = req.session(true);
-					ss.attribute("user",k2);
+					u = k2;
+					System.out.println(u.getKorisnickoIme());
+					ss.attribute("user",u);
 					res.status(200);
 					return true;
 					
@@ -65,7 +71,8 @@ public class SparkMain {
 			return false;
 		});
 		
-		get("/pregledVM", (req, res) ->{
+		get("dobaviVirtuelne", (req, res) ->{
+			System.out.println("USAO");
 			res.type("application/json");
 			Session ss = req.session(true);
 			Korisnik m = ss.attribute("user");
@@ -86,8 +93,7 @@ public class SparkMain {
 				}
 				return g.toJson(virtuelne);
 			}
-		}
-	);
+		});
 		
 		get("/dobaviTrenutnogKorisnika",(req,res)->{
 			res.type("application/json");

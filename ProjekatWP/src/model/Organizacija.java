@@ -7,17 +7,17 @@ public class Organizacija {
 	private String ime;
 	private String opis;
 	private String logo; //putanja do slike
-	private ArrayList<Korisnik> korisnici;
-	private ArrayList<Resurs> resursi;
+	private ArrayList<String> korisnici;
+	private ArrayList<String> resursi;
 	
 	public Organizacija() {
 		super();
-		this.korisnici = new ArrayList<Korisnik>();
-		this.resursi = new ArrayList<Resurs>();
+		this.korisnici = new ArrayList<String>();
+		this.resursi = new ArrayList<String>();
 	}
 
-	public Organizacija(String ime, String opis, String logo, ArrayList<Korisnik> korisnici,
-			ArrayList<Resurs> resursi) {
+	public Organizacija(String ime, String opis, String logo, ArrayList<String> korisnici,
+			ArrayList<String> resursi) {
 		super();
 		this.ime = ime;
 		this.opis = opis;
@@ -50,19 +50,19 @@ public class Organizacija {
 		this.logo = logo;
 	}
 
-	public ArrayList<Korisnik> getKorisnici() {
+	public ArrayList<String> getKorisnici() {
 		return korisnici;
 	}
 
-	public void setKorisnici(ArrayList<Korisnik> korisnici) {
+	public void setKorisnici(ArrayList<String> korisnici) {
 		this.korisnici = korisnici;
 	}
 
-	public ArrayList<Resurs> getResursi() {
+	public ArrayList<String> getResursi() {
 		return resursi;
 	}
 
-	public void setResursi(ArrayList<Resurs> resursi) {
+	public void setResursi(ArrayList<String> resursi) {
 		this.resursi = resursi;
 	}
 	

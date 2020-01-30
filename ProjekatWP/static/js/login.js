@@ -14,7 +14,7 @@ $(document).ready(function(){
 				data: JSON.stringify({korisnickoIme: username, lozinka:password}),
 				success : function(data){
 					console.log(data);
-					if(data==false){
+					if(data===false){
 						alert("Korisnik "+username+" ne postoji!");
 					}else{
 						window.location.href = "/pregledVM.html";

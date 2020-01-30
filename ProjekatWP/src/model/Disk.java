@@ -5,11 +5,11 @@ public class Disk extends Resurs {
 	private String ime;
 	private TipDiska tip;
 	private int kapacitet;
-	private VM virtuelna;
+	private String virtuelna;
 	
 	public Disk() {
 		super();
-		this.virtuelna = new VM();
+		//this.virtuelna = new VM();
 	}
 
 	public Disk(String ime, TipDiska tip, int kapacitet, VM virtuelna) {
@@ -17,7 +17,7 @@ public class Disk extends Resurs {
 		this.ime = ime;
 		this.tip = tip;
 		this.kapacitet = kapacitet;
-		this.virtuelna = virtuelna;
+		this.virtuelna = virtuelna.getIme();
 	}
 
 	public String getIme() {
@@ -44,12 +44,12 @@ public class Disk extends Resurs {
 		this.kapacitet = kapacitet;
 	}
 
-	public VM getVirtuelna() {
+	public String getVirtuelna() {
 		return virtuelna;
 	}
 
 	public void setVirtuelna(VM virtuelna) {
-		this.virtuelna = virtuelna;
+		this.virtuelna = virtuelna.getIme();
 	}
 	
 	

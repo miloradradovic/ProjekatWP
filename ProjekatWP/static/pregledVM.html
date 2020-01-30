@@ -55,6 +55,12 @@
 															.attr("href", "#")
 															.attr("id", element.ime)
 															.text("Izmeni")))
+												.append($("<td>")
+														.append($("<a>")
+															.attr("href", "#")
+															.attr("id", element.ime)
+															.attr("onclick", "obrisiVM(this)")
+															.text("Obrisi")))			
 											)
 							})
 						}else if (korisnik===1){
@@ -74,11 +80,18 @@
 															.attr("href", "#")
 															.attr("id", element.ime)
 															.text("Izmeni")))
+												.append($("<td>")
+														.append($("<a>")
+															.attr("href", "#")
+															.attr("id", element.ime)
+															.attr("onclick", "obrisiVM(this)")
+															.text("Obrisi")))		
 											)
 							})
 									
 						}else{
 							$("#organizacija").hide();
+							$("#brisanje").hide();
 							data.forEach(element => {
 								$("#tabelaVM").append($("<tr>")
 												.append($("<td>")
@@ -101,6 +114,27 @@
 			})
 		}
 		
+		function obrisiVM(data){
+			$("#tabelaVM").find("tr").each(function()
+			{
+				var tds = $(this).find("td")
+				if(tds.eq(0).text()==$(data).attr("id"))
+				{
+					$(this).empty()
+				}
+
+			})
+			$.ajax
+			({
+				type: "POST",
+				url: "obrisiVM",
+				data: $(data).attr("id"),
+				success: function(data)
+				{
+				}
+			})
+		}
+		
 		</script>
 		
 	</head>
@@ -117,6 +151,7 @@
 					<th>GPU</th>
 					<th id = "organizacija">Organizacija</th>
 					<th>Izmena</th>
+					<th id = "brisanje">Brisanje</th>
 				</tr>
 			</thead>
 		</table>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset = "utf-8">
+		<title>Pregled VM</title>
+	
+		<script type = "text/javascript" src = "js/jquery.js"></script>
+		<script type = "text/javascript">
+
+			function izmenaVM()
+			{
+				$.ajax
+				({
+					type: "GET",
+					url: "dobaviTrenutnogKorisnika",
+					data: 0,
+					contentType: "application/json",
+					dataType: "json",
+					success: function(data)
+					{
+						if(data === false)
+						{
+							alert("Morate biti ulogovani da biste pristupili ovoj stranici")
+							location.href = "/index.html"
+						}else
+						{
+							var korisnik = data;
+							ispisTabeleIzmeneVM(korisnik);
+						}	
+					}
+				})
+			};
+
+			function ispisTabeleIzmeneVM(korisnik)
+			{
+				$.ajax
+				({
+					type: "POST",
+					url: "dobaviVMpoID",
+					data: idVM,
+					contentType: "application/json",
+					dataType: "json",
+					success: function(data)
+					{
+						if (korisnik===0)
+						{
+							$("#imeVM").append($("<input>")
+											.attr("type", text)
+											.attr("value", data.ime))
+							izmenaKategorije(data);
+							$("#organizacijaVM").text(data.organizacija.ime)
+							ispisTabeleAktivnosti(korisnik, data);			
+						}
+						else if (korisnik === 1)
+						{
+							$("#imeVM").append($("<input>")
+											.attr("type", text)
+											.attr("value", data.ime))
+							izmenaKategorije(data);
+							$("#organizacijaVM").text(data.organizacija.ime)
+							ispisTabeleAktivnosti(korisnik, data);
+						}
+						else if (korisnik == 2)
+						{
+							$("#imeVM").text(data.ime);
+							$("#kategorijaVM").text(data.kategorija.ime);
+							$("#organizacijaVM").text(data.organizacija.ime);
+							ispisTabeleAktivnosti(korisnik, data);
+						}
+					}
+				})
+			};
+
+			function ispisTabeleAktivnosti(korisnik, data)
+			{
+				var vm = data;
+				$.ajax
+				({
+					type: "POST",
+					url: "dobaviAkivnostiZaVM",
+					data: vm.ime,
+					contentType: "application/json",
+					dataType: "json",
+					success: function(data)
+					{
+						if (korisnik === 0)
+						{
+							data.array.forEach(element => {
+							$("#tabelaAktivnosti").append($("<tr>")
+													.append($("<td>")
+														.append($("<input>")
+															.attr("type", text)
+															.attr("value", element.upaljena)))
+													.append($("<td>")
+														.append($("<input>")
+															.attr("type", text)
+															.attr("value", element.ugasena)))
+												)
+							});
+						}
+						else if (korisnik === 1 || korisnik === 2)
+						{
+							data.array.forEach(element => {
+							$("#tabelaAktivnosti").append($("<tr>")
+													.append($("<td>")
+														.text(element.upaljena))
+													.append($("<td>")
+														.text(element.ugasena))
+												)
+							});
+						}
+						
+					}
+				})
+			}
+
+			function izmenaKategorije(data)
+			{
+				var vm = data;
+				$.ajax
+				({
+					type: "POST",
+					url: "dobaviKategorije",
+					data: vm.ime,
+					contentType: "application/json",
+					dataType: "json",
+					success: function(data)
+					{
+						$("#kategorijaVM").append($("<select>")
+											.attr("id", "kategorijaID")
+												.append($("<option>")
+													.attr("value", vm.kategorija.ime)
+												)
+
+										)
+						data.array.forEach(element => {
+							$("#kategorijaID").append($("<option>")
+												.attr("value", element.ime))
+						});
+					}
+				})
+			}
+
+		</script>
+		
+	</head>
+
+	<body onload = "izmenaVM()">
+
+		<h2>Izmena VM</h2>
+
+		<table id = "tabelaIzmenaVM">
+
+			<tr>
+				<td>Ime:</td>
+				<td id = "imeVM"></td>
+			</tr>
+			<tr>
+				<td>Kategorija:</td>
+				<td id = "kategorijaVM"></td>
+			</tr>
+			<tr>
+				<td>Organizacija:</td>
+				<td id = "organizacijaVM"></td>
+			</tr>
+
+		</table>
+
+		<table id = "tabelaAktivnosti">
+			<th>
+				<td>Datum paljenja</td>
+				<td>Datum gasenja</td>
+			</th>
+		</table>
+
+	</body>
+
+
+</html>

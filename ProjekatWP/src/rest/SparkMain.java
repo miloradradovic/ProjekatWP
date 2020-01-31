@@ -257,6 +257,19 @@ public class SparkMain {
 			}
 			return true;
 		});
+		
+		post("/dobaviDiskoveZaVM",(req,res)->{
+			res.type("application/json");
+			Session ss = req.session(true);
+			String id = req.body();
+			ArrayList<Disk> diskovi2 = new ArrayList<Disk>();
+			for(Disk d : app.getDiskovi()) {
+				if(d.getVirtuelna().equals(id)) {
+					diskovi2.add(d);
+				}
+			}
+			return g.toJson(diskovi2);
+		});
 	}
 
 }

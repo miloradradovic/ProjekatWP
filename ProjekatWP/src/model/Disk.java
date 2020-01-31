@@ -48,8 +48,8 @@ public class Disk extends Resurs {
 		return virtuelna;
 	}
 
-	public void setVirtuelna(VM virtuelna) {
-		this.virtuelna = virtuelna.getIme();
+	public void setVirtuelna(String virtuelna) {
+		this.virtuelna = virtuelna;;
 	}
 	
 	

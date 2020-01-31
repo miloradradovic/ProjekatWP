@@ -5,7 +5,7 @@ $(document).ready(function(){
 		var username = korisnik[0].value
 		var password = korisnik[1].value
 		console.log(username)
-		if(username== "" || password== ""){
+		if(username=== "" || password=== ""){
 			alert("Oba polja moraju biti popunjena!")
 		}else{
 			$.ajax({

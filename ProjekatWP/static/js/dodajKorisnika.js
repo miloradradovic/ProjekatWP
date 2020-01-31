@@ -1,54 +1,109 @@
 $(document).ready(function(){
     
-    function izlistajOrganizacije(){
+    $("#addUserButton").click(function(){
         $.ajax({
             type: "GET",
-            url: "/dobaviTrenutnogKorisnika",
-            data: 0,
-            contentType:"application/json",
-            dataType: "json",
-            success: function(data){
-               //ako je data==0 onda je superadmin, ako je 1 onda je admin, ako je 2 onda je obicni korisnik
-                if(data==0){
-                   $("#organizacijaAdmin").hide();
-                   $("#izborOrganizacije").empty();
-                   $.ajax({
-                       type:"GET",
-                       url: "/dobaviSveOrganizacije",
-                       data:0,
-                       contentType:"application/json",
-                       dataType:"json",
-                       success:function(data){
-                           //vratice listu svih organizacija iz servera
-                           data.array.forEach(element => {
-                               $("#izborOrganizacije").append($("<option>").text(element.ime))
-                           });
-                       }
-                   })
-               }else if(data==1){
-                   
-               } 
+	        url: "/dobaviTrenutnogKorisnika",
+	        data: 0,
+	        contentType:"application/json",
+	        dataType: "json",
+	        success: function(data){
+                if(data===0){
+                    var username = $("#username").val();
+                    var password = $("#password").val();
+                    var ime = $("name").val();
+                    var prezime = $("prezime").val();
+                    var organizacija = $("#organizacija option:selected").text();
+                    var uloga = $("#izborUloge option:selected").text();
+                    if(username === "" || password === "" || ime === "" || prezime === ""){
+                        alert("Neko od obaveznih polja je prazno!");
+                    }else{
+                        $.ajax({
+                            type:"POST",
+                            url:"/dobaviOrganizacijuPoID",
+                            data:organizacija,
+                            contentType:"application/json",
+                            dataType:"json",
+                            success:function(data){
+                                var organizacija2 = data;
+                                $.ajax({
+                                    type:"POST",
+                                    url:"/dobaviEnumUloga",
+                                    data:uloga,
+                                    contentType:"application/json",
+                                    dataType:"json",
+                                    success:function(data){
+                                        var tip2 = data;
+                                        $.ajax({
+                                            type:"POST",
+                                            url:"/dodajKorisnika",
+                                            data:JSON.stringify({korisnickoIme:username,lozinka:password,ime:ime,prezime:prezime,organizacija:organizacija2,uloga:uloga2}),
+                                            contentType:"application/json",
+                                            dataType:"json",
+                                            success:function(data){
+                                                if(data===false){
+                                                    alert("Dodavanje nije uspjelo!");
+                                                }else{
+                                                    alert("Uspjesno!");
+                                                    window.location.href = "/pregledKorisnika.html";
+                                                }
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+
+                }else if(data===1){
+                	var username = $("#username").val();
+                    var password = $("#password").val();
+                    var ime = $("name").val();
+                    var prezime = $("prezime").val();
+                    var organizacija = $("#organizacijaAdmin").text();
+                    var uloga = $("#izborUloge option:selected").text();
+                    if(username === "" || password === "" || ime === "" || prezime === ""){
+                        alert("Neko od obaveznih polja je prazno!");
+                    }else{
+                    	$.ajax({
+                            type:"POST",
+                            url:"/dobaviOrganizacijuPoID",
+                            data:organizacija,
+                            contentType:"application/json",
+                            dataType:"json",
+                            success:function(data){
+                                var organizacija2 = data;
+                                $.ajax({
+                                    type:"POST",
+                                    url:"/dobaviEnumUloga",
+                                    data:uloga,
+                                    contentType:"application/json",
+                                    dataType:"json",
+                                    success:function(data){
+                                        var tip2 = data;
+                                        $.ajax({
+                                            type:"POST",
+                                            url:"/dodajKorisnika",
+                                            data:JSON.stringify({korisnickoIme:username,lozinka:password,ime:ime,prezime:prezime,organizacija:organizacija2,uloga:uloga2}),
+                                            contentType:"application/json",
+                                            dataType:"json",
+                                            success:function(data){
+                                                if(data===false){
+                                                    alert("Dodavanje nije uspjelo!");
+                                                }else{
+                                                    alert("Uspjesno!");
+                                                    window.location.href = "/pregledKorisnika.html";
+                                                }
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                }
             }
-        })
-        
-    };
-    
-    function izlistajTipove(){
-    	
-    };
-
-    $("#racSelektor").empty()
-	$("#tabelaRacuna").find("tr").each(function(){
-		var tds = $(this).find('td')
-		brojRac = tds.eq(0).text()
-    	isAktive = tds.eq(6).text()
-		if(isAktive==true){
-			$("#racSelektor")
-				.append($("<option>")
-					.text(brojRac)
-				)
-		}
-	})
-
+        });
+    });
     
 })

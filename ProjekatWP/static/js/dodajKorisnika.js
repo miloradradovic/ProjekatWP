@@ -11,8 +11,8 @@ $(document).ready(function(){
                 if(data===0){
                     var username = $("#username").val();
                     var password = $("#password").val();
-                    var ime = $("name").val();
-                    var prezime = $("prezime").val();
+                    var ime = $("#name").val();
+                    var prezime = $("#prezime").val();
                     var organizacija = $("#organizacija option:selected").text();
                     var uloga = $("#izborUloge option:selected").text();
                     if(username === "" || password === "" || ime === "" || prezime === ""){

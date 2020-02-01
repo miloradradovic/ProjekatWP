@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset = "utf-8">
+		<title>Pregled organizacija</title>
+	
+		<script type = "text/javascript" src = "js/jquery.js"></script>
+        <script type = "text/javascript">
+
+            function pregledOrganizacija()
+			{
+				$.ajax({
+					type: "GET",
+					url: "dobaviTrenutnogKorisnika",
+					data: 0,
+					contentType: "application/json",
+					dataType: "json",
+					success: function(data)
+					{
+						if(data === false){
+							alert("Morate biti ulogovani da biste pristupili ovoj stranici")
+							location.href = "/index.html"
+						}else if (data === 2 || data === 1){
+							alert("Nemate pristup ovoj stranici")
+							location.href = "/pregledVM.html"
+						}else{
+							var korisnik = data;
+							ispisTabele(korisnik);
+						}	
+					}
+				})
+            }
+            
+            function ispisTabele(korisnik)
+            {
+                $.ajax({
+					type: "GET",
+					url: "dobaviOrganizacije",
+					data: 0,
+					contentType: "application/json",
+					dataType: "json",
+                    success: function(data)
+                    {
+                        if (korisnik === 0 )
+                        {
+                            data.forEach(element => {
+								$("#tabelaOrganizacija").append($("<tr>")
+                                                            .append($("<td>")
+                                                                .text(element.ime))
+                                                            .append($("<td>")
+                                                                .text(element.opis))
+                                                            .append($("<td>")
+                                                                .text(element.logo))
+                                                            .append($("<td>")
+                                                                .append($("<a>")
+                                                                    .attr("href", "#")
+                                                                    .attr("id", element.ime)
+                                                                    .attr("onclick", "izmeniOrganizaciju(this)")
+                                                                    .text("Izmeni")))	
+													 )
+							})
+                        }
+                    }
+                })
+            }
+
+            function izmeniOrganizaciju(data)
+			{
+				$.ajax
+				({
+					type : "POST",
+					url: "izmeniOrganizaciju",
+					data: $(data).attr("id"),
+					success: function(data)
+					{
+						window.location.href = "izmenaOrganizacija.html";
+					}
+				})
+			}
+            
+        </script>
+
+    </head>
+
+    <body onload = pregledOrganizacija()>
+		<h2>Korisnici</h2>
+		
+		<table border = "1" id = "tabelaOrganizacija">
+			<thead>
+				<tr>
+					<th>Ime</th>
+                    <th>Opis</th>
+                    <th>Logo</th>
+					<th>Izmena</th>
+				</tr>
+			</thead>
+		</table>
+		
+		<hr>
+		<input id = "dodajOrganizaciju" type="button" value="Dodaj novou organizaciju">
+	</body>
+
+</html>

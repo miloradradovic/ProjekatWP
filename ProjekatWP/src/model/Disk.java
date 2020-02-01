@@ -12,12 +12,12 @@ public class Disk extends Resurs {
 		//this.virtuelna = new VM();
 	}
 
-	public Disk(String ime, TipDiska tip, int kapacitet, VM virtuelna) {
+	public Disk(String ime, TipDiska tip, int kapacitet, String virtuelna) {
 		super();
 		this.ime = ime;
 		this.tip = tip;
 		this.kapacitet = kapacitet;
-		this.virtuelna = virtuelna.getIme();
+		this.virtuelna = virtuelna;
 	}
 
 	public String getIme() {

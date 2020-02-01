@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset = "utf-8">
+		<title>Pregled diskova</title>
+	
+		<script type = "text/javascript" src = "js/jquery.js"></script>
+		<script type = "text/javascript">
+		
+            function pregledDiskova(){
+                $.ajax({
+                    type: "GET",
+                    url: "dobaviTrenutnogKorisnika",
+                    data: 0,
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function(data){
+                        if(data === false){
+                            alert("Morate biti ulogovani da biste pristupili ovoj stranici")
+                            location.href = "/index.html"
+                        }else{
+                            var korisnik = data;
+                            ispisTabele(korisnik);
+                        }	
+                    }
+                })
+            }
+
+            function ispisTabele(korisnik)
+            {
+                $.ajax({
+                    type: "GET",
+                    url: "dobaviDiskove",
+                    data: 0,
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function(data){
+                            if (korisnik === 0){
+                                data.forEach(element => {
+                                    $("#tabelaDiskova").append($("<tr>")
+                                                            .append($("<td>")
+                                                                    .text(element.ime))
+                                                            .append($("<td>")
+                                                                    .text(element.kapacitet))
+                                                            .append($("<td>")
+                                                                    .text(element.virtuelna))
+                                                            .append($("<td>")
+                                                                    .append($("<a>")
+                                                                        .attr("href", "#")
+                                                                        .attr("id", element.ime)
+                                                                        .attr("onclick", "izmeniDisk(this)")
+                                                                        .text("Izmeni")))
+                                                            .append($("<td>")
+                                                                    .append($("<a>")
+                                                                        .attr("href", "#")
+                                                                        .attr("id", element.ime)
+                                                                        .attr("onclick", "obrisiDisk(this)")
+                                                                        .text("Obrisi")))			
+                                                    )
+                                })
+                            }else if (korisnik === 1){
+                                $("#brisanje").hide();
+                                data.forEach(element => {
+                                    $("#tabelaVM").append($("<tr>")
+                                                    .append($("<td>")
+                                                            .text(element.ime))
+                                                    .append($("<td>")
+                                                            .text(element.kapacitet))
+                                                    .append($("<td>")
+                                                            .text(element.virtuelna))
+                                                    .append($("<td>")
+                                                            .append($("<a>")
+                                                                .attr("href", "#")
+                                                                .attr("id", element.ime)
+                                                                .attr("onclick", "izmeniDisk(this)")
+                                                                .text("Izmeni")))
+                                                    .append($("<td>")
+                                                            .append($("<a>")
+                                                                .attr("href", "#")
+                                                                .attr("id", element.ime)
+                                                                .attr("onclick", "obrisiDisk(this)")
+                                                                .text("Obrisi")))		
+                                                )
+                                })       
+                            }else{
+                                $("#dodajDisk").hide();
+                                $("#brisanje").hide();
+                                data.forEach(element => {
+                                    $("#tabelaVM").append($("<tr>")
+                                                    .append($("<td>")
+                                                            .text(element.ime))
+                                                    .append($("<td>")
+                                                            .text(element.kapacitet))
+                                                    .append($("<td>")
+                                                            .text(element.virtuelna))
+                                                    .append($("<td>")
+                                                            .append($("<a>")
+                                                                .attr("href", "#")
+                                                                .attr("id", element.ime)
+                                                                .attr("onclick", "izmeniDisk(this)")
+                                                                .text("Detalji")))
+                                                )
+                            })
+                        }
+                    }
+                })
+            }
+
+            function obrisiVM(data){
+                $("#tabelaDiskova").find("tr").each(function()
+                {
+                    var tds = $(this).find("td")
+                    if(tds.eq(0).text()==$(data).attr("id"))
+                    {
+                        $(this).empty()
+                    }
+                })
+                
+                $.ajax
+                ({
+                    type: "POST",
+                    url: "obrisiDisk",
+                    data: $(data).attr("id"),
+                    success: function(data)
+                    {
+                    }
+                })
+		    }
+		
+            function izmeniDisk(data)
+            {
+                $.ajax
+                ({
+                    type : "POST",
+                    url: "izmeniDisk",
+                    data: $(data).attr("id"),
+                    success: function(data)
+                    {
+                        window.location.href = "izmenaDiskova.html";
+                    }
+                })
+            }
+        
+        </script>
+
+    </head>
+
+    <body onload = "pregledDiskova()">
+            <h2>Diskovi</h2>
+            
+            <table border = "1" id = "tabelaDiskova">
+                <thead>
+                    <tr>
+                        <th>Ime</th>
+                        <th>Kapacitet</th>
+                        <th>VM</th>
+                        <th id = "organizacija">Organizacija</th>
+                        <th>Izmena</th>
+                        <th id = "brisanje">Brisanje</th>
+                    </tr>
+                </thead>
+            </table>
+            
+            <hr>
+            <input id = "dodajDisk" type="button" value="Dodaj novi disk">
+                    
+        </body>
+
+</html>

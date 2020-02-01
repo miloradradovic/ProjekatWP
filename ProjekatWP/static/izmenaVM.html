@@ -6,6 +6,7 @@
 		<title>Pregled VM</title>
 	
 		<script type = "text/javascript" src = "js/jquery.js"></script>
+		<script type = "text/javascript" src = "js/izmenaVM.js"></script>
 		<script type = "text/javascript">
 
 			function izmenaVM()
@@ -36,37 +37,43 @@
 			{
 				$.ajax
 				({
-					type: "POST",
+					type: "GET",
 					url: "dobaviVMpoID",
-					data: idVM,
+					data: 0,
 					contentType: "application/json",
 					dataType: "json",
 					success: function(data)
 					{
-						if (korisnik===0)
+						console.log(data)
+						if (korisnik === 0)
 						{
 							$("#imeVM").append($("<input>")
-											.attr("type", text)
+											.attr("id", "ime")
+											.attr("type", "text")
 											.attr("value", data.ime))
 							izmenaKategorije(data);
 							$("#organizacijaVM").text(data.organizacija.ime)
-							ispisTabeleAktivnosti(korisnik, data);			
+							ispisTabeleAktivnosti(korisnik, data);		
+							ispisTabeleDiskova(data);	
 						}
 						else if (korisnik === 1)
 						{
 							$("#imeVM").append($("<input>")
-											.attr("type", text)
+											.attr("id", "ime")
+											.attr("type", "text")
 											.attr("value", data.ime))
 							izmenaKategorije(data);
 							$("#organizacijaVM").text(data.organizacija.ime)
 							ispisTabeleAktivnosti(korisnik, data);
+							ispisTabeleDiskova(data);
 						}
-						else if (korisnik == 2)
+						else if (korisnik === 2)
 						{
 							$("#imeVM").text(data.ime);
 							$("#kategorijaVM").text(data.kategorija.ime);
 							$("#organizacijaVM").text(data.organizacija.ime);
 							ispisTabeleAktivnosti(korisnik, data);
+							ispisTabeleDiskova(data);
 						}
 					}
 				})
@@ -78,7 +85,7 @@
 				$.ajax
 				({
 					type: "POST",
-					url: "dobaviAkivnostiZaVM",
+					url: "dobaviAktivnostiZaVM",
 					data: vm.ime,
 					contentType: "application/json",
 					dataType: "json",
@@ -86,27 +93,32 @@
 					{
 						if (korisnik === 0)
 						{
-							data.array.forEach(element => {
-							$("#tabelaAktivnosti").append($("<tr>")
+							data.forEach(element => {
+							console.log(element)
+							$("#tabelaBezNaslova").append($("<tr>")
 													.append($("<td>")
 														.append($("<input>")
-															.attr("type", text)
-															.attr("value", element.upaljena)))
+															.attr("align", "center")
+															.attr("type", "text")
+															.attr("value", element.upaljena.date.day + "." + element.upaljena.date.month + "." + element.upaljena.date.year + ". " + element.upaljena.time.hour + "h" + element.upaljena.time.minute + "m")))
 													.append($("<td>")
 														.append($("<input>")
-															.attr("type", text)
-															.attr("value", element.ugasena)))
+															.attr("align", "center")
+															.attr("type", "text")
+															.attr("value", element.ugasena.date.day + "." + element.ugasena.date.month + "." + element.ugasena.date.year + ". " + element.ugasena.time.hour + "h" + element.ugasena.time.minute + "m")))
 												)
 							});
 						}
 						else if (korisnik === 1 || korisnik === 2)
 						{
-							data.array.forEach(element => {
-							$("#tabelaAktivnosti").append($("<tr>")
+							data.forEach(element => {
+							$("#tabelaBezNaslova").append($("<tr>")
 													.append($("<td>")
-														.text(element.upaljena))
+														.attr("align", "center")
+														.text(element.upaljena.date.day + "." + element.upaljena.date.month + "." + element.upaljena.date.year + ". " + element.upaljena.time.hour + "h" + element.upaljena.time.minute + "m"))
 													.append($("<td>")
-														.text(element.ugasena))
+														.attr("align", "center")
+														.text(element.ugasena.date.day + "." + element.ugasena.date.month + "." + element.ugasena.date.year + ". " + element.ugasena.time.hour + "h" + element.ugasena.time.minute + "m"))
 												)
 							});
 						}
@@ -127,17 +139,51 @@
 					dataType: "json",
 					success: function(data)
 					{
+						console.log(data)
 						$("#kategorijaVM").append($("<select>")
 											.attr("id", "kategorijaID")
 												.append($("<option>")
-													.attr("value", vm.kategorija.ime)
+													.text(vm.kategorija.ime)
 												)
 
 										)
-						data.array.forEach(element => {
+						if (data.length !== 0)
+						{
+							data.forEach(element => {
 							$("#kategorijaID").append($("<option>")
-												.attr("value", element.ime))
-						});
+												.text(element.ime))
+							});
+						}
+						
+					}
+				})
+			}
+
+			function ispisTabeleDiskova(data)
+			{
+				var vm = data;
+				$.ajax
+				({
+					type: "POST",
+					url: "dobaviDiskoveZaVM",
+					data: vm.ime,
+					contentType: "application/json",
+					dataType: "json",
+					success: function(data)
+					{
+						data.forEach(element => {
+							$("#tabelaDiskova").append($("<tr>")
+													.append($("<td>")
+														.attr("align", "center")
+														.text(element.ime))
+													.append($("<td>")
+														.attr("align", "center")
+														.text(element.tip))
+													.append($("<td>")
+														.attr("align", "center")
+														.text(element.kapacitet))
+												)
+							});
 					}
 				})
 			}
@@ -156,10 +202,12 @@
 				<td>Ime:</td>
 				<td id = "imeVM"></td>
 			</tr>
+			<br>
 			<tr>
 				<td>Kategorija:</td>
 				<td id = "kategorijaVM"></td>
 			</tr>
+			<br>
 			<tr>
 				<td>Organizacija:</td>
 				<td id = "organizacijaVM"></td>
@@ -167,12 +215,31 @@
 
 		</table>
 
-		<table id = "tabelaAktivnosti">
-			<th>
-				<td>Datum paljenja</td>
-				<td>Datum gasenja</td>
-			</th>
+		<h3>Tabela aktivnosti</h3>
+
+		<table id = "tabelaAktivnosti" border = "1">
+			<thead>
+				<th align = "center">Datum paljenja</td>
+				<th align = "center">Datum gasenja</td>
+			</thead>
 		</table>
+		
+		<table id = "tabelaBezNaslova" border = "1">
+		</table>
+		
+
+		<h3>Tabela diskova</h3>
+
+		<table id = "tabelaDiskova" border = "1">
+			<thead>
+				<td align = "center">Ime</td>
+				<td align = "center">Tip</td>
+				<td align = "center">Kapacitet</td>
+			</thead>
+		</table>
+
+		<hr>
+		<input id = "izmeni" type = "button" value = "Izmeni">
 
 	</body>
 

@@ -1,73 +1,58 @@
 package model;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class VM extends Resurs {
+public class VM extends Resource {
 	
-	private String ime;
-	private Kategorija kategorija;
-	private ArrayList<String> zakaceniDiskovi;
-	private ArrayList<Aktivnost> aktivnost;
-	private Organizacija organizacija;
+	private String organizationName; //obavezno
+	private String categoryName; //obavezno, odavde kupi ram, gpu i broj jezgara
+	private ArrayList<String> connectedDiscs;
+	private ArrayList<Activity> activities;
 	
 	public VM() {
 		super();
-		this.kategorija = new Kategorija();
-		this.zakaceniDiskovi = new ArrayList<String>();
-		this.aktivnost = new ArrayList<Aktivnost>();
-		this.organizacija = new Organizacija();
+		this.connectedDiscs = new ArrayList<String>();
+		this.activities = new ArrayList<Activity>();
 	}
 
-	public VM(String ime, Kategorija kategorija, ArrayList<String> zakaceniDiskovi, ArrayList<Aktivnost> aktivnost, Organizacija organizacija) {
-		super();
-		this.ime = ime;
-		this.kategorija = kategorija;
-		this.zakaceniDiskovi = zakaceniDiskovi;
-		this.aktivnost = aktivnost;
-		this.organizacija = organizacija;
+	public VM(String name, String organizationName, String categoryName, ArrayList<String> connectedDiscs,
+			ArrayList<Activity> activities) {
+		super(name);
+		this.organizationName = organizationName;
+		this.categoryName = categoryName;
+		this.connectedDiscs = connectedDiscs;
+		this.activities = activities;
 	}
 
-	public String getIme() {
-		return ime;
+	public String getOrganizationName() {
+		return organizationName;
 	}
 
-	public void setIme(String ime) {
-		this.ime = ime;
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
 	}
 
-	public Kategorija getKategorija() {
-		return kategorija;
+	public String getCategoryName() {
+		return categoryName;
 	}
 
-	public void setKategorija(Kategorija kategorija) {
-		this.kategorija = kategorija;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
-	public ArrayList<String> getZakaceniDiskovi() {
-		return zakaceniDiskovi;
+	public ArrayList<String> getConnectedDiscs() {
+		return connectedDiscs;
 	}
 
-	public void setZakaceniDiskovi(ArrayList<String> zakaceniDiskovi) {
-		this.zakaceniDiskovi = zakaceniDiskovi;
+	public void setConnectedDiscs(ArrayList<String> connectedDiscs) {
+		this.connectedDiscs = connectedDiscs;
 	}
 
-	public ArrayList<Aktivnost> getAktivnost() {
-		return aktivnost;
+	public ArrayList<Activity> getActivities() {
+		return activities;
 	}
 
-	public void setAktivnost(ArrayList<Aktivnost> aktivnost) {
-		this.aktivnost = aktivnost;
+	public void setActivities(ArrayList<Activity> activities) {
+		this.activities = activities;
 	}
-
-	public Organizacija getOrganizacija() {
-		return organizacija;
-	}
-
-	public void setOrganizacija(Organizacija organizacija) {
-		this.organizacija = organizacija;
-	}
-	
-	
-
 }

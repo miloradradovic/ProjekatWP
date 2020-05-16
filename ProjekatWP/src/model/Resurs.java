@@ -1,9 +1,0 @@
-package model;
-
-public abstract class Resurs {
-	
-	
-	
-	
-
-}

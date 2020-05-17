@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import dto.UserDTO;
@@ -206,6 +207,46 @@ public class App {
 			}
 			return vmdto;
 		}
+	}
+
+	public void editVM(VMDTO vmdto) {
+		
+		for(VM vm : this.getVms()) {
+			if(vm.getResourceName().equals(vmdto.getOldResourceName())) {
+				vm.setCategoryName(vmdto.getCategoryName());
+				vm.setConnectedDiscs(vmdto.getConnectedDiscs());
+				vm.setResourceName(vmdto.getResourceName());
+				ArrayList<Activity> activities = new ArrayList<Activity>();
+				for(String od : vmdto.getAktivnostOD()) {
+					int indeks = vmdto.getAktivnostOD().indexOf(od);
+					Activity a = new Activity();
+					a.setFrom(LocalDateTime.parse(vmdto.getAktivnostOD().get(indeks)));
+					if(vmdto.getAktivnostDO().get(indeks).equals("")) {
+						a.setTo(null);
+					}else {
+						a.setTo(LocalDateTime.parse(vmdto.getAktivnostDO().get(indeks)));
+					}
+					activities.add(a);
+				}
+				vm.setActivities(activities);
+				
+			}
+		}
+		
+		for(Disc d : this.getDiscs()) {
+			if(d.getVmName().equals(vmdto.getOldResourceName())) {
+				d.setVmName(vmdto.getResourceName());
+			}
+		}
+		
+		for(Organization o : this.getOrganizations()) {
+			for(String name : o.getResourcesNames()) {
+				if(name.equals(vmdto.getOldResourceName())) {
+					name = vmdto.getOldResourceName();
+				}
+			}
+		}
+		
 	}
 
 

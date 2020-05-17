@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class VMDTO {
 	
+	private String oldResourceName;
+	
 	private String resourceName;
 	private String organizationName; //obavezno
 	private String categoryName; //obavezno, odavde kupi ram, gpu i broj jezgara
@@ -33,6 +35,14 @@ public class VMDTO {
 		this.connectedDiscs = connectedDiscs;
 		this.aktivnostOD = aktivnostOD;
 		this.aktivnostDO = aktivnostDO;
+	}
+	
+	public String getOldResourceName() {
+		return oldResourceName;
+	}
+
+	public void setOldResourceName(String oldResourceName) {
+		this.oldResourceName = oldResourceName;
 	}
 
 	public String getResourceName() {

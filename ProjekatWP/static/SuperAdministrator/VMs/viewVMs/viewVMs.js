@@ -30,6 +30,10 @@ $(document).ready(function() {
         window.vms.forEach(element => {
             console.log(element);
             $("#tableVMs").append($("<tr>")
+                .click(function(){
+                    sessionStorage.setItem("vmedit", element.resourceName);
+                    window.location.href = "../editVM/editVM.html";
+                })
                 .attr("id", element.resourceName)
                 .append($("<td>")
                     .text(element.resourceName))
@@ -43,40 +47,32 @@ $(document).ready(function() {
                     .text(element.organizationName))
                 .append($("<td>")
                     .append($("<a>")
-                        .attr("href", "")
+                        .attr("href", "../editVM/editVM.html")
                         .attr("id", element.resourceName)
-                        .attr("onclick", "editVM(element)")
-                        .text("Edit")))
+                        .text("Edit")
+                        .click(function(){
+                            sessionStorage.setItem("vmedit", element.resourceName);
+                        })))
                 .append($("<td>")
                     .append($("<a>")
                         .attr("href", "")
                         .attr("id", element.resourceName)
                         .text("Delete")
                         .click(function(){
-                            deleteVM(element)
+                            $.ajax
+                            ({
+                                type: "post",
+                                url: "deleteVM",
+                                data: element.resourceName,
+                                complete: function(element)
+                                {
+                                    $('#' + element.resourceName).remove();
+                                    alert("VM deleted successfully!");
+                                }
+                            })
                         })))
             )
         })
-    }
-
-    function deleteVM(data){
-
-        $.ajax
-        ({
-            type: "post",
-            url: "deleteVM",
-            data: data.resourceName,
-            complete: function(data)
-            {
-                $('#' + data.resourceName).remove();
-                alert("VM deleted successfully!");
-            }
-        })
-    }
-
-    function editVM(data){
-        localStorage.setItem("vmedit", data);
-        window.location.href = "../editVM/editVM.html";
     }
 
 })

@@ -3,9 +3,21 @@ $(document).ready(function(){
     $("#button_login").click(function(){
         let email = $("#email_input").val();
         let password = $("#pass_input").val();
-        if(email === "" || password === ""){
-            alert("Both fields must not be empty!")
+        if(email === ""){
+            $("#email_input").removeClass("valid_input");
+            $("#email_input").addClass("invalid_input");
         }else{
+            $("#email_input").removeClass("invalid_input");
+            $("#email_input").addClass("valid_input");
+        }
+        if(password === "" || password.length < 8){
+            $("#pass_input").removeClass("valid_input");
+            $("#pass_input").addClass("invalid_input");
+        }else{
+            $("#pass_input").removeClass("invalid_input");
+            $("#pass_input").addClass("valid_input");
+        }
+        if(email !== "" && password !== ""  && password.length >= 8){
             $.ajax({
                 url: 'login',
                 type: 'post',
@@ -20,7 +32,7 @@ $(document).ready(function(){
                             window.location.href = "User/VMs/viewVMs/viewVMs.html";
                         }
                     } else if (response.status === 400) {
-                        alert("CRKNI");
+                        alert("User does not exist!");
                     }
                 }
             })

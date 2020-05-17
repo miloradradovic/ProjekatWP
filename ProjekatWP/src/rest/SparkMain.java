@@ -97,7 +97,7 @@ public class SparkMain {
 			}
 		});
 		
-		//getting VMs of thecurrent logged in SUPERADMINISTRATOR
+		//getting VMs of the current logged in SUPERADMINISTRATOR
 		get("SuperAdministrator/VMs/viewVMs/getVMs", (req, res)->{
 			res.type("application/json");
 			
@@ -121,6 +121,21 @@ public class SparkMain {
 			}else {
 				String vmName = req.body();
 				app.deleteVM(vmName);
+				res.status(200);
+				return "200 OK";
+			}
+		});
+		
+		post("SuperAdministrator/VMs/viewVMs/editVM", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String virt = req.body();
+				VMDTO vmdto = g.fromJson(virt, VMDTO.class);
+				app.editVM(vmdto);
 				res.status(200);
 				return "200 OK";
 			}

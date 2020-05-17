@@ -1,0 +1,33 @@
+.invalid_input{
+    border-color: red;
+}
+
+.valid_input{
+    border-color: green;
+}
+
+body{
+    background-color: bisque;
+}
+
+#login_paragraph{
+    margin-left: 100px;
+    font-size: x-large;
+}
+
+#email_input{
+    margin-left: 22px;
+}
+
+.login{
+    margin-left: 500px;
+    margin-top: 150px;
+}
+
+#welcome{
+    margin-right: 50px;
+}
+
+#button_login{
+    margin-left: 100px;
+}

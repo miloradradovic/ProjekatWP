@@ -1,18 +1,23 @@
 <head>
     <title>Log in</title>
+    <link rel="stylesheet" href="login.css">
     <script type = "text/javascript" src="jquery.js"></script>
     <script type = "text/javascript" src="login.js"></script>
 </head>
-<div class = "login">
-    <h1 style="font-size: xx-large;" align="center">Welcome to Cloud</h1>
-    <p id="login_paragraph">Log in</p>
+<body>
+    <h1 style="font-size: xx-large;" align="center" id = "welcome">Welcome to Cloud</h1>
 
-    <label>Email:</label>
-    <input id = "email_input" type = "text" required/>
-    <br><br>
-    <label>Password:</label>
-    <input id = "pass_input" type = "password" required/>
-    <br><br>
-    <button id = "button_login">Log in</button>
+    <div class = "login">
 
-</div>
+        <p id="login_paragraph">Log in</p>
+
+        <label>Email:</label>
+        <input id = "email_input" type = "text" required/>
+        <br><br>
+        <label>Password:</label>
+        <input id = "pass_input" type = "password" required minlength="8"/>
+        <br><br>
+        <button id = "button_login">Log in</button>
+    </div>
+
+</body>

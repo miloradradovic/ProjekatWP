@@ -1,1 +1,13 @@
-TODO
+body{
+    background-color: bisque;
+}
+
+tr{
+    color: coral;
+    background-color: aqua;
+}
+
+tr:hover{
+    background-color: gray;
+}
+

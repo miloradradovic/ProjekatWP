@@ -2,6 +2,8 @@
     <title>Log in</title>
     <link rel="stylesheet" href="login.css">
     <script type = "text/javascript" src="jquery.js"></script>
+    <script type = "text/javascript" src="jquery.validate.js"></script>
+    <script type = "text/javascript" src="login_validation.js"></script>
     <script type = "text/javascript" src="login.js"></script>
 </head>
 <body>
@@ -10,14 +12,15 @@
     <div class = "login">
 
         <p id="login_paragraph">Log in</p>
-
-        <label>Email:</label>
-        <input id = "email_input" type = "text" required/>
-        <br><br>
-        <label>Password:</label>
-        <input id = "pass_input" type = "password" required minlength="8"/>
-        <br><br>
-        <button id = "button_login">Log in</button>
+        <form id="login_form">
+            <label>Email:</label>
+            <input name="email_input" id = "email_input" type="email"/>
+            <br><br>
+            <label>Password:</label>
+            <input name="pass_input" id = "pass_input" type = "password"/>
+            <br><br>
+            <button type="submit" id = "button_login">Log in</button>
+        </form>
     </div>
 
 </body>

@@ -14,7 +14,6 @@ $(document).ready(function() {
                     dataType: "json",
                     success: function(data){
                         window.vms = data;
-                        console.log(window.vms)
                         updateTable();
                     },error: function(data){
                         alert("Error!");
@@ -28,7 +27,6 @@ $(document).ready(function() {
 
     function updateTable(){
         window.vms.forEach(element => {
-            console.log(element);
             $("#tableVMs").append($("<tr>")
                 .click(function(){
                     sessionStorage.setItem("vmedit", element.resourceName);

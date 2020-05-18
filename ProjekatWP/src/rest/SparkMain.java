@@ -37,7 +37,7 @@ public class SparkMain {
 		}
 		
 		User u = new User();
-		u.setEmail("email");
+		u.setEmail("example@gmail.com");
 		u.setPassword("password");
 		u.setUserType(UserType.SuperAdmin);
 		VM vm = new VM();
@@ -67,7 +67,7 @@ public class SparkMain {
 			String user = req.body();
 			UserDTO userdto = g.fromJson(user, UserDTO.class);
 			User found_user = app.findUserLogIn(userdto);
-			if(found_user == null) {
+			if(found_user == null || userdto.getEmail().equals("") || userdto.getPassword().equals("")) {
 				res.status(400);
 				return "400 Bad request";
 			}

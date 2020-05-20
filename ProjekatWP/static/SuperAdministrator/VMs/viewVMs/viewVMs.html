@@ -9,22 +9,32 @@
 </head>
 <body>
 
-    <h2>Virtual machines</h2>
+    <div class="topnav">
+        <a class="active" href="viewVMs.html">Virtual machines</a>
+        <a href="../../Categories/viewCategories/viewCategories.html">Categories</a>
+        <a href="../../Discs/viewDiscs/viewDiscs.html">Discs</a>
+        <a href="../../Organizations/viewOrganizations/viewOrganizations.html">Organizations</a>
+        <a href="../../Users/viewUsers/viewUsers.html">Users</a>
+        <a href="../../Profile/editProfile/editProfile.html">Profile</a>
+    </div>
 
-    <table border = "1" id = "tableVMs">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Number of cores</th>
-            <th>RAM</th>
-            <th>GPU</th>
-            <th id = "organization">Organization</th>
-            <th id = "edit">Edit</th>
-            <th id = "delete">Delete</th>
-        </tr>
-        </thead>
-    </table>
+    <div id="div_table_h2">
+        <h2 id ="vm_par">Virtual machines</h2>
 
+
+        <table border = "1" id = "tableVMs">
+            <thead>
+            <tr id = "first_row">
+                <th>Name</th>
+                <th>Number of cores</th>
+                <th>RAM</th>
+                <th>GPU</th>
+                <th id = "organization">Organization</th>
+                <th id = "delete">Delete</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
     <hr>
     <input id = "addvm" type="button" value="Add new VM">
 

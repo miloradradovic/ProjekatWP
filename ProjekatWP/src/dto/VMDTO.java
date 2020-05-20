@@ -13,18 +13,18 @@ public class VMDTO {
 	private int RAM; //obavezno, mora biti vece od 0
 	private int GPU; //obavezno, mora biti vece ili jednako 0
 	private ArrayList<String> connectedDiscs;
-	private ArrayList<String> aktivnostOD;
-	private ArrayList<String> aktivnostDO;
+	private ArrayList<String> activityFROM;
+	private ArrayList<String> activityTO;
 	
 	public VMDTO() {
 		super();
 		this.connectedDiscs = new ArrayList<String>();
-		this.aktivnostDO = new ArrayList<String>();
-		this.aktivnostOD = new ArrayList<String>();
+		this.activityFROM = new ArrayList<String>();
+		this.activityTO = new ArrayList<String>();
 	}
 
 	public VMDTO(String resourceName, String organizationName, String categoryName, int numberOfCores, int rAM, int gPU,
-			ArrayList<String> connectedDiscs, ArrayList<String> aktivnostOD, ArrayList<String> aktivnostDO) {
+			ArrayList<String> connectedDiscs, ArrayList<String> activityFROM, ArrayList<String> activityTO) {
 		super();
 		this.resourceName = resourceName;
 		this.organizationName = organizationName;
@@ -33,8 +33,8 @@ public class VMDTO {
 		RAM = rAM;
 		GPU = gPU;
 		this.connectedDiscs = connectedDiscs;
-		this.aktivnostOD = aktivnostOD;
-		this.aktivnostDO = aktivnostDO;
+		this.activityFROM = activityFROM;
+		this.activityTO = activityTO;
 	}
 	
 	public String getOldResourceName() {
@@ -101,20 +101,21 @@ public class VMDTO {
 		this.connectedDiscs = connectedDiscs;
 	}
 
-	public ArrayList<String> getAktivnostOD() {
-		return aktivnostOD;
+	public ArrayList<String> getActivityFROM() {
+		return activityFROM;
 	}
 
-	public void setAktivnostOD(ArrayList<String> aktivnostOD) {
-		this.aktivnostOD = aktivnostOD;
+	public void setActivityFROM(ArrayList<String> activityFROM) {
+		this.activityFROM = activityFROM;
 	}
 
-	public ArrayList<String> getAktivnostDO() {
-		return aktivnostDO;
+	public ArrayList<String> getActivityTO() {
+		return activityTO;
 	}
 
-	public void setAktivnostDO(ArrayList<String> aktivnostDO) {
-		this.aktivnostDO = aktivnostDO;
+	public void setActivityTO(ArrayList<String> activityTO) {
+		this.activityTO = activityTO;
 	}
+
 
 }

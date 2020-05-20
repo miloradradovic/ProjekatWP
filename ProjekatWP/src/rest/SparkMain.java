@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
+import dto.CategoryDTO;
 import dto.UserDTO;
 import dto.VMDTO;
 import model.App;
@@ -35,23 +36,6 @@ public class SparkMain {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		User u = new User();
-		u.setEmail("example@gmail.com");
-		u.setPassword("password");
-		u.setUserType(UserType.SuperAdmin);
-		VM vm = new VM();
-		vm.setCategoryName("kategorija");
-		vm.setOrganizationName("organizacija");
-		vm.setResourceName("vm");
-		CategoryVM c = new CategoryVM();
-		c.setCategoryName("kategorija");
-		c.setGPU(1);
-		c.setNumberOfCores(1);
-		c.setRAM(1);
-		app.getUsers().add(u);
-		app.getVms().add(vm);
-		app.getCategories().add(c);
 		
 		//provjeriti da li ulogovani korisnik ima pravo na ovu stranicu
 		//ako nema, vrati error 403
@@ -135,9 +119,47 @@ public class SparkMain {
 			}else {
 				String virt = req.body();
 				VMDTO vmdto = g.fromJson(virt, VMDTO.class);
-				app.editVM(vmdto);
+				if(app.findVMByName(vmdto.getResourceName()) == null) {
+					app.editVM(vmdto);
+					res.status(200);
+					return "200 OK";
+				}else {
+					res.status(400);
+					return "400 Bad request";
+				}
+			}
+		});
+		
+		post("SuperAdministrator/VMs/editVM/getVMByName", (req, res)-> {
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String virt = req.body();
+				VM vm = app.findVMByName(virt);
+				VMDTO dto = app.convertVMtoVMDTO(vm);
 				res.status(200);
-				return "200 OK";
+				return g.toJson(dto);
+			}
+		});
+		
+		get("SuperAdministrator/VMs/editVM/getCategories",(req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				ArrayList<CategoryDTO> categoriesdto = new ArrayList<CategoryDTO>();
+				ArrayList<CategoryVM> categories = app.getCategories();
+				for(CategoryVM cvm : categories) {
+					CategoryDTO dto = app.convertCattoCatDTO(cvm);
+					categoriesdto.add(dto);
+				}
+				return g.toJson(categoriesdto);
+				
 			}
 		});
 	}

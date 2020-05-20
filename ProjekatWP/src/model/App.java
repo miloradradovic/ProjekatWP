@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import dto.CategoryDTO;
 import dto.UserDTO;
 import dto.VMDTO;
 import spark.Request;
@@ -23,6 +24,33 @@ public class App {
 		this.organizations = new ArrayList<Organization>();
 		this.categories = new ArrayList<CategoryVM>();
 		//TODO napraviti metode za citanje i upis u json fajlove
+		generateTests();
+	}
+
+	private void generateTests() {
+		User u = new User();
+		u.setEmail("example@gmail.com");
+		u.setPassword("password");
+		u.setUserType(UserType.SuperAdmin);
+		VM vm = new VM();
+		vm.setCategoryName("kategorija");
+		vm.setOrganizationName("organizacija");
+		vm.setResourceName("vm");
+		CategoryVM c = new CategoryVM();
+		c.setCategoryName("kategorija");
+		c.setGPU(1);
+		c.setNumberOfCores(1);
+		c.setRAM(1);
+		CategoryVM c2 = new CategoryVM();
+		c2.setCategoryName("kategorija2");
+		c2.setGPU(10);
+		c2.setNumberOfCores(10);
+		c2.setRAM(5);
+		this.getUsers().add(u);
+		this.getVms().add(vm);
+		this.getCategories().add(c);
+		this.getCategories().add(c2);
+		
 	}
 
 	public ArrayList<User> getUsers() {
@@ -156,7 +184,6 @@ public class App {
 		return null;
 	}
 
-	
 	public void deleteVM(String vmName) {
 		
 		for(VM vm : this.getVms()) {
@@ -179,7 +206,6 @@ public class App {
 		}
 		
 	}
-
 
 	public ArrayList<VMDTO> getVMDTOs(User currentLoggedInUser) {
 		ArrayList<VMDTO> vmdto = new ArrayList<VMDTO>();
@@ -217,14 +243,14 @@ public class App {
 				vm.setConnectedDiscs(vmdto.getConnectedDiscs());
 				vm.setResourceName(vmdto.getResourceName());
 				ArrayList<Activity> activities = new ArrayList<Activity>();
-				for(String od : vmdto.getAktivnostOD()) {
-					int indeks = vmdto.getAktivnostOD().indexOf(od);
+				for(String od : vmdto.getActivityFROM()) {
+					int indeks = vmdto.getActivityFROM().indexOf(od);
 					Activity a = new Activity();
-					a.setFrom(LocalDateTime.parse(vmdto.getAktivnostOD().get(indeks)));
-					if(vmdto.getAktivnostDO().get(indeks).equals("")) {
+					a.setFrom(LocalDateTime.parse(vmdto.getActivityFROM().get(indeks)));
+					if(vmdto.getActivityTO().get(indeks).equals("")) {
 						a.setTo(null);
 					}else {
-						a.setTo(LocalDateTime.parse(vmdto.getAktivnostDO().get(indeks)));
+						a.setTo(LocalDateTime.parse(vmdto.getActivityTO().get(indeks)));
 					}
 					activities.add(a);
 				}
@@ -247,6 +273,32 @@ public class App {
 			}
 		}
 		
+	}
+
+	public VMDTO convertVMtoVMDTO(VM vm) {
+		VMDTO dto = new VMDTO();
+		dto.setCategoryName(vm.getCategoryName());
+		dto.setConnectedDiscs(vm.getConnectedDiscs());
+		dto.setGPU(this.findCatByName(vm.getCategoryName()).getGPU());
+		dto.setNumberOfCores(this.findCatByName(vm.getCategoryName()).getNumberOfCores());
+		dto.setOldResourceName(vm.getResourceName());
+		dto.setOrganizationName(vm.getOrganizationName());
+		dto.setRAM(this.findCatByName(vm.getCategoryName()).getRAM());
+		dto.setResourceName(vm.getResourceName());
+		for(Activity a : vm.getActivities()) {
+			dto.getActivityFROM().add(a.getFrom().toString());
+			dto.getActivityTO().add(a.getTo().toString());
+		}
+		return dto;
+	}
+
+	public CategoryDTO convertCattoCatDTO(CategoryVM cvm) {
+		CategoryDTO dto = new CategoryDTO();
+		dto.setCategoryName(cvm.getCategoryName());
+		dto.setGPU(cvm.getGPU());
+		dto.setNumberOfCores(cvm.getNumberOfCores());
+		dto.setRAM(cvm.getRAM());
+		return dto;
 	}
 
 

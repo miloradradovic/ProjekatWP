@@ -16,11 +16,13 @@ $(document).ready(function() {
                         window.vms = data;
                         updateTable();
                     },error: function(data){
-                        alert("Error!");
+                        alert("UNAUTHORIZED!");
+                        window.location.href = "../../../login.html";
                     }
                 })
             }else if(response.status === 403){
                 alert("UNAUTHORIZED!!!");
+                window.location.href = "../../../login.html";
             }
         }
     })

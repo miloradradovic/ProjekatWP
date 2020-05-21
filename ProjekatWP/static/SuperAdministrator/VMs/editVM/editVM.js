@@ -12,6 +12,7 @@ $(document).ready(function(){
             fillInputs();
         }, error: function(data){
             alert("UNAUTHORIZED!!!");
+            window.location.href = "../../../login.html";
         }
     })
 
@@ -97,6 +98,7 @@ $(document).ready(function(){
                 })
             }, error: function(data){
                 alert("UNAUTHORIZED!!!");
+                window.location.href = "../../../login.html";
             }
         })
     }
@@ -257,6 +259,11 @@ $(document).ready(function(){
                         alert("VM successfully edited!");
                         sessionStorage.removeItem("vmedit");
                         window.location.href = "../viewVMs/viewVMs.html";
+                    }else if(response.status === 400){
+                        alert("Invalid parameters!");
+                    }else{
+                        alert("Unauthorized!");
+                        window.location.href = "../../../login.html";
                     }
                 }
             })

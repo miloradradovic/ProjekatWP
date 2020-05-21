@@ -118,13 +118,12 @@ public class SparkMain {
 				return "403 Not authorized";
 			}else {
 				String virt = req.body();
-				System.out.println(virt);
 				VMDTO vmdto = g.fromJson(virt, VMDTO.class);
 				if(vmdto.getOldResourceName().equals(vmdto.getResourceName())) {
 					app.editVM(vmdto);
 					res.status(200);
 					return "200 OK";
-				}else if(app.findVMByName(vmdto.getResourceName()) == null && vmdto.getResourceName().equals("")) {
+				}else if(app.findVMByName(vmdto.getResourceName()) == null && vmdto.getResourceName().equals("") == false) {
 					app.editVM(vmdto);
 					res.status(200);
 					return "200 OK";

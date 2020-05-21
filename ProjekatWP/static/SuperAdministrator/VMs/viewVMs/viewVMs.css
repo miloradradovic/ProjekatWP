@@ -1,5 +1,5 @@
 body{
-    background-color: bisque;
+    background-color: #f2f2f2;
 }
 
 #div_table_h2{
@@ -7,12 +7,12 @@ body{
 }
 
 tr{
-    color: coral;
-    background-color: lime;
+    color: black;
+    background-color: steelblue;
 }
 
 tr:hover{
-    background-color: lightgreen;
+    background-color: lightskyblue;
 }
 
 
@@ -41,7 +41,7 @@ tr:hover{
 
 /* Add a color to the active/current link */
 .topnav a.active {
-    background-color: #4CAF50;
+    background-color: lightskyblue;
     color: white;
 }
 

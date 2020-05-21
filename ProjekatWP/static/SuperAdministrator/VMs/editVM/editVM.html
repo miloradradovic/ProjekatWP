@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit VM</title>
+    <link rel="stylesheet" href="editVM.css">
     <script type = "text/javascript" src="../../../jquery.js"></script>
     <script type = "text/javascript" src="../../../jquery.validate.js"></script>
     <script type = "text/javascript" src="../../../Validations/vms/edit_vm_validation.js"></script>
@@ -11,7 +12,7 @@
 <body>
 
     <div class="topnav">
-        <a class="active" href="viewVMs.html">Virtual machines</a>
+        <a class="active" href="../viewVMs/viewVMs.html">Virtual machines</a>
         <a href="../../Categories/viewCategories/viewCategories.html">Categories</a>
         <a href="../../Discs/viewDiscs/viewDiscs.html">Discs</a>
         <a href="../../Organizations/viewOrganizations/viewOrganizations.html">Organizations</a>
@@ -19,45 +20,78 @@
         <a href="../../Profile/editProfile/editProfile.html">Profile</a>
     </div>
 
-    <div class="editVMdiv">
-        <h2>Edit VM</h2>
+    <h2>Edit VM</h2>
+
+    <div editdiv>
         <form id = "edit_form">
-            <label>VM name: </label>
-            <input name = "vm_name_input" id = "vm_name_input" type = "text"/>
-            <br>
-            <label>Organization: </label>
-            <input name = "organization_input" id = "organization_input" type = "text" readonly/>
-            <br>
-            <label>Category</label>
-            <input name = "category_input" id = "category_input" type = "text" readonly/>
-            <select id = "select_new_category"></select>
-            <br>
-            <label>Number of cores: </label>
-            <input name = "num_of_cores_input" id = "num_of_cores_input" type="number" readonly/>
-            <br>
-            <label>RAM: </label>
-            <input name = "ram_input" id = "ram_input" type="number" readonly/>
-            <br>
-            <label>GPU: </label>
-            <input name="gpu_input" id="gpu_input" type="number" readonly/>
-            <br>
-            <label>Connected discs</label>
-            <select id = "connected_discs"></select>
-            <br>
-            <table id = "table_of_activities_on">
-                <thead>
-                <th align = "center">Date when turned on</td>
-                </thead>
-            </table>
-            <table id = "table_of_activities_off">
-                <thead>
-                    <th align="center">Date when turned off</th>
-                </thead>
-            </table>
+            <div id="leftdiv">
+
+                <div id = "vmnamediv">
+                    <label>VM name: </label>
+                    <input name = "vm_name_input" id = "vm_name_input" type = "text"/>
+                </div>
+
+                <br><br>
+
+                <div id = "orgdiv">
+                    <label>Organization: </label>
+                    <input name = "organization_input" id = "organization_input" type = "text" readonly/>
+                </div>
+
+                <br><br>
+
+                <div id = "catdiv">
+                    <label>Category: </label>
+                    <input name = "category_input" id = "category_input" type = "text" readonly/>
+                    <select id = "select_new_category"></select>
+                </div>
+
+                <br><br>
+
+                <div id="numcoresdiv">
+                    <label>Number of cores: </label>
+                    <input name = "num_of_cores_input" id = "num_of_cores_input" type="number" readonly/>
+                </div>
+
+                <br><br>
+
+                <div id="ramdiv">
+                    <label>RAM: </label>
+                    <input name = "ram_input" id = "ram_input" type="number" readonly/>
+                </div>
+
+                <br><br>
+
+                <div id="gpudiv">
+                    <label>GPU: </label>
+                    <input name="gpu_input" id="gpu_input" type="number" readonly/>
+                </div>
+
+                <br><br>
+
+                <div id="discsdiv">
+                    <label>Connected discs</label>
+                    <select id = "connected_discs"></select>
+                </div>
+
+            </div>
+
+            <div id="tables">
+                <table id = "table_of_activities_on" border="1">
+                    <thead>
+                    <th align = "center">Date when turned on</td>
+                    </thead>
+                </table>
+                <table id = "table_of_activities_off" border="1">
+                    <thead>
+                        <th align="center">Date when turned off</th>
+                    </thead>
+                </table>
+            </div>
         </form>
-        <button id = "turn_onoff">Turn on</button>
-        <button id = "edit_button">Edit</button>
     </div>
+
+    <button id = "edit_button">Edit</button>
 
 </body>
 </html>

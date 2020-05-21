@@ -55,8 +55,28 @@ $(document).ready(function(){
                 )
             )
         })
-        if(window.vm.activityFROM.length > window.activityTO.length){
-            $("#turn_onoff").html("Turn off");
+        if(window.vm.activityFROM.length > window.vm.activityTO.length){
+            $("#table_of_activities_off").append($("<tr>")
+                .append($("<td>")
+                    .attr("id", "button")
+                    .append($("<input>")
+                        .attr("type", "button")
+                        .attr("id", "turn_off")
+                        .attr("value", "Turn off")
+                        .click(function(){
+                            turnonoff("off");
+                        }))))
+        }else{
+            $("#table_of_activities_on").append($("<tr>")
+                .append($("<td>")
+                    .attr("id", "button")
+                    .append($("<input>")
+                        .attr("type", "button")
+                        .attr("id", "turn_on")
+                        .attr("value", "Turn on")
+                        .click(function(){
+                            turnonoff("on");
+                        }))))
         }
 
     }
@@ -81,9 +101,9 @@ $(document).ready(function(){
         })
     }
 
-    $("#turn_onoff").click(function(){
-        if($("#turn_onoff").text() === "Turn on"){
-            $("#turn_onoff").html("Turn off");
+    function turnonoff(turning){
+        if(turning === "on"){
+            $("#button").remove();
             let today = new Date();
 
             let day;
@@ -123,8 +143,18 @@ $(document).ready(function(){
                     .text(dateString)
                 )
             )
+            $("#table_of_activities_off").append($("<tr>")
+                .append($("<td>")
+                    .attr("id", "button")
+                    .append($("<input>")
+                        .attr("type", "button")
+                        .attr("id", "turn_off")
+                        .attr("value", "Turn off")
+                        .click(function(){
+                            turnonoff("off");
+                        }))))
         }else{
-            $("#turn_onoff").html("Turn on");
+            $("#button").remove();
             let today = new Date();
 
             let day;
@@ -164,8 +194,18 @@ $(document).ready(function(){
                     .text(dateString)
                 )
             )
+            $("#table_of_activities_on").append($("<tr>")
+                .append($("<td>")
+                    .attr("id", "button")
+                    .append($("<input>")
+                        .attr("type", "button")
+                        .attr("id", "turn_on")
+                        .attr("value", "Turn on")
+                        .click(function(){
+                            turnonoff("on");
+                        }))))
         }
-    })
+    }
 
     $("#edit_button").click(function() {
         if($("#vm_name_input").valid()) {
@@ -180,7 +220,7 @@ $(document).ready(function(){
             let activitiesFROM = [];
             $("#table_of_activities_on").find("tr").each(function () {
                 let tds = $(this).find("td")
-                if (tds.eq(0).text() !== "") {
+                if (tds.eq(0).text() !== "" && tds.eq(0).id !== "button") {
                     activitiesFROM.push(tds.eq(0).text());
                 }
             })
@@ -188,7 +228,7 @@ $(document).ready(function(){
             let activitiesTO = [];
             $("#table_of_activities_off").find("tr").each(function () {
                 let tds = $(this).find("td")
-                if (tds.eq(0).text() !== "") {
+                if (tds.eq(0).text() !== "" && tds.eq(0).id !== "button") {
                     activitiesTO.push(tds.eq(0).text());
                 }
             })

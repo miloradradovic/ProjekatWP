@@ -1,6 +1,16 @@
 $(document).ready(function(){
 
     $("#button_login").click(function(){
+        login();
+    })
+
+    $(document).on('keypress',function(e) {
+        if(e.which === 13) {
+            login();
+        }
+    });
+
+    function login(){
         let email = $("#email_input").val();
         let password = $("#pass_input").val();
 
@@ -24,5 +34,5 @@ $(document).ready(function(){
                 }
             })
         }
-    })
+    }
 })

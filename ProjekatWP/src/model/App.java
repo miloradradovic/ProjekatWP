@@ -306,5 +306,41 @@ public class App {
 		return dto;
 	}
 
+	public void addVM(VMDTO dto) {
+		VM vm = new VM();
+		vm.setResourceName(dto.getResourceName());
+		vm.setOrganizationName(dto.getOrganizationName());
+		vm.setCategoryName(dto.getOrganizationName());
+		vm.setConnectedDiscs(dto.getConnectedDiscs());
+		ArrayList<Activity> activities = new ArrayList<Activity>();
+		
+		for(int i = 0; i < dto.getActivityFROM().size(); i++) {
+			Activity a = new Activity();
+			a.setFrom(LocalDateTime.parse(dto.getActivityFROM().get(i), dtf));
+			if(dto.getActivityTO().get(i).equals("")) {
+				a.setTo(null);
+			}else {
+				a.setTo(LocalDateTime.parse(dto.getActivityTO().get(i), dtf));
+			}
+			activities.add(a);
+		}
+		vm.setActivities(activities);
+		
+		this.vms.add(vm);
+		
+		for(Organization o : this.organizations) {
+			if(o.getOrgName().equals(dto.getOrganizationName())) {
+				o.getResourcesNames().add(dto.getResourceName());
+				break;
+			}
+		}
+		
+		for(Disc d : this.discs) {
+			if(dto.getConnectedDiscs().contains(d.getResourceName())) {
+				d.setVmName(dto.getResourceName());
+			}
+		}
+	}
+
 
 }

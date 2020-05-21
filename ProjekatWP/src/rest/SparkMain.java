@@ -110,7 +110,7 @@ public class SparkMain {
 			}
 		});
 		
-		post("SuperAdministrator/VMs/viewVMs/editVM", (req, res)->{
+		post("SuperAdministrator/VMs/editVM/editVM", (req, res)->{
 			res.type("application/json");
 			
 			if(app.checkLoggedInUser(req) != 3) {
@@ -118,8 +118,13 @@ public class SparkMain {
 				return "403 Not authorized";
 			}else {
 				String virt = req.body();
+				System.out.println(virt);
 				VMDTO vmdto = g.fromJson(virt, VMDTO.class);
-				if(app.findVMByName(vmdto.getResourceName()) == null) {
+				if(vmdto.getOldResourceName().equals(vmdto.getResourceName())) {
+					app.editVM(vmdto);
+					res.status(200);
+					return "200 OK";
+				}else if(app.findVMByName(vmdto.getResourceName()) == null && vmdto.getResourceName().equals("")) {
 					app.editVM(vmdto);
 					res.status(200);
 					return "200 OK";

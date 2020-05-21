@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Edit VM</title>
     <script type = "text/javascript" src="../../../jquery.js"></script>
+    <script type = "text/javascript" src="../../../jquery.validate.js"></script>
+    <script type = "text/javascript" src="../../../Validations/vms/edit_vm_validation.js"></script>
     <script type = "text/javascript" src="editVM.js"></script>
 </head>
 <body>
@@ -24,7 +26,7 @@
             <input name = "vm_name_input" id = "vm_name_input" type = "text"/>
             <br>
             <label>Organization: </label>
-            <input name = "organization_input" id = "organization_input" type = "text"/>
+            <input name = "organization_input" id = "organization_input" type = "text" readonly/>
             <br>
             <label>Category</label>
             <input name = "category_input" id = "category_input" type = "text" readonly/>
@@ -42,7 +44,7 @@
             <label>Connected discs</label>
             <select id = "connected_discs"></select>
             <br>
-            <table id = "table_of_activites_on">
+            <table id = "table_of_activities_on">
                 <thead>
                 <th align = "center">Date when turned on</td>
                 </thead>

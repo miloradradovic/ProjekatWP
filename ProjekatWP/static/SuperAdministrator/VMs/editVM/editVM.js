@@ -9,7 +9,6 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(data){
             window.vm = data;
-            console.log(window.vm);
             fillInputs();
         }, error: function(data){
             alert("UNAUTHORIZED!!!");
@@ -43,19 +42,22 @@ $(document).ready(function(){
             )
         })
         window.vm.activityFROM.forEach(element => {
-            $("#table_of_activites_on").append($("<tr>")
+            $("#table_of_activities_on").append($("<tr>")
                 .append($("<td>")
                     .text(element)
                 )
             )
         })
         window.vm.activityTO.forEach(element => {
-            $("#table_of_activites_off").append($("<tr>")
+            $("#table_of_activities_off").append($("<tr>")
                 .append($("<td>")
                     .text(element)
                 )
             )
         })
+        if(window.vm.activityFROM.length > window.activityTO.length){
+            $("#turn_onoff").html("Turn off");
+        }
 
     }
 
@@ -66,9 +68,7 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(data){
                 window.categories = data;
-                console.log(window.categories);
                 window.categories.forEach(element => {
-                    console.log(element);
                     $("#select_new_category").append(
                         $("<option>")
                             .attr("value", element.categoryName)
@@ -85,9 +85,40 @@ $(document).ready(function(){
         if($("#turn_onoff").text() === "Turn on"){
             $("#turn_onoff").html("Turn off");
             let today = new Date();
-            let date = today.getDate() + '-' + (today.getMonth()+1) + '-' + today.getFullYear() + ' ' + today.getHours() + ':' + today.getMinutes();
+
+            let day;
+            if(today.getDate() < 10){
+                day = '0' + today.getDate();
+            }else{
+                day = today.getDate();
+            }
+
+            let month;
+            if(today.getMonth() < 10){
+                month = '0' + (today.getMonth()+1);
+            }else{
+                month = today.getMonth()+1;
+            }
+
+            let year = today.getFullYear();
+
+            let hour;
+            if(today.getHours() < 10){
+                hour = '0' + today.getHours();
+            }else{
+                hour = today.getHours();
+            }
+
+            let minutes;
+            if(today.getMinutes() < 10){
+                minutes = '0' + today.getMinutes();
+            }else{
+                minutes = today.getMinutes()
+            }
+
+            let date = day + '-' + month + '-' + year + ' ' + hour + ':' + minutes;
             let dateString = date.toString();
-            $("#table_of_activites_on").append($("<tr>")
+            $("#table_of_activities_on").append($("<tr>")
                 .append($("<td>")
                     .text(dateString)
                 )
@@ -95,7 +126,38 @@ $(document).ready(function(){
         }else{
             $("#turn_onoff").html("Turn on");
             let today = new Date();
-            let date = today.getDate() + '-' + (today.getMonth()+1) + '-' + today.getFullYear() + ' ' + today.getHours() + ':' + today.getMinutes();
+
+            let day;
+            if(today.getDate() < 10){
+                day = '0' + today.getDate();
+            }else{
+                day = today.getDate();
+            }
+
+            let month;
+            if(today.getMonth() < 10){
+                month = '0' + (today.getMonth()+1);
+            }else{
+                month = today.getMonth()+1;
+            }
+
+            let year = today.getFullYear();
+
+            let hour;
+            if(today.getHours() < 10){
+                hour = '0' + today.getHours();
+            }else{
+                hour = today.getHours();
+            }
+
+            let minutes;
+            if(today.getMinutes() < 10){
+                minutes = '0' + today.getMinutes();
+            }else{
+                minutes = today.getMinutes()
+            }
+
+            let date = day + '-' + month + '-' + year + ' ' + hour + ':' + minutes;
             let dateString = date.toString();
             $("#table_of_activities_off").append($("<tr>")
                 .append($("<td>")
@@ -105,10 +167,59 @@ $(document).ready(function(){
         }
     })
 
-    $("#edit_button").click(function(){
-        let oldResourceName = vm.oldResourceName;
-        //TODO
+    $("#edit_button").click(function() {
+        if($("#vm_name_input").valid()) {
+            let oldResourceName = window.vm.oldResourceName;
+            let newResourceName = $("#vm_name_input").val();
+            let organizationName = $("#organization_input").val();
+            let categoryName = $("#category_input").val();
+            let numberOfCores = $("#num_of_cores_input").val();
+            let RAM = $("#ram_input").val();
+            let GPU = $("#gpu_input").val();
+            let connectedDiscs = window.vm.connectedDiscs;
+            let activitiesFROM = [];
+            $("#table_of_activities_on").find("tr").each(function () {
+                let tds = $(this).find("td")
+                if (tds.eq(0).text() !== "") {
+                    activitiesFROM.push(tds.eq(0).text());
+                }
+            })
+
+            let activitiesTO = [];
+            $("#table_of_activities_off").find("tr").each(function () {
+                let tds = $(this).find("td")
+                if (tds.eq(0).text() !== "") {
+                    activitiesTO.push(tds.eq(0).text());
+                }
+            })
+
+            if (activitiesFROM.length > activitiesTO.length) {
+                activitiesTO.push("");
+            }
+
+            $.ajax({
+                url: 'editVM',
+                type: 'post',
+                data: JSON.stringify({
+                    oldResourceName: oldResourceName,
+                    resourceName: newResourceName,
+                    organizationName: organizationName,
+                    categoryName: categoryName,
+                    numberOfCores: numberOfCores,
+                    RAM: RAM,
+                    GPU: GPU,
+                    connectedDiscs: connectedDiscs,
+                    activityFROM: activitiesFROM,
+                    activityTO: activitiesTO
+                }),
+                complete: function (response) {
+                    if (response.status === 200) {
+                        alert("VM successfully edited!");
+                        sessionStorage.removeItem("vmedit");
+                        window.location.href = "../viewVMs/viewVMs.html";
+                    }
+                }
+            })
+        }
     })
-
-
 })

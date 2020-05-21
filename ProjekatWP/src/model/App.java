@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import dto.CategoryDTO;
@@ -15,6 +16,8 @@ public class App {
 	private ArrayList<Disc> discs;
 	private ArrayList<Organization> organizations;
 	private ArrayList<CategoryVM> categories;
+	
+	public DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 	
 	public App() {
 		super();
@@ -243,14 +246,14 @@ public class App {
 				vm.setConnectedDiscs(vmdto.getConnectedDiscs());
 				vm.setResourceName(vmdto.getResourceName());
 				ArrayList<Activity> activities = new ArrayList<Activity>();
-				for(String od : vmdto.getActivityFROM()) {
-					int indeks = vmdto.getActivityFROM().indexOf(od);
+				
+				for(int i = 0; i < vmdto.getActivityFROM().size(); i++) {
 					Activity a = new Activity();
-					a.setFrom(LocalDateTime.parse(vmdto.getActivityFROM().get(indeks)));
-					if(vmdto.getActivityTO().get(indeks).equals("")) {
+					a.setFrom(LocalDateTime.parse(vmdto.getActivityFROM().get(i), dtf));
+					if(vmdto.getActivityTO().get(i).equals("")) {
 						a.setTo(null);
 					}else {
-						a.setTo(LocalDateTime.parse(vmdto.getActivityTO().get(indeks)));
+						a.setTo(LocalDateTime.parse(vmdto.getActivityTO().get(i), dtf));
 					}
 					activities.add(a);
 				}
@@ -286,8 +289,10 @@ public class App {
 		dto.setRAM(this.findCatByName(vm.getCategoryName()).getRAM());
 		dto.setResourceName(vm.getResourceName());
 		for(Activity a : vm.getActivities()) {
-			dto.getActivityFROM().add(a.getFrom().toString());
-			dto.getActivityTO().add(a.getTo().toString());
+			dto.getActivityFROM().add(a.getFrom().format(dtf));
+			if(a.getTo() != null) {
+				dto.getActivityTO().add(a.getTo().format(dtf));
+			}
 		}
 		return dto;
 	}

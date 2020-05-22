@@ -22,76 +22,54 @@
 
     <h2>Edit VM</h2>
 
-    <div editdiv>
+    <div id = "edit_form_div">
         <form id = "edit_form">
-            <div id="leftdiv">
 
-                <div id = "vmnamediv">
-                    <label>VM name: </label>
-                    <input name = "vm_name_input" id = "vm_name_input" type = "text"/>
-                </div>
+            <table id="edit_labels">
+                <tr>
+                    <td align="left">VM name: </td>
+                    <td align="left" id="vm_td"></td>
+                </tr>
+                <tr>
+                    <td align="left">Organization: </td>
+                    <td align="left" id="org_td"></td>
+                </tr>
+                <tr>
+                    <td align="left">Category: </td>
+                    <td align="left" id="cat_td"></td>
+                </tr>
+                <tr>
+                    <td align="left">Number of cores: </td>
+                    <td align="left" id="cores_td"></td>
+                </tr>
+                <tr>
+                    <td align="left">RAM: </td>
+                    <td align="left" id="ram_td"></td>
+                </tr>
+                <tr>
+                    <td align="left">GPU: </td>
+                    <td align="left" id="gpu_td"></td>
+                </tr>
+                <tr>
+                    <td align="left">Connected discs: </td>
+                    <td align="left" id="discs_td"></td>
+                </tr>
+            </table>
 
-                <br><br>
+            <label id = "dates">Dates: </label>
+            <table id = "table_of_activities" border="1">
+                <thead>
+                <th align = "center">Date when turned on</th>
+                <th align = "center">Date when turned off</th>
+                </thead>
+            </table>
 
-                <div id = "orgdiv">
-                    <label>Organization: </label>
-                    <input name = "organization_input" id = "organization_input" type = "text" readonly/>
-                </div>
-
-                <br><br>
-
-                <div id = "catdiv">
-                    <label>Category: </label>
-                    <input name = "category_input" id = "category_input" type = "text" readonly/>
-                    <select id = "select_new_category"></select>
-                </div>
-
-                <br><br>
-
-                <div id="numcoresdiv">
-                    <label>Number of cores: </label>
-                    <input name = "num_of_cores_input" id = "num_of_cores_input" type="number" readonly/>
-                </div>
-
-                <br><br>
-
-                <div id="ramdiv">
-                    <label>RAM: </label>
-                    <input name = "ram_input" id = "ram_input" type="number" readonly/>
-                </div>
-
-                <br><br>
-
-                <div id="gpudiv">
-                    <label>GPU: </label>
-                    <input name="gpu_input" id="gpu_input" type="number" readonly/>
-                </div>
-
-                <br><br>
-
-                <div id="discsdiv">
-                    <label>Connected discs</label>
-                    <select id = "connected_discs"></select>
-                </div>
-
-            </div>
-
-            <div id="tables">
-                <table id = "table_of_activities_on" border="1">
-                    <thead>
-                    <th align = "center">Date when turned on</td>
-                    </thead>
-                </table>
-                <table id = "table_of_activities_off" border="1">
-                    <thead>
-                        <th align="center">Date when turned off</th>
-                    </thead>
-                </table>
-            </div>
         </form>
+
+        <button id = "turn_onoff" name = "on">Turn on</button>
+        <button id = "edit_button">Edit</button>
+        <button id = "delete_button">Delete</button>
+
     </div>
-
-    <button id = "edit_button">Edit</button>
-
 </body>
 </html>

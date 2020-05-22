@@ -96,7 +96,7 @@ public class SparkMain {
 		});
 		
 		//deleting VM SUPERADMIN
-		post("SuperAdministrator/VMs/viewVMs/deleteVM", (req, res)->{
+		post("SuperAdministrator/VMs/editVM/deleteVM", (req, res)->{
 			res.type("application/json");
 			
 			if(app.checkLoggedInUser(req) != 3) {

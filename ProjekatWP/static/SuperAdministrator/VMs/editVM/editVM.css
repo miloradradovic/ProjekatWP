@@ -1,60 +1,25 @@
-
 body{
     background-color: #f2f2f2;
 }
 
-#edit_form{
-    margin-bottom:50px;
-    margin-left: 40px;
+#edit_form_div{
+    text-align: center;
+    margin-top: 100px;
 }
 
-#edit_button{
-    margin-top: 350px;
-    margin-right: 600px;
-    width: 10%;
+#edit_labels{
+    margin-left:auto;
+    margin-right:auto;
 }
 
-#discsdiv{
-    margin-left:3px;
+#dates{
+    margin-right: 245px;
 }
 
-#vmnamediv{
-    margin-left:42px;
+#table_of_activities{
+    margin-left:auto;
+    margin-right:auto;
 }
-
-#ramdiv{
-    margin-left:70px;
-}
-
-#gpudiv{
-    margin-left:73px;
-}
-
-#orgdiv{
-    margin-left:23px;
-}
-
-#catdiv{
-    margin-left:48px;
-}
-
-#leftdiv{
-    float: left;
-    margin-left: 150px;
-}
-
-
-#table_of_activities_on{
-
-    float: left;
-    margin-left: 50px;
-}
-
-#table_of_activities_off{
-    float: left;
-}
-
-
 
 /* Add a black background color to the top navigation */
 .topnav {

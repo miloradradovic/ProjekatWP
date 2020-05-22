@@ -30,11 +30,11 @@ $(document).ready(function() {
     function updateTable(){
         window.vms.forEach(element => {
             $("#tableVMs").append($("<tr>")
-                .dblclick(function(){
+                .click(function(){
                     sessionStorage.setItem("vmedit", element.resourceName);
                     window.location.href = "../editVM/editVM.html";
                 })
-                .attr("title", "Double click to edit the VM")
+                .attr("title", "Click to edit the VM")
                 .attr("id", element.resourceName)
                 .append($("<td>")
                     .text(element.resourceName))
@@ -46,24 +46,6 @@ $(document).ready(function() {
                     .text(element.GPU))
                 .append($("<td>")
                     .text(element.organizationName))
-                .append($("<td>")
-                    .append($("<a>")
-                        .attr("href", "")
-                        .attr("id", element.resourceName)
-                        .text("Delete")
-                        .click(function(){
-                            $.ajax
-                            ({
-                                type: "post",
-                                url: "deleteVM",
-                                data: element.resourceName,
-                                complete: function(element)
-                                {
-                                    $('#' + element.resourceName).remove();
-                                    alert("VM deleted successfully!");
-                                }
-                            })
-                        })))
             )
         })
     }

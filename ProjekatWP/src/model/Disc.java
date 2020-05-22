@@ -1,11 +1,14 @@
 package model;
 
+import java.time.LocalDateTime;
+
 public class Disc extends Resource {
 	
 	private String organizationName; //obavezno
 	private DiscType type; //obavezno
 	private int capacity; //obavezno
 	private String vmName; //obavezno
+	private LocalDateTime created;
 	
 	public Disc() {
 		super();
@@ -17,6 +20,14 @@ public class Disc extends Resource {
 		this.type = type;
 		this.capacity = capacity;
 		this.vmName = vmName;
+	}
+	
+	public LocalDateTime getCreated() {
+		return created;
+	}
+
+	public void setCreated(LocalDateTime created) {
+		this.created = created;
 	}
 
 	public String getOrganizationName() {

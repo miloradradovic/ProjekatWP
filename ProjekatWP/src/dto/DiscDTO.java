@@ -2,11 +2,13 @@ package dto;
 
 public class DiscDTO {
 	
+	private String oldResourceName;
 	private String resourceName;
 	private String organizationName; //obavezno
 	private String type; //obavezno
 	private int capacity; //obavezno
 	private String vmName; //obavezno
+	private String created;
 	
 	public DiscDTO() {
 		super();
@@ -19,6 +21,22 @@ public class DiscDTO {
 		this.type = type;
 		this.capacity = capacity;
 		this.vmName = vmName;
+	}
+	
+	public String getOldResourceName() {
+		return oldResourceName;
+	}
+
+	public void setOldResourceName(String oldResourceName) {
+		this.oldResourceName = oldResourceName;
+	}
+
+	public String getCreated() {
+		return created;
+	}
+
+	public void setCreated(String created) {
+		this.created = created;
 	}
 
 	public String getResourceName() {

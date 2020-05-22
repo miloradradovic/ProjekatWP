@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import dto.CategoryDTO;
+import dto.DiscDTO;
+import dto.OrganizationDTO;
 import dto.UserDTO;
 import dto.VMDTO;
 import spark.Request;
@@ -35,10 +37,14 @@ public class App {
 		u.setEmail("example@gmail.com");
 		u.setPassword("password");
 		u.setUserType(UserType.SuperAdmin);
+		u.setName("ime");
+		u.setOrganizationName("organizacija");
+		u.setSurname("prezime");
 		VM vm = new VM();
 		vm.setCategoryName("kategorija");
 		vm.setOrganizationName("organizacija");
 		vm.setResourceName("vm");
+		
 		CategoryVM c = new CategoryVM();
 		c.setCategoryName("kategorija");
 		c.setGPU(1);
@@ -343,4 +349,43 @@ public class App {
 	}
 
 
+	public OrganizationDTO convertOrgtoOrgDTO(Organization o) {
+		
+		OrganizationDTO dto = new OrganizationDTO();
+		dto.setDescription(o.getDescription());
+		dto.setLogo(o.getLogo());
+		dto.setOrgName(o.getOrgName());
+		dto.setResourcesNames(o.getResourcesNames());
+		dto.setUsersEmails(o.getResourcesNames());
+		return dto;
+	}
+
+
+	public ArrayList<DiscDTO> getAvailableDiscs(OrganizationDTO dto) {
+		ArrayList<DiscDTO> dtos = new ArrayList<DiscDTO>();
+		for(Disc d : this.getDiscs()) {
+			if(dto.getResourcesNames().contains(d.getResourceName()) && d.getVmName().equals("")) {
+				DiscDTO ddto = this.convertDisctoDiscDTO(d);
+				dtos.add(ddto);
+			}
+		}
+		return null;
+	}
+
+	private DiscDTO convertDisctoDiscDTO(Disc d) {
+		DiscDTO dto = new DiscDTO();
+		dto.setCapacity(d.getCapacity());
+		dto.setCreated(d.getCreated().format(dtf));
+		dto.setOldResourceName(d.getResourceName());
+		dto.setOrganizationName(d.getOrganizationName());
+		dto.setResourceName(d.getResourceName());
+		if(d.getType() == DiscType.SSD) {
+			dto.setType("SSD");
+		}else {
+			dto.setType("HDD");
+		}
+		dto.setVmName(d.getVmName());
+		return dto;
+	}
+	
 }

@@ -12,10 +12,13 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import dto.CategoryDTO;
+import dto.DiscDTO;
+import dto.OrganizationDTO;
 import dto.UserDTO;
 import dto.VMDTO;
 import model.App;
 import model.CategoryVM;
+import model.Organization;
 import model.User;
 import model.UserType;
 import model.VM;
@@ -183,6 +186,55 @@ public class SparkMain {
 					res.status(200);
 					return "200 OK";
 				}
+			}
+		});
+		
+		get("SuperAdministrator/VMs/addVM/getOrganizations", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				ArrayList<OrganizationDTO> dto = new ArrayList<OrganizationDTO>();
+				ArrayList<Organization> orgs = app.getOrganizations();
+				for(Organization o : orgs) {
+					OrganizationDTO orgdto = app.convertOrgtoOrgDTO(o);
+					dto.add(orgdto);
+				}
+				return g.toJson(dto);
+			}
+		});
+		
+		get("SuperAdministrator/VMs/addVM/getCategories", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				ArrayList<CategoryDTO> categoriesdto = new ArrayList<CategoryDTO>();
+				ArrayList<CategoryVM> categories = app.getCategories();
+				for(CategoryVM cvm : categories) {
+					CategoryDTO dto = app.convertCattoCatDTO(cvm);
+					categoriesdto.add(dto);
+				}
+				return g.toJson(categoriesdto);
+				
+			}
+		});
+		
+		get("SuperAdministrator/VMs/addVM/getAvailableDiscs", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				OrganizationDTO dto = g.fromJson(req.body(), OrganizationDTO.class);
+				ArrayList<DiscDTO> discs = app.getAvailableDiscs(dto);
+				res.status(200);
+				return g.toJson(discs);
 			}
 		});
 	}

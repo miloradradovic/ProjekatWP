@@ -33,33 +33,67 @@ public class App {
 	}
 
 	private void generateTests() {
-		User u = new User();
-		u.setEmail("example@gmail.com");
-		u.setPassword("password");
-		u.setUserType(UserType.SuperAdmin);
-		u.setName("ime");
-		u.setOrganizationName("organizacija");
-		u.setSurname("prezime");
-		VM vm = new VM();
-		vm.setCategoryName("kategorija");
-		vm.setOrganizationName("organizacija");
-		vm.setResourceName("vm");
+		User u = new User("mico@super.com", "milorad123", "ime", "prezime", "", UserType.SuperAdmin);
+		this.users.add(u);
+		Disc d1 = new Disc("d1", "org1", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
+		Disc d2 = new Disc("d2", "org1", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
+		Disc d3 = new Disc("d3", "org2", DiscType.SSD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
+		Disc d4 = new Disc("d4", "org3", DiscType.SSD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
+		Disc d5 = new Disc("d5", "org4", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
+		this.discs.add(d1);
+		this.discs.add(d2);
+		this.discs.add(d3);
+		this.discs.add(d4);
+		this.discs.add(d5);
+		VM vm1 = new VM("vm1", "org1", "cat1", new ArrayList<String>(), new ArrayList<Activity>());
+		VM vm2 = new VM("vm2", "org1", "cat2", new ArrayList<String>(), new ArrayList<Activity>());
+		VM vm3 = new VM("vm3", "org2", "cat3", new ArrayList<String>(), new ArrayList<Activity>());
+		VM vm4 = new VM("vm4", "org2", "cat4", new ArrayList<String>(), new ArrayList<Activity>());
+		VM vm5 = new VM("vm5", "org1", "cat5", new ArrayList<String>(), new ArrayList<Activity>());
+		this.vms.add(vm1);
+		this.vms.add(vm2);
+		this.vms.add(vm3);
+		this.vms.add(vm4);
+		this.vms.add(vm5);
+		CategoryVM c1 = new CategoryVM("cat1", 1, 1, 1);
+		CategoryVM c2 = new CategoryVM("cat2", 2, 2, 2);
+		CategoryVM c3 = new CategoryVM("cat3", 3, 3, 3);
+		CategoryVM c4 = new CategoryVM("cat4", 4, 4, 4);
+		CategoryVM c5 = new CategoryVM("cat5", 5, 5, 5);
+		this.categories.add(c1);
+		this.categories.add(c2);
+		this.categories.add(c3);
+		this.categories.add(c4);
+		this.categories.add(c5);
+		ArrayList<String> resources1 = new ArrayList<String>();
+		resources1.add(d1.getResourceName());
+		resources1.add(d2.getResourceName());
+		resources1.add(vm1.getResourceName());
+		resources1.add(vm2.getResourceName());
+		resources1.add(vm5.getResourceName());
+		ArrayList<String> resources2 = new ArrayList<String>();
+		resources2.add(d3.getResourceName());
+		resources2.add(vm3.getResourceName());
+		resources2.add(vm4.getResourceName());
+		ArrayList<String> resources3 = new ArrayList<String>();
+		resources3.add(d4.getResourceName());
+		ArrayList<String> resources4 = new ArrayList<String>();
+		resources4.add(d5.getResourceName());
+		ArrayList<String> resources5 = new ArrayList<String>();
 		
-		CategoryVM c = new CategoryVM();
-		c.setCategoryName("kategorija");
-		c.setGPU(1);
-		c.setNumberOfCores(1);
-		c.setRAM(1);
-		CategoryVM c2 = new CategoryVM();
-		c2.setCategoryName("kategorija2");
-		c2.setGPU(10);
-		c2.setNumberOfCores(10);
-		c2.setRAM(5);
-		this.getUsers().add(u);
-		this.getVms().add(vm);
-		this.getCategories().add(c);
-		this.getCategories().add(c2);
+		Organization o1 = new Organization("org1", "opis1", "logo1", new ArrayList<String>(), resources1);
+		Organization o2 = new Organization("org2", "opis2", "logo2", new ArrayList<String>(), resources2);
+		Organization o3 = new Organization("org3", "opis3", "logo3", new ArrayList<String>(), resources3);
+		Organization o4 = new Organization("org4", "opis4", "logo4", new ArrayList<String>(), resources4);
+		Organization o5 = new Organization("org5", "opis5", "logo5", new ArrayList<String>(), resources5);
+		this.organizations.add(o1);
+		this.organizations.add(o2);
+		this.organizations.add(o3);
+		this.organizations.add(o4);
+		this.organizations.add(o5);
 		
+
+
 	}
 
 	public ArrayList<User> getUsers() {
@@ -316,20 +350,9 @@ public class App {
 		VM vm = new VM();
 		vm.setResourceName(dto.getResourceName());
 		vm.setOrganizationName(dto.getOrganizationName());
-		vm.setCategoryName(dto.getOrganizationName());
+		vm.setCategoryName(dto.getCategoryName());
 		vm.setConnectedDiscs(dto.getConnectedDiscs());
 		ArrayList<Activity> activities = new ArrayList<Activity>();
-		
-		for(int i = 0; i < dto.getActivityFROM().size(); i++) {
-			Activity a = new Activity();
-			a.setFrom(LocalDateTime.parse(dto.getActivityFROM().get(i), dtf));
-			if(dto.getActivityTO().get(i).equals("")) {
-				a.setTo(null);
-			}else {
-				a.setTo(LocalDateTime.parse(dto.getActivityTO().get(i), dtf));
-			}
-			activities.add(a);
-		}
 		vm.setActivities(activities);
 		
 		this.vms.add(vm);
@@ -364,12 +387,12 @@ public class App {
 	public ArrayList<DiscDTO> getAvailableDiscs(OrganizationDTO dto) {
 		ArrayList<DiscDTO> dtos = new ArrayList<DiscDTO>();
 		for(Disc d : this.getDiscs()) {
-			if(dto.getResourcesNames().contains(d.getResourceName()) && d.getVmName().equals("")) {
+			if(dto.getOrgName().equals(d.getOrganizationName()) && d.getVmName().equals("")) {
 				DiscDTO ddto = this.convertDisctoDiscDTO(d);
 				dtos.add(ddto);
 			}
 		}
-		return null;
+		return dtos;
 	}
 
 	private DiscDTO convertDisctoDiscDTO(Disc d) {

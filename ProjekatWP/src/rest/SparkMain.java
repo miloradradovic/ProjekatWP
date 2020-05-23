@@ -224,14 +224,15 @@ public class SparkMain {
 			}
 		});
 		
-		get("SuperAdministrator/VMs/addVM/getAvailableDiscs", (req, res)->{
+		post("SuperAdministrator/VMs/addVM/getAvailableDiscs", (req, res)->{
 			res.type("application/json");
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
 				return "403 Not authorized";
 			}else {
-				OrganizationDTO dto = g.fromJson(req.body(), OrganizationDTO.class);
+				OrganizationDTO dto = new OrganizationDTO();
+				dto.setOrgName(req.body());
 				ArrayList<DiscDTO> discs = app.getAvailableDiscs(dto);
 				res.status(200);
 				return g.toJson(discs);

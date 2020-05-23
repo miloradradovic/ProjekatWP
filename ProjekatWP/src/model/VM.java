@@ -24,6 +24,10 @@ public class VM extends Resource {
 		this.activities = activities;
 	}
 
+
+
+
+
 	public String getOrganizationName() {
 		return organizationName;
 	}

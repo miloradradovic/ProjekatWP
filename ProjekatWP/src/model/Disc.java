@@ -13,15 +13,17 @@ public class Disc extends Resource {
 	public Disc() {
 		super();
 	}
-
-	public Disc(String name, String organizationName, DiscType type, int capacity, String vmName) {
+	
+	public Disc(String name, String organizationName, DiscType type, int capacity, String vmName,
+			LocalDateTime created) {
 		super(name);
 		this.organizationName = organizationName;
 		this.type = type;
 		this.capacity = capacity;
 		this.vmName = vmName;
+		this.created = created;
 	}
-	
+
 	public LocalDateTime getCreated() {
 		return created;
 	}

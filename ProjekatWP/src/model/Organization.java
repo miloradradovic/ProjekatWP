@@ -16,10 +16,10 @@ public class Organization {
 		this.resourcesNames = new ArrayList<String>();
 	}
 
-	public Organization(String name, String description, String logo, ArrayList<String> usersEmails,
+	public Organization(String orgName, String description, String logo, ArrayList<String> usersEmails,
 			ArrayList<String> resourcesNames) {
 		super();
-		this.orgName = name;
+		this.orgName = orgName;
 		this.description = description;
 		this.logo = logo;
 		this.usersEmails = usersEmails;

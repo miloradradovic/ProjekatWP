@@ -39,6 +39,8 @@ $(document).ready(function(){
 
     function fillInputs(){
 
+        $("#select_discs").attr("title", "Hold down the CTRL button and click to select");
+
         window.orgs.forEach(element =>{
             $("#select_organization")
                 .append(
@@ -46,29 +48,6 @@ $(document).ready(function(){
                         .attr("value", element.orgName)
                         .attr("label", element.orgName)
                 )
-                .change(function(){
-                    let selected = $(this).children("option:selected").val();
-                    $.ajax({
-                        url: 'getAvailableDiscs',
-                        type: 'post',
-                        data: selected,
-                        dataType: 'json',
-                        success: function(data){
-                            window.discs = data;
-                            window.discs.forEach(element => {
-                                $("#select_discs").append(
-                                    $("<option>")
-                                        .attr("label", element.resourceName)
-                                        .attr("value", element.resourceName)
-                                )
-                            })
-                        }, error: function(data){
-                            alert("UNAUTHORIZED!!!");
-                            window.location.href = "../../../login.html";
-                        }
-                    })
-                })
-
         })
         window.categories.forEach(element =>{
             $("#select_category")
@@ -77,23 +56,97 @@ $(document).ready(function(){
                         .attr("value", element.categoryName)
                         .attr("label", element.categoryName)
                 )
-                .change(function(){
-                    $("#num_of_cores_input")
-                        .attr("value", element.numberOfCores)
-                    $("#ram_input")
-                        .attr("value", element.RAM);
-                    $("#gpu_input")
-                        .attr("value", element.GPU);
-                })
         })
 
-        $("#num_of_cores_input")
-            .attr("value", window.categories[0].numberOfCores)
-        $("#ram_input")
-            .attr("value", window.categories[0].RAM);
-        $("#gpu_input")
-            .attr("value", window.categories[0].GPU);
+        $("#num_of_cores_input").attr("value", window.categories[0].numberOfCores);
+        $("#ram_input").attr("value", window.categories[0].RAM);
+        $("#gpu_input").attr("value", window.categories[0].GPU);
+
+        getAvailableDiscs(window.orgs[0].orgName);
 
     }
+
+    $("#select_category").change(function(){
+        let catname = $(this).children("option:selected").val()
+        window.categories.forEach(element =>{
+            if(element.categoryName === catname){
+                $("#num_of_cores_input")
+                    .attr("value", element.numberOfCores)
+                $("#ram_input")
+                    .attr("value", element.RAM);
+                $("#gpu_input")
+                    .attr("value", element.GPU);
+            }
+        })
+    })
+
+    $("#select_organization").change(function(){
+        let selected = $(this).children("option:selected").val();
+        $("#select_discs").empty();
+        getAvailableDiscs(selected);
+    })
+
+    function getAvailableDiscs(orgname){
+        $.ajax({
+            url: 'getAvailableDiscs',
+            type: 'post',
+            data: orgname,
+            dataType: 'json',
+            success: function(data){
+                window.discs = data;
+                window.discs.forEach(element => {
+                    $("#select_discs").append(
+                        $("<option>")
+                            .attr("label", element.resourceName)
+                            .attr("value", element.resourceName)
+                    )
+                })
+            }, error: function(data){
+                alert("UNAUTHORIZED!!!");
+                window.location.href = "../../../login.html";
+            }
+        })
+    }
+
+    $("#addVMbutton").click(function(){
+
+        if($("#vm_name_input").valid()){
+            let org_name = $("#select_organization").children("option:selected").val();
+            let vm_name = $("#vm_name_input").val();
+            let selected_category = $("#select_category").children("option:selected").val();
+            let num_of_cores = $("#num_of_cores_input").val();
+            let ram = $("#ram_input").val();
+            let gpu = $("#gpu_input").val();
+            let discs = $("#select_discs").val();
+
+            $.ajax({
+                url: 'addVM',
+                type: 'post',
+                data: JSON.stringify({
+                    resourceName: vm_name,
+                    organizationName: org_name,
+                    categoryName: selected_category,
+                    numberOfCores: num_of_cores,
+                    RAM: ram,
+                    GPU: gpu,
+                    connectedDiscs: discs
+                }),
+                dataType: 'json',
+                complete: function(response){
+                    if(response.status === 200){
+                        alert("VM successfully added!");
+                        window.location.href = "../viewVMs/viewVMs.html";
+                    }else if(response.status === 403){
+                        alert("UNAUTHORIZED!!!");
+                        window.location.href = "../../../login.html";
+                    }else{
+                        alert("VM name already taken!");
+                    }
+                }
+            })
+        }
+
+
+    })
 
 })

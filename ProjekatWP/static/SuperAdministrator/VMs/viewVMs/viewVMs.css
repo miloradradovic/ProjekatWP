@@ -6,12 +6,12 @@ body{
     margin-top: 100px;
 }
 
-tr{
+#tableVMs tr{
     color: black;
     background-color: steelblue;
 }
 
-tr:hover{
+#tableVMs tr:hover{
     background-color: lightskyblue;
 }
 

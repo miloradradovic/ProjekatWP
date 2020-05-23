@@ -20,11 +20,77 @@
 
     <div id="div_table_h2">
         <h2 id ="vm_par">Virtual machines</h2>
-
+        <button name="show" id="showsearch">Show search/filter form</button>
+        <div id="searchfilterdiv">
+            <table id="search">
+                <tr>
+                    <td>
+                        VM name:
+                    </td>
+                    <td>
+                        <input type="text" id="vm_name_search_input"/>
+                    </td>
+                </tr>
+            </table>
+            <table  id="filter">
+                <tr>
+                    <td>
+                        Number of cores:
+                    </td>
+                    <td>
+                        From:
+                    </td>
+                    <td>
+                        <input type="number" min="1" id="num_of_cores_from"/>
+                    </td>
+                    <td>
+                        To:
+                    </td>
+                    <td>
+                        <input type="number" min="1" id="num_of_cores_to"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        RAM:
+                    </td>
+                    <td>
+                        From:
+                    </td>
+                    <td>
+                        <input type="number" min="1" id="ram_from"/>
+                    </td>
+                    <td>
+                        To:
+                    </td>
+                    <td>
+                        <input type="number" min="1" id="ram_to"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        GPU:
+                    </td>
+                    <td>
+                        From:
+                    </td>
+                    <td>
+                        <input type="number" min="1" id="gpu_from"/>
+                    </td>
+                    <td>
+                        To:
+                    </td>
+                    <td>
+                        <input type="number" min="1" id="gpu_to"/>
+                    </td>
+                </tr>
+            </table>
+            <button id="search_filter_button">Submit</button>
+        </div>
 
         <table border = "1" id = "tableVMs">
             <thead>
-            <tr id = "first_row">
+            <tr>
                 <th>Name</th>
                 <th>Number of cores</th>
                 <th>RAM</th>
@@ -32,6 +98,9 @@
                 <th id = "organization">Organization</th>
             </tr>
             </thead>
+            <tbody>
+
+            </tbody>
         </table>
     </div>
     <hr>

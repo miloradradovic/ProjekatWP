@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import dto.CategoryDTO;
 import dto.DiscDTO;
 import dto.OrganizationDTO;
+import dto.SearchDTO;
 import dto.UserDTO;
 import dto.VMDTO;
 import spark.Request;
@@ -409,6 +410,155 @@ public class App {
 		}
 		dto.setVmName(d.getVmName());
 		return dto;
+	}
+
+	public ArrayList<VMDTO> searchVM(SearchDTO dto) {
+		ArrayList<String> dtoName = this.searchVMByName(dto.getVmName());
+		ArrayList<String> dtoCore = this.searchVMByNumOfCores(dto.getCoresFrom(), dto.getCoresTo());
+		ArrayList<String> dtoRAM = this.searchVMByRAM(dto.getRamFrom(), dto.getRamTo());
+		ArrayList<String> dtoGPU = this.searchVMByGPU(dto.getGpuFrom(), dto.getGpuTo());		
+		
+		ArrayList<VMDTO> result = new ArrayList<VMDTO>();
+		
+		for(String vmname : dtoName) {
+			if(dtoCore.contains(vmname) && dtoRAM.contains(vmname) && dtoGPU.contains(vmname)) {
+				VMDTO vmdto = this.convertVMtoVMDTO(this.findVMByName(vmname));
+				result.add(vmdto);
+			}
+		}
+		
+		return result;
+	}
+
+	private ArrayList<String> searchVMByGPU(int gpuFrom, int gpuTo) {
+		ArrayList<String> result = new ArrayList<String>();
+		
+		if(gpuFrom <= 0 && gpuTo <= 0) {
+			for(VM vm : this.vms) {
+				VMDTO dto = this.convertVMtoVMDTO(vm);
+				result.add(dto.getResourceName());
+			}
+		}else if(gpuFrom <= 0 && gpuTo >= 0) {
+			for(VM vm : this.vms) {
+				CategoryVM c = this.findCatByName(vm.getCategoryName());
+				if(c.getNumberOfCores() <= gpuTo) {
+					VMDTO dto = this.convertVMtoVMDTO(vm);
+					result.add(dto.getResourceName());
+				}
+			}
+		}else if(gpuFrom >= 0 && gpuTo <= 0) {
+			for (VM vm : this.vms) {
+				CategoryVM c = this.findCatByName(vm.getCategoryName());
+				if(c.getNumberOfCores() >= gpuFrom) {
+					VMDTO dto = this.convertVMtoVMDTO(vm);
+					result.add(dto.getResourceName());
+				}
+			}
+		}else {
+			for(VM vm : this.vms) {
+				CategoryVM c = this.findCatByName(vm.getCategoryName());
+				if(c.getNumberOfCores() >= gpuFrom && c.getNumberOfCores() <= gpuTo) {
+					VMDTO dto = this.convertVMtoVMDTO(vm);
+					result.add(dto.getResourceName());
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	private ArrayList<String> searchVMByRAM(int ramFrom, int ramTo) {
+		ArrayList<String> result = new ArrayList<String>();
+		
+		if(ramFrom <= 0 && ramTo <= 0) {
+			for(VM vm : this.vms) {
+				VMDTO dto = this.convertVMtoVMDTO(vm);
+				result.add(dto.getResourceName());
+			}
+		}else if(ramFrom <= 0 && ramTo >= 0) {
+			for(VM vm : this.vms) {
+				CategoryVM c = this.findCatByName(vm.getCategoryName());
+				if(c.getNumberOfCores() <= ramTo) {
+					VMDTO dto = this.convertVMtoVMDTO(vm);
+					result.add(dto.getResourceName());
+				}
+			}
+		}else if(ramFrom >= 0 && ramTo <= 0) {
+			for (VM vm : this.vms) {
+				CategoryVM c = this.findCatByName(vm.getCategoryName());
+				if(c.getNumberOfCores() >= ramFrom) {
+					VMDTO dto = this.convertVMtoVMDTO(vm);
+					result.add(dto.getResourceName());
+				}
+			}
+		}else {
+			for(VM vm : this.vms) {
+				CategoryVM c = this.findCatByName(vm.getCategoryName());
+				if(c.getNumberOfCores() >= ramFrom && c.getNumberOfCores() <= ramTo) {
+					VMDTO dto = this.convertVMtoVMDTO(vm);
+					result.add(dto.getResourceName());
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	private ArrayList<String> searchVMByNumOfCores(int coresFrom, int coresTo) {
+		ArrayList<String> result = new ArrayList<String>();
+		
+		if(coresFrom <= 0 && coresTo <= 0) {
+			for(VM vm : this.vms) {
+				VMDTO dto = this.convertVMtoVMDTO(vm);
+				result.add(dto.getResourceName());
+			}
+		}else if(coresFrom <= 0 && coresTo >= 0) {
+			for(VM vm : this.vms) {
+				CategoryVM c = this.findCatByName(vm.getCategoryName());
+				if(c.getNumberOfCores() <= coresTo) {
+					VMDTO dto = this.convertVMtoVMDTO(vm);
+					result.add(dto.getResourceName());
+				}
+			}
+		}else if(coresFrom >= 0 && coresTo <= 0) {
+			for (VM vm : this.vms) {
+				CategoryVM c = this.findCatByName(vm.getCategoryName());
+				if(c.getNumberOfCores() >= coresFrom) {
+					VMDTO dto = this.convertVMtoVMDTO(vm);
+					result.add(dto.getResourceName());
+				}
+			}
+		}else {
+			for(VM vm : this.vms) {
+				CategoryVM c = this.findCatByName(vm.getCategoryName());
+				if(c.getNumberOfCores() >= coresFrom && c.getNumberOfCores() <= coresTo) {
+					VMDTO dto = this.convertVMtoVMDTO(vm);
+					result.add(dto.getResourceName());
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	private ArrayList<String> searchVMByName(String vmName) {
+		ArrayList<String> result = new ArrayList<String>();
+		
+		if(vmName.equals("")) {
+			for(VM vm : this.vms) {
+				VMDTO dto = this.convertVMtoVMDTO(vm);
+				result.add(dto.getResourceName());
+			}
+		}else {
+			for(VM vm : this.vms) {
+				if(vm.getResourceName().equals(vmName)) {
+					VMDTO dto = this.convertVMtoVMDTO(vm);
+					result.add(dto.getResourceName());
+				}
+			}
+		}
+	
+		return result;
 	}
 	
 }

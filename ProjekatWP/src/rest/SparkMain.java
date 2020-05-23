@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import dto.CategoryDTO;
 import dto.DiscDTO;
 import dto.OrganizationDTO;
+import dto.SearchDTO;
 import dto.UserDTO;
 import dto.VMDTO;
 import model.App;
@@ -236,6 +237,20 @@ public class SparkMain {
 				ArrayList<DiscDTO> discs = app.getAvailableDiscs(dto);
 				res.status(200);
 				return g.toJson(discs);
+			}
+		});
+		
+		post("SuperAdministrator/VMs/viewVMs/searchVM", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				SearchDTO dto = g.fromJson(req.body(), SearchDTO.class);
+				ArrayList<VMDTO> dtos = app.searchVM(dto);
+				res.status(200);
+				return g.toJson(dtos);
 			}
 		});
 	}

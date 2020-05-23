@@ -117,5 +117,4 @@ public class VMDTO {
 		this.activityTO = activityTO;
 	}
 
-
 }

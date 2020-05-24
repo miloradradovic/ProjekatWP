@@ -11,8 +11,11 @@ $(document).ready(function(){
             window.vm = data;
             fillInputs();
         }, error: function(data){
-            alert("UNAUTHORIZED!!!");
-            window.location.href = "../../../login.html";
+            if(data === "400 bad request"){
+                alert("Something went wrong!");
+            }else{
+                window.location.href = "../../../forbidden.html";
+            }
         }
     })
 
@@ -21,6 +24,7 @@ $(document).ready(function(){
             $("<input>")
                 .attr("type", "text")
                 .attr("id", "vm_name_input")
+                .attr("name", "vm_name_input")
                 .attr("value", window.vm.resourceName)
         )
         $("#org_td").append(
@@ -138,8 +142,7 @@ $(document).ready(function(){
                     }
                 })
             }, error: function(data){
-                alert("UNAUTHORIZED!!!");
-                window.location.href = "../../../login.html";
+                window.location.href = "../../../forbidden.html";
             }
         })
     }
@@ -196,7 +199,6 @@ $(document).ready(function(){
             let activitiesTO = [];
             $("#table_of_activities").find("tr").each(function () {
                 let tds = $(this).find("td")
-                console.log(tds);
                 if (tds.eq(0).text() !== "") {
                     activitiesFROM.push(tds.eq(0).text());
                 }
@@ -232,10 +234,9 @@ $(document).ready(function(){
                         sessionStorage.removeItem("vmedit");
                         window.location.href = "../viewVMs/viewVMs.html";
                     }else if(response.status === 400){
-                        alert("Invalid parameters!");
+                        alert("Something went wrong!");
                     }else{
-                        alert("Unauthorized!");
-                        window.location.href = "../../../login.html";
+                        window.location.href = "../../../forbidden.html";
                     }
                 }
             })
@@ -276,12 +277,13 @@ $(document).ready(function(){
             dataType: 'json',
             complete: function(response){
                 if(response.status === 200){
-                    alert("VM successfully deleted!");
                     sessionStorage.removeItem("vmedit");
                     window.location.href = "../viewVMs/viewVMs.html";
-                }else{
-                    alert("NOT AUTHORIZED!");
-                    window.location.href = "../../../login.html";
+                }else if(response.status === 400){
+                    alert("Something went wrong!");
+                }
+                else{
+                    window.location.href = "../../../forbidden.html";
                 }
             }
         })

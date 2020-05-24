@@ -10,20 +10,24 @@ body{
     background-color: #f2f2f2;
 }
 
-#login_paragraph{
-    margin-left: 100px;
-    font-size: x-large;
+.login{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
-.login{
-    margin-left: 500px;
-    margin-top: 150px;
+#login_form{
+    margin-top: 130px;
+}
+
+#formtable{
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    margin-left: auto;
+    margin-right:auto;
 }
 
 #welcome{
     margin-right: 50px;
 }
 
-#button_login{
-    margin-left: 100px;
-}

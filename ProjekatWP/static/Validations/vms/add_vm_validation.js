@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $("#add_form").validate({
+    $("#addVMForm").validate({
         rules: {
             vm_name_input: {
                 required: true

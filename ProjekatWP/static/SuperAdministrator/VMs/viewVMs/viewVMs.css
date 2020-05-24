@@ -3,7 +3,31 @@ body{
 }
 
 #div_table_h2{
+    text-align: center;
     margin-top: 100px;
+}
+
+#addbuttondiv{
+    text-align: center;
+}
+
+#searchfilterdiv{
+    text-align: center;
+}
+
+#search{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#filter{
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#tableVMs{
+    margin-right: auto;
+    margin-left: auto;
 }
 
 #tableVMs tr{

@@ -26,14 +26,12 @@ $(document).ready(function(){
                             fillInputs();
                         }
                     }, error: function(data){
-                        alert("UNAUTHORIZED!!!");
-                        window.location.href = "../../../login.html";
+                        window.location.href = "../../../forbidden.html";
                     }
                 })
             }
         }, error(data){
-            alert("UNAUTHORIZED!!!");
-            window.location.href = "../../../login.html";
+            window.location.href = "../../../forbidden.html";
         }
     })
 
@@ -102,8 +100,11 @@ $(document).ready(function(){
                     )
                 })
             }, error: function(data){
-                alert("UNAUTHORIZED!!!");
-                window.location.href = "../../../login.html";
+                if(data === "400 bad request"){
+                    alert("Something went wrong!");
+                }else{
+                    window.location.href = "../../../forbidden.html";
+                }
             }
         })
     }
@@ -137,10 +138,9 @@ $(document).ready(function(){
                         alert("VM successfully added!");
                         window.location.href = "../viewVMs/viewVMs.html";
                     }else if(response.status === 403){
-                        alert("UNAUTHORIZED!!!");
-                        window.location.href = "../../../login.html";
+                        window.location.href = "../../../forbidden.html";
                     }else{
-                        alert("VM name already taken!");
+                        alert("Something went wrong!");
                     }
                 }
             })

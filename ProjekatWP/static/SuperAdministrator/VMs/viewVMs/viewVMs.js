@@ -2,29 +2,18 @@ let vms = [];
 $(document).ready(function() {
 
     $("#searchfilterdiv").hide();
+
     $.ajax({
-        url: 'getCurrentUser',
+        url: 'getVMs',
         type: 'get',
-        dataType: 'json',
-        complete: function(response){
-            if(response.status === 200){
-                $.ajax({
-                    url: 'getVMs',
-                    type: 'get',
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function(data){
-                        window.vms = data;
-                        updateTable();
-                    },error: function(data){
-                        alert("UNAUTHORIZED!");
-                        window.location.href = "../../../login.html";
-                    }
-                })
-            }else if(response.status === 403){
-                alert("UNAUTHORIZED!!!");
-                window.location.href = "../../../login.html";
-            }
+        contentType: "application/json",
+        dataType: "json",
+        success: function(data){
+            window.vms = data;
+            updateTable();
+            },
+        error: function(data){
+            window.location.href = "../../../forbidden.html";
         }
     })
 
@@ -110,8 +99,11 @@ $(document).ready(function() {
                 window.vms = data;
                 updateTable();
             },error: function(data){
-                alert("UNAUTHORIZED!!!");
-                window.location.href = "../../../login.html";
+                if(data === "400 bad request"){
+                    alert("Something went wrong!");
+                }else{
+                    window.location.href = "../../../forbidden.html";
+                }
             }
         })
     })

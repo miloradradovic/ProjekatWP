@@ -1,5 +1,21 @@
 $(document).ready(function(){
 
+
+    $.ajax({
+        url: 'getCurrentUser',
+        type: 'get',
+        dataType: 'json',
+        complete: function(response){
+            if(response.responseText === "1"){
+                window.location.href = "User/VMs/viewVMs/viewVMs.html";
+            }else if(response.responseText === "2"){
+                window.location.href = "Administrator/VMs/viewVMs/viewVMs.html";
+            }else if(response.responseText === "3"){
+                window.location.href = "SuperAdministrator/VMs/viewVMs/viewVMs.html";
+            }
+        }
+    })
+
     $("#button_login").click(function(){
         login();
     })
@@ -29,7 +45,7 @@ $(document).ready(function(){
                             window.location.href = "User/VMs/viewVMs/viewVMs.html";
                         }
                     } else if (response.status === 400) {
-                        alert("User does not exist!");
+                        alert("Something went wrong!");
                     }
                 }
             })

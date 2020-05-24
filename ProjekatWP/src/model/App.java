@@ -228,27 +228,36 @@ public class App {
 		return null;
 	}
 
-	public void deleteVM(String vmName) {
+	public int deleteVM(String vmName) {
 		
+		int found = 0;
 		for(VM vm : this.getVms()) {
 			if(vm.getResourceName().equals(vmName)) {
 				this.getVms().remove(vm);
+				found = 1;
 				break;
 			}
+		}
+		if(found == 0) {
+			return found;
 		}
 		
 		for(Disc d : this.getDiscs()) {
 			if(d.getVmName().equals(vmName)) {
+				found = 1;
 				d.setVmName("");
 			}
 		}
-		
+		if(found == 0) {
+			return found;
+		}
 		for(Organization o : this.getOrganizations()) {
 			if(o.getResourcesNames().contains(vmName)) {
+				found = 1;
 				o.getResourcesNames().remove(vmName);
 			}
 		}
-		
+		return found;
 	}
 
 	public ArrayList<VMDTO> getVMDTOs(User currentLoggedInUser) {
@@ -279,43 +288,61 @@ public class App {
 		}
 	}
 
-	public void editVM(VMDTO vmdto) {
+	public int editVM(VMDTO vmdto) {
 		
+		int found = 0;
 		for(VM vm : this.getVms()) {
 			if(vm.getResourceName().equals(vmdto.getOldResourceName())) {
+				found = 1;
+				CategoryVM c = this.findCatByName(vmdto.getCategoryName());
+				if(c == null) {
+					return 0;
+				}
+				ArrayList<Activity> activities = new ArrayList<Activity>();
+				try {
+					for(int i = 0; i < vmdto.getActivityFROM().size(); i++) {
+						Activity a = new Activity();
+						a.setFrom(LocalDateTime.parse(vmdto.getActivityFROM().get(i), dtf));
+						if(vmdto.getActivityTO().get(i).equals("")) {
+							a.setTo(null);
+						}else {
+							a.setTo(LocalDateTime.parse(vmdto.getActivityTO().get(i), dtf));
+						}
+						activities.add(a);
+					}
+					vm.setActivities(activities);
+				}catch(Exception e) {
+					return 0;
+				}
 				vm.setCategoryName(vmdto.getCategoryName());
 				vm.setConnectedDiscs(vmdto.getConnectedDiscs());
 				vm.setResourceName(vmdto.getResourceName());
-				ArrayList<Activity> activities = new ArrayList<Activity>();
-				
-				for(int i = 0; i < vmdto.getActivityFROM().size(); i++) {
-					Activity a = new Activity();
-					a.setFrom(LocalDateTime.parse(vmdto.getActivityFROM().get(i), dtf));
-					if(vmdto.getActivityTO().get(i).equals("")) {
-						a.setTo(null);
-					}else {
-						a.setTo(LocalDateTime.parse(vmdto.getActivityTO().get(i), dtf));
-					}
-					activities.add(a);
-				}
-				vm.setActivities(activities);
 				
 			}
+		}
+		if(found == 0) {
+			return found;
 		}
 		
 		for(Disc d : this.getDiscs()) {
 			if(d.getVmName().equals(vmdto.getOldResourceName())) {
+				found = 1;
 				d.setVmName(vmdto.getResourceName());
 			}
+		}
+		if(found == 0) {
+			return found;
 		}
 		
 		for(Organization o : this.getOrganizations()) {
 			for(String name : o.getResourcesNames()) {
 				if(name.equals(vmdto.getOldResourceName())) {
+					found = 1;
 					name = vmdto.getOldResourceName();
 				}
 			}
 		}
+		return found;
 		
 	}
 
@@ -347,7 +374,8 @@ public class App {
 		return dto;
 	}
 
-	public void addVM(VMDTO dto) {
+	public int addVM(VMDTO dto) {
+		int flag = 0;
 		VM vm = new VM();
 		vm.setResourceName(dto.getResourceName());
 		vm.setOrganizationName(dto.getOrganizationName());
@@ -356,22 +384,29 @@ public class App {
 		ArrayList<Activity> activities = new ArrayList<Activity>();
 		vm.setActivities(activities);
 		
-		this.vms.add(vm);
 		
 		for(Organization o : this.organizations) {
 			if(o.getOrgName().equals(dto.getOrganizationName())) {
+				flag = 1;
 				o.getResourcesNames().add(dto.getResourceName());
 				break;
 			}
 		}
-		
+		if(flag == 0) {
+			return flag;
+		}
 		for(Disc d : this.discs) {
 			if(dto.getConnectedDiscs().contains(d.getResourceName())) {
 				d.setVmName(dto.getResourceName());
+				flag = 1;
 			}
 		}
+		if(flag == 0) {
+			return flag;
+		}
+		this.vms.add(vm);
+		return flag;
 	}
-
 
 	public OrganizationDTO convertOrgtoOrgDTO(Organization o) {
 		
@@ -383,7 +418,6 @@ public class App {
 		dto.setUsersEmails(o.getResourcesNames());
 		return dto;
 	}
-
 
 	public ArrayList<DiscDTO> getAvailableDiscs(OrganizationDTO dto) {
 		ArrayList<DiscDTO> dtos = new ArrayList<DiscDTO>();

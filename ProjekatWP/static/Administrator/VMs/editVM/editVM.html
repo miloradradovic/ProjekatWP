@@ -2,11 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit VM</title>
+    <link rel="stylesheet" href="editVM.css">
     <script type = "text/javascript" src="../../../jquery.js"></script>
+    <script type = "text/javascript" src="../../../jquery.validate.js"></script>
+    <script type = "text/javascript" src="../../../Validations/vms/edit_vm_validation.js"></script>
     <script type = "text/javascript" src="editVM.js"></script>
 </head>
 <body>
 
+<div id="profilediv">
+    <a href = "../../Profile/editProfile/editProfile.html">Profile</a>
+    <br>
+    <a href = "../../../logout.html">Log out</a>
+</div>
+<div class="topnav">
+    <a title="View all virtual machines" class="active" href="../viewVMs/viewVMs.html">Virtual machines</a>
+    <a title="View all categories" href="../../Categories/viewCategories/viewCategories.html">Categories</a>
+    <a title="View all discs" href="../../Discs/viewDiscs/viewDiscs.html">Discs</a>
+    <a title="View all organizations" href="../../Organizations/viewOrganizations/viewOrganizations.html">Organizations</a>
+    <a title="View all users" href="../../Users/viewUsers/viewUsers.html">Users</a>
+</div>
+
+<h2 style="text-align: center">Edit VM</h2>
+
+<div id = "edit_form_div">
+    <form id = "edit_form">
+
+        <table id="edit_labels">
+            <tr>
+                <td align="left">VM name: </td>
+                <td align="left" id="vm_td"></td>
+            </tr>
+            <tr>
+                <td align="left">Organization: </td>
+                <td align="left" id="org_td"></td>
+            </tr>
+            <tr>
+                <td align="left">Category: </td>
+                <td align="left" id="cat_td"></td>
+            </tr>
+            <tr>
+                <td align="left">Number of cores: </td>
+                <td align="left" id="cores_td"></td>
+            </tr>
+            <tr>
+                <td align="left">RAM: </td>
+                <td align="left" id="ram_td"></td>
+            </tr>
+            <tr>
+                <td align="left">GPU: </td>
+                <td align="left" id="gpu_td"></td>
+            </tr>
+            <tr>
+                <td align="left">Connected discs: </td>
+                <td align="left" id="discs_td"></td>
+            </tr>
+        </table>
+
+        <label id = "dates">Dates: </label>
+        <table id = "table_of_activities" border="1">
+            <thead>
+            <th align = "center">Date when turned on</th>
+            <th align = "center">Date when turned off</th>
+            </thead>
+        </table>
+
+    </form>
+
+    <button id = "turn_onoff" name = "on">Turn on</button>
+    <br><br><br><br>
+    <button id = "edit_button">Edit</button>
+    <button id = "delete_button">Delete</button>
+
+</div>
 </body>
 </html>

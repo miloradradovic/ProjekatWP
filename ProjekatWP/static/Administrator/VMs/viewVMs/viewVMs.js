@@ -35,8 +35,6 @@ $(document).ready(function() {
                     .text(element.RAM))
                 .append($("<td>")
                     .text(element.GPU))
-                .append($("<td>")
-                    .text(element.organizationName))
             )
         })
     }

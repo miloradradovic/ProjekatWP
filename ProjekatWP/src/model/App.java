@@ -34,7 +34,7 @@ public class App {
 	}
 
 	private void generateTests() {
-		User u = new User("mico@super.com", "milorad123", "ime", "prezime", "", UserType.SuperAdmin);
+		User u = new User("mico@super.com", "milorad123", "ime", "prezime", "org1", UserType.Admin);
 		this.users.add(u);
 		Disc d1 = new Disc("d1", "org1", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
 		Disc d2 = new Disc("d2", "org1", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
@@ -81,8 +81,10 @@ public class App {
 		ArrayList<String> resources4 = new ArrayList<String>();
 		resources4.add(d5.getResourceName());
 		ArrayList<String> resources5 = new ArrayList<String>();
+		ArrayList<String> userEmails = new ArrayList<String>();
+		userEmails.add(u.getEmail());
 		
-		Organization o1 = new Organization("org1", "opis1", "logo1", new ArrayList<String>(), resources1);
+		Organization o1 = new Organization("org1", "opis1", "logo1", userEmails, resources1);
 		Organization o2 = new Organization("org2", "opis2", "logo2", new ArrayList<String>(), resources2);
 		Organization o3 = new Organization("org3", "opis3", "logo3", new ArrayList<String>(), resources3);
 		Organization o4 = new Organization("org4", "opis4", "logo4", new ArrayList<String>(), resources4);
@@ -275,14 +277,21 @@ public class App {
 			}
 			return vmdto;
 		}else {
-			for(VM vm : this.getVms()) {
-				VMDTO dto = new VMDTO();
-				CategoryVM c = this.findCatByName(vm.getCategoryName());
-				dto.setGPU(c.getGPU());
-				dto.setNumberOfCores(c.getNumberOfCores());
-				dto.setRAM(c.getRAM());
-				dto.setResourceName(vm.getResourceName());
-				vmdto.add(dto);
+			for(Organization o : this.getOrganizations()) {
+				if(o.getUsersEmails().contains(currentLoggedInUser.getEmail())) {
+					for(VM vm : this.getVms()) {
+						if(o.getResourcesNames().contains(vm.getResourceName())) {
+							VMDTO dto = new VMDTO();
+							CategoryVM c = this.findCatByName(vm.getCategoryName());
+							dto.setGPU(c.getGPU());
+							dto.setNumberOfCores(c.getNumberOfCores());
+							dto.setOrganizationName(vm.getOrganizationName());
+							dto.setRAM(c.getRAM());
+							dto.setResourceName(vm.getResourceName());
+							vmdto.add(dto);
+						}
+					}
+				}
 			}
 			return vmdto;
 		}
@@ -446,11 +455,12 @@ public class App {
 		return dto;
 	}
 
-	public ArrayList<VMDTO> searchVM(SearchDTO dto) {
-		ArrayList<String> dtoName = this.searchVMByName(dto.getVmName());
-		ArrayList<String> dtoCore = this.searchVMByNumOfCores(dto.getCoresFrom(), dto.getCoresTo());
-		ArrayList<String> dtoRAM = this.searchVMByRAM(dto.getRamFrom(), dto.getRamTo());
-		ArrayList<String> dtoGPU = this.searchVMByGPU(dto.getGpuFrom(), dto.getGpuTo());		
+	public ArrayList<VMDTO> searchVM(SearchDTO dto, User user) {
+		ArrayList<String> dtoName = this.searchVMByName(dto.getVmName(), user);
+		ArrayList<String> dtoCore = this.searchVMByNumOfCores(dto.getCoresFrom(), dto.getCoresTo(), user);
+		ArrayList<String> dtoRAM = this.searchVMByRAM(dto.getRamFrom(), dto.getRamTo(), user);
+		ArrayList<String> dtoGPU = this.searchVMByGPU(dto.getGpuFrom(), dto.getGpuTo(), user);		
+		
 		
 		ArrayList<VMDTO> result = new ArrayList<VMDTO>();
 		
@@ -464,36 +474,85 @@ public class App {
 		return result;
 	}
 
-	private ArrayList<String> searchVMByGPU(int gpuFrom, int gpuTo) {
+	private ArrayList<String> searchVMByGPU(int gpuFrom, int gpuTo, User user) {
 		ArrayList<String> result = new ArrayList<String>();
 		
 		if(gpuFrom <= 0 && gpuTo <= 0) {
-			for(VM vm : this.vms) {
-				VMDTO dto = this.convertVMtoVMDTO(vm);
-				result.add(dto.getResourceName());
-			}
-		}else if(gpuFrom <= 0 && gpuTo >= 0) {
-			for(VM vm : this.vms) {
-				CategoryVM c = this.findCatByName(vm.getCategoryName());
-				if(c.getNumberOfCores() <= gpuTo) {
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for(VM vm : this.vms) {
 					VMDTO dto = this.convertVMtoVMDTO(vm);
 					result.add(dto.getResourceName());
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm: this.vms) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}
+		}else if(gpuFrom <= 0 && gpuTo >= 0) {
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for(VM vm : this.vms) {
+					CategoryVM c = this.findCatByName(vm.getCategoryName());
+					if(c.getGPU() <= gpuTo) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm : this.vms) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						CategoryVM c = this.findCatByName(vm.getCategoryName());
+						if(c.getGPU() <= gpuTo) {
+							VMDTO dto = this.convertVMtoVMDTO(vm);
+							result.add(dto.getResourceName());
+						}
+					}
 				}
 			}
 		}else if(gpuFrom >= 0 && gpuTo <= 0) {
-			for (VM vm : this.vms) {
-				CategoryVM c = this.findCatByName(vm.getCategoryName());
-				if(c.getNumberOfCores() >= gpuFrom) {
-					VMDTO dto = this.convertVMtoVMDTO(vm);
-					result.add(dto.getResourceName());
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for (VM vm : this.vms) {
+					CategoryVM c = this.findCatByName(vm.getCategoryName());
+					if(c.getGPU() >= gpuFrom) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm : this.getVms()) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						CategoryVM c = this.findCatByName(vm.getCategoryName());
+						if(c.getGPU() >= gpuFrom) {
+							VMDTO dto = this.convertVMtoVMDTO(vm);
+							result.add(dto.getResourceName());
+						}
+					}
 				}
 			}
 		}else {
-			for(VM vm : this.vms) {
-				CategoryVM c = this.findCatByName(vm.getCategoryName());
-				if(c.getNumberOfCores() >= gpuFrom && c.getNumberOfCores() <= gpuTo) {
-					VMDTO dto = this.convertVMtoVMDTO(vm);
-					result.add(dto.getResourceName());
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for(VM vm : this.vms) {
+					CategoryVM c = this.findCatByName(vm.getCategoryName());
+					if(c.getGPU() >= gpuFrom && c.getGPU() <= gpuTo) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm :  this.vms) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						CategoryVM c = this.findCatByName(vm.getCategoryName());
+						if(c.getGPU() >= gpuFrom && c.getGPU() <= gpuTo) {
+							VMDTO dto = this.convertVMtoVMDTO(vm);
+							result.add(dto.getResourceName());
+						}
+					}
 				}
 			}
 		}
@@ -501,36 +560,85 @@ public class App {
 		return result;
 	}
 
-	private ArrayList<String> searchVMByRAM(int ramFrom, int ramTo) {
+	private ArrayList<String> searchVMByRAM(int ramFrom, int ramTo, User user) {
 		ArrayList<String> result = new ArrayList<String>();
 		
 		if(ramFrom <= 0 && ramTo <= 0) {
-			for(VM vm : this.vms) {
-				VMDTO dto = this.convertVMtoVMDTO(vm);
-				result.add(dto.getResourceName());
-			}
-		}else if(ramFrom <= 0 && ramTo >= 0) {
-			for(VM vm : this.vms) {
-				CategoryVM c = this.findCatByName(vm.getCategoryName());
-				if(c.getNumberOfCores() <= ramTo) {
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for(VM vm : this.vms) {
 					VMDTO dto = this.convertVMtoVMDTO(vm);
 					result.add(dto.getResourceName());
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm: this.vms) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}
+		}else if(ramFrom <= 0 && ramTo >= 0) {
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for(VM vm : this.vms) {
+					CategoryVM c = this.findCatByName(vm.getCategoryName());
+					if(c.getRAM() <= ramTo) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm : this.vms) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						CategoryVM c = this.findCatByName(vm.getCategoryName());
+						if(c.getRAM() <= ramTo) {
+							VMDTO dto = this.convertVMtoVMDTO(vm);
+							result.add(dto.getResourceName());
+						}
+					}
 				}
 			}
 		}else if(ramFrom >= 0 && ramTo <= 0) {
-			for (VM vm : this.vms) {
-				CategoryVM c = this.findCatByName(vm.getCategoryName());
-				if(c.getNumberOfCores() >= ramFrom) {
-					VMDTO dto = this.convertVMtoVMDTO(vm);
-					result.add(dto.getResourceName());
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for (VM vm : this.vms) {
+					CategoryVM c = this.findCatByName(vm.getCategoryName());
+					if(c.getRAM() >= ramFrom) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm : this.getVms()) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						CategoryVM c = this.findCatByName(vm.getCategoryName());
+						if(c.getRAM() >= ramFrom) {
+							VMDTO dto = this.convertVMtoVMDTO(vm);
+							result.add(dto.getResourceName());
+						}
+					}
 				}
 			}
 		}else {
-			for(VM vm : this.vms) {
-				CategoryVM c = this.findCatByName(vm.getCategoryName());
-				if(c.getNumberOfCores() >= ramFrom && c.getNumberOfCores() <= ramTo) {
-					VMDTO dto = this.convertVMtoVMDTO(vm);
-					result.add(dto.getResourceName());
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for(VM vm : this.vms) {
+					CategoryVM c = this.findCatByName(vm.getCategoryName());
+					if(c.getRAM() >= ramFrom && c.getRAM() <= ramTo) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm :  this.vms) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						CategoryVM c = this.findCatByName(vm.getCategoryName());
+						if(c.getRAM() >= ramFrom && c.getRAM() <= ramTo) {
+							VMDTO dto = this.convertVMtoVMDTO(vm);
+							result.add(dto.getResourceName());
+						}
+					}
 				}
 			}
 		}
@@ -538,36 +646,85 @@ public class App {
 		return result;
 	}
 
-	private ArrayList<String> searchVMByNumOfCores(int coresFrom, int coresTo) {
+	private ArrayList<String> searchVMByNumOfCores(int coresFrom, int coresTo, User user) {
 		ArrayList<String> result = new ArrayList<String>();
 		
 		if(coresFrom <= 0 && coresTo <= 0) {
-			for(VM vm : this.vms) {
-				VMDTO dto = this.convertVMtoVMDTO(vm);
-				result.add(dto.getResourceName());
-			}
-		}else if(coresFrom <= 0 && coresTo >= 0) {
-			for(VM vm : this.vms) {
-				CategoryVM c = this.findCatByName(vm.getCategoryName());
-				if(c.getNumberOfCores() <= coresTo) {
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for(VM vm : this.vms) {
 					VMDTO dto = this.convertVMtoVMDTO(vm);
 					result.add(dto.getResourceName());
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm: this.vms) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}
+		}else if(coresFrom <= 0 && coresTo >= 0) {
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for(VM vm : this.vms) {
+					CategoryVM c = this.findCatByName(vm.getCategoryName());
+					if(c.getNumberOfCores() <= coresTo) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm : this.vms) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						CategoryVM c = this.findCatByName(vm.getCategoryName());
+						if(c.getNumberOfCores() <= coresTo) {
+							VMDTO dto = this.convertVMtoVMDTO(vm);
+							result.add(dto.getResourceName());
+						}
+					}
 				}
 			}
 		}else if(coresFrom >= 0 && coresTo <= 0) {
-			for (VM vm : this.vms) {
-				CategoryVM c = this.findCatByName(vm.getCategoryName());
-				if(c.getNumberOfCores() >= coresFrom) {
-					VMDTO dto = this.convertVMtoVMDTO(vm);
-					result.add(dto.getResourceName());
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for (VM vm : this.vms) {
+					CategoryVM c = this.findCatByName(vm.getCategoryName());
+					if(c.getNumberOfCores() >= coresFrom) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm : this.getVms()) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						CategoryVM c = this.findCatByName(vm.getCategoryName());
+						if(c.getNumberOfCores() >= coresFrom) {
+							VMDTO dto = this.convertVMtoVMDTO(vm);
+							result.add(dto.getResourceName());
+						}
+					}
 				}
 			}
 		}else {
-			for(VM vm : this.vms) {
-				CategoryVM c = this.findCatByName(vm.getCategoryName());
-				if(c.getNumberOfCores() >= coresFrom && c.getNumberOfCores() <= coresTo) {
-					VMDTO dto = this.convertVMtoVMDTO(vm);
-					result.add(dto.getResourceName());
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for(VM vm : this.vms) {
+					CategoryVM c = this.findCatByName(vm.getCategoryName());
+					if(c.getNumberOfCores() >= coresFrom && c.getNumberOfCores() <= coresTo) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm :  this.vms) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						CategoryVM c = this.findCatByName(vm.getCategoryName());
+						if(c.getNumberOfCores() >= coresFrom && c.getNumberOfCores() <= coresTo) {
+							VMDTO dto = this.convertVMtoVMDTO(vm);
+							result.add(dto.getResourceName());
+						}
+					}
 				}
 			}
 		}
@@ -575,19 +732,39 @@ public class App {
 		return result;
 	}
 
-	private ArrayList<String> searchVMByName(String vmName) {
+	private ArrayList<String> searchVMByName(String vmName, User user) {
 		ArrayList<String> result = new ArrayList<String>();
 		
 		if(vmName.equals("")) {
-			for(VM vm : this.vms) {
-				VMDTO dto = this.convertVMtoVMDTO(vm);
-				result.add(dto.getResourceName());
-			}
-		}else {
-			for(VM vm : this.vms) {
-				if(vm.getResourceName().equals(vmName)) {
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for(VM vm : this.vms) {
 					VMDTO dto = this.convertVMtoVMDTO(vm);
 					result.add(dto.getResourceName());
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm : this.vms) {
+					if(o.getResourcesNames().contains(vm.getResourceName())) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}
+		}else {
+			if(user.getUserType() == UserType.SuperAdmin) {
+				for(VM vm : this.vms) {
+					if(vm.getResourceName().equals(vmName)) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
+				}
+			}else {
+				Organization o = this.findOrgByName(user.getOrganizationName());
+				for(VM vm : this.vms) {
+					if(o.getResourcesNames().contains(vm.getResourceName()) && vm.getResourceName().equals(vmName)) {
+						VMDTO dto = this.convertVMtoVMDTO(vm);
+						result.add(dto.getResourceName());
+					}
 				}
 			}
 		}

@@ -100,6 +100,20 @@ public class SparkMain {
 			}
 		});
 		
+		//getting VMs of the current logged in ADMINISTRATOR
+		get("Administrator/VMs/viewVMs/getVMs", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				res.status(200);
+				ArrayList<VMDTO> vms = app.getVMDTOs(app.getCurrentLoggedInUser(req));
+				return g.toJson(vms);
+			}
+		});
+		
 		//deleting VM SUPERADMIN
 		post("SuperAdministrator/VMs/editVM/deleteVM", (req, res)->{
 			res.type("application/json");
@@ -290,7 +304,25 @@ public class SparkMain {
 			}else {
 				try {
 					SearchDTO dto = g.fromJson(req.body(), SearchDTO.class);
-					ArrayList<VMDTO> dtos = app.searchVM(dto);
+					ArrayList<VMDTO> dtos = app.searchVM(dto, app.getCurrentLoggedInUser(req));
+					res.status(200);
+					return g.toJson(dtos);
+				}catch(Exception e) {
+					res.status(400);
+					return "400 bad request";
+				}
+			}
+		});
+		
+		post("Administrator/VMs/viewVMs/searchVM", (req, res)->{
+			res.type("application/json");
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				try {
+					SearchDTO dto = g.fromJson(req.body(), SearchDTO.class);
+					ArrayList<VMDTO> dtos = app.searchVM(dto, app.getCurrentLoggedInUser(req));
 					res.status(200);
 					return g.toJson(dtos);
 				}catch(Exception e) {

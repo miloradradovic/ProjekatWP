@@ -409,12 +409,9 @@ public class App {
 		for(Disc d : this.discs) {
 			if(dto.getConnectedDiscs().contains(d.getResourceName())) {
 				d.setVmName(dto.getResourceName());
-				flag = 1;
 			}
 		}
-		if(flag == 0) {
-			return flag;
-		}
+		
 		this.vms.add(vm);
 		return flag;
 	}
@@ -772,6 +769,18 @@ public class App {
 		}
 	
 		return result;
+	}
+
+	public ArrayList<DiscDTO> getDiscs(User currentLoggedInUser) {
+		Organization o = this.findOrgByName(currentLoggedInUser.getOrganizationName());
+		ArrayList<DiscDTO> dtos = new ArrayList<DiscDTO>();
+		for(Disc d : this.discs) {
+			if(o.getResourcesNames().contains(d.getResourceName())) {
+				DiscDTO dto = this.convertDisctoDiscDTO(d);
+				dtos.add(dto);
+			}
+		}
+		return dtos;
 	}
 	
 }

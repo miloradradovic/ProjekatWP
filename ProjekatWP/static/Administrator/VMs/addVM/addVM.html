@@ -2,11 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add VM</title>
+    <link rel="stylesheet" href="addVM.css">
     <script type = "text/javascript" src="../../../jquery.js"></script>
+    <script type = "text/javascript" src="../../../jquery.validate.js"></script>
+    <script type = "text/javascript" src="../../../Validations/vms/add_vm_validation.js"></script>
     <script type = "text/javascript" src="addVM.js"></script>
 </head>
 <body>
+
+<div id="profilediv">
+    <a href = "../../Profile/editProfile/editProfile.html">Profile</a>
+    <br>
+    <a href = "../../../logout.html">Log out</a>
+</div>
+<div class="topnav">
+    <a title="View all virtual machines" class="active" href="../viewVMs/viewVMs.html">Virtual machines</a>
+    <a title="View your organization" href="../../Organizations/editOrganization/editOrganization.html">Organization</a>
+    <a title="View all discs" href="../../Discs/viewDiscs/viewDiscs.html">Discs</a>
+    <a title="View all users" href="../../Users/viewUsers/viewUsers.html">Users</a>
+    <a title="View monthly cost" href="../../MonthlyCost/viewMonthlyCost/viewMonthlyCost.html">Monthly cost</a>
+</div>
+
+<h2 style="text-align: center">Add VM</h2>
+<div id = "addvmdiv">
+    <form id = "addVMForm">
+        <table id="addform">
+            <tr>
+                <td align="left">Organization: </td>
+                <td id = "org_td" align="left">
+                    <input type="text" id = "organization_input" readonly/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">VM name: </td>
+                <td align="left" id = vm_name_td>
+                    <input type="text" id="vm_name_input" name="vm_name_input"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Category: </td>
+                <td align="left" id="cat_td">
+                    <select id="select_category"></select>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Number of cores: </td>
+                <td align="left" id="cores_td">
+                    <input type="number" readonly id="num_of_cores_input"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">RAM: </td>
+                <td align="left" id="ram_td">
+                    <input type="number" readonly id="ram_input"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">GPU: </td>
+                <td align="left" id="gpu_td">
+                    <input type="number" readonly id="gpu_input"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Available discs: </td>
+                <td align="left" id = "discs_td">
+                    <select id="select_discs" multiple></select>
+                </td>
+            </tr>
+        </table>
+
+        <button id = "addVMbutton">Add VM</button>
+    </form>
+</div>
 
 </body>
 </html>

@@ -327,6 +327,34 @@ public class SparkMain {
 			}
 		});
 		
+		post("Administrator/VMs/addVM/addVM", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				try {
+					VMDTO dto = g.fromJson(req.body(), VMDTO.class);
+					if(dto.getResourceName().equals("") || dto.getCategoryName().equals("") || dto.getOrganizationName().equals("") || app.findVMByName(dto.getResourceName()) != null || dto.getRAM() <= 0 || dto.getGPU() <= 0 || dto.getNumberOfCores() <= 0) {
+						res.status(400);
+						return "400 Bad request";
+					}else {
+						int flag = app.addVM(dto);
+						if(flag == 0) {
+							res.status(400);
+							return "400 bad request";
+						}
+						res.status(200);
+						return "200 OK";
+					}
+				}catch(Exception e) {
+					res.status(400);
+					return "400 bad request";
+				}
+			}
+		});
+		
 		get("SuperAdministrator/VMs/addVM/getOrganizations", (req, res)->{
 			res.type("application/json");
 			
@@ -362,6 +390,23 @@ public class SparkMain {
 			}
 		});
 		
+		get("Administrator/VMs/addVM/getCategories", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				ArrayList<CategoryDTO> categoriesdto = new ArrayList<CategoryDTO>();
+				ArrayList<CategoryVM> categories = app.getCategories();
+				for(CategoryVM cvm : categories) {
+					CategoryDTO dto = app.convertCattoCatDTO(cvm);
+					categoriesdto.add(dto);
+				}
+				return g.toJson(categoriesdto);
+			}
+		});
+		
 		post("SuperAdministrator/VMs/addVM/getAvailableDiscs", (req, res)->{
 			res.type("application/json");
 			
@@ -384,6 +429,31 @@ public class SparkMain {
 					res.status(400);
 					return "400 bad request";
 				}
+			}
+		});
+		
+		get("Administrator/VMs/addVM/getDiscs", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				ArrayList<DiscDTO> discs = app.getDiscs(app.getCurrentLoggedInUser(req));
+				res.status(200);
+				return g.toJson(discs);
+			}
+		});
+		
+		get("Administrator/VMs/addVM/getOrganization", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				OrganizationDTO dto = app.convertOrgtoOrgDTO(app.findOrgByName(app.getCurrentLoggedInUser(req).getOrganizationName()));
+				return g.toJson(dto);
 			}
 		});
 		

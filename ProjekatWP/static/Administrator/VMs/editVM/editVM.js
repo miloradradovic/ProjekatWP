@@ -32,6 +32,7 @@ $(document).ready(function(){
         )
         $("#org_td").append(
             $("<input>")
+                .attr("readonly", true)
                 .attr("type", "text")
                 .attr("readonly", "true")
                 .attr("id", "organization_input")

@@ -9,14 +9,11 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(data){
             window.vm = data;
-            console.log("USPJESNO");
-            alert("UPRAVO ULAZIM U FILL INPUTS");
             fillInputs();
         }, error: function(data){
             if(data === "400 bad request"){
                 alert("Something went wrong!");
             }else{
-                console.log(data);
                 window.location.href = "../../../forbidden.html";
             }
         }
@@ -32,7 +29,7 @@ $(document).ready(function(){
         )
         $("#org_td").append(
             $("<input>")
-                .attr("readonly", true)
+                .attr("readonly", 'true')
                 .attr("type", "text")
                 .attr("readonly", "true")
                 .attr("id", "organization_input")
@@ -42,10 +39,7 @@ $(document).ready(function(){
             $("<select>")
                 .attr("id", "select_new_category")
                 .change(function(){
-                    console.log("USAO U METODU");
                     window.categories.forEach(element =>{
-                        console.log("SELEKTOVAO: "+$(this).children("option:selected").val())
-                        console.log("TRENUTNI: "+element.categoryName);
                         if(element.categoryName === $(this).children("option:selected").val()){
                             $("#num_of_cores_input").attr("value", element.numberOfCores);
                             $("#ram_input").attr("value", element.RAM);

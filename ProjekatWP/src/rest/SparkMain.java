@@ -278,6 +278,25 @@ public class SparkMain {
 			}
 		});
 		
+		post("User/VMs/editVM/getVMByName", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 1) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String virt = req.body();
+				VM vm = app.findVMByName(virt);
+				if(vm == null) {
+					res.status(400);
+					return "400 bad request";
+				}
+				VMDTO dto = app.convertVMtoVMDTO(vm);
+				res.status(200);
+				return g.toJson(dto);
+			}
+		});
+		
 		get("SuperAdministrator/VMs/editVM/getCategories",(req, res)->{
 			res.type("application/json");
 			

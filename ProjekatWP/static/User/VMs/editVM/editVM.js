@@ -25,7 +25,7 @@ $(document).ready(function(){
     function fillInputs(){
         $("#vm_td").append(
             $("<input>")
-                .attr("readonly", true)
+                .attr("readonly", 'true')
                 .attr("type", "text")
                 .attr("id", "vm_name_input")
                 .attr("name", "vm_name_input")
@@ -116,5 +116,5 @@ $(document).ready(function(){
 
 
     }
-    
+
 })

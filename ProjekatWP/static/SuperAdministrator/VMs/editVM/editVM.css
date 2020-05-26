@@ -7,6 +7,10 @@ body{
     margin-top: 50px;
 }
 
+#profilediv{
+    text-align: right;
+}
+
 #edit_labels{
     margin-left:auto;
     margin-right:auto;

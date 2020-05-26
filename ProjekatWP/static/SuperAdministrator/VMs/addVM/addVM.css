@@ -7,6 +7,10 @@ body{
     margin-top: 50px;
 }
 
+#profilediv{
+    text-align: right;
+}
+
 #addform{
     border-collapse: separate;
     border-spacing: 0 15px;

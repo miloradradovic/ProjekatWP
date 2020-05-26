@@ -2,6 +2,10 @@ body{
     background-color: #f2f2f2;
 }
 
+#profilediv{
+    text-align: right;
+}
+
 #div_table_h2{
     text-align: center;
     margin-top: 100px;

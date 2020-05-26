@@ -34,7 +34,7 @@ public class App {
 	}
 
 	private void generateTests() {
-		User u = new User("mico@super.com", "milorad123", "ime", "prezime", "org1", UserType.Admin);
+		User u = new User("mico@super.com", "milorad123", "ime", "prezime", "org1", UserType.User);
 		this.users.add(u);
 		Disc d1 = new Disc("d1", "org1", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
 		Disc d2 = new Disc("d2", "org1", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));

@@ -326,6 +326,7 @@ public class App {
 				vm.setCategoryName(vmdto.getCategoryName());
 				vm.setConnectedDiscs(vmdto.getConnectedDiscs());
 				vm.setResourceName(vmdto.getResourceName());
+				vm.setOrganizationName(vmdto.getOrganizationName());
 				
 			}
 		}
@@ -335,19 +336,20 @@ public class App {
 		
 		for(Disc d : this.getDiscs()) {
 			if(d.getVmName().equals(vmdto.getOldResourceName())) {
-				found = 1;
+				
 				d.setVmName(vmdto.getResourceName());
 			}
 		}
-		if(found == 0) {
-			return found;
-		}
 		
+		found = 0;
 		for(Organization o : this.getOrganizations()) {
 			for(String name : o.getResourcesNames()) {
 				if(name.equals(vmdto.getOldResourceName())) {
 					found = 1;
-					name = vmdto.getOldResourceName();
+					int index = o.getResourcesNames().indexOf(name);
+					o.getResourcesNames().remove(index);
+					o.getResourcesNames().add(index, vmdto.getResourceName());
+					break;
 				}
 			}
 		}

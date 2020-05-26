@@ -9,11 +9,14 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(data){
             window.vm = data;
+            console.log("USPJESNO");
+            alert("UPRAVO ULAZIM U FILL INPUTS");
             fillInputs();
         }, error: function(data){
             if(data === "400 bad request"){
                 alert("Something went wrong!");
             }else{
+                console.log(data);
                 window.location.href = "../../../forbidden.html";
             }
         }

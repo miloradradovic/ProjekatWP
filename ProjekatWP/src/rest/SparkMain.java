@@ -133,6 +133,24 @@ public class SparkMain {
 			}
 		});
 		
+		post("Administrator/VMs/editVM/deleteVM", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String vmName = req.body();
+				int flag = app.deleteVM(vmName);
+				if(flag == 0) {
+					res.status(400);
+					return "400 bad request";
+				}
+				res.status(200);
+				return "200 OK";
+			}
+		});
+		
 		post("SuperAdministrator/VMs/editVM/editVM", (req, res)->{
 			res.type("application/json");
 			
@@ -170,10 +188,67 @@ public class SparkMain {
 			}
 		});
 		
+		post("Administrator/VMs/editVM/editVM", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String virt = req.body();
+				try {
+					VMDTO vmdto = g.fromJson(virt, VMDTO.class);
+					if(vmdto.getOldResourceName().equals(vmdto.getResourceName()) && vmdto.getOldResourceName().equals("") == false && vmdto.getResourceName().equals("") == false && vmdto.getCategoryName().equals("") == false && vmdto.getGPU() > 0 && vmdto.getRAM() > 0 && vmdto.getNumberOfCores() > 0 && vmdto.getOrganizationName().equals("") == false) {
+						int flag = app.editVM(vmdto);
+						if(flag == 0) {
+							res.status(400);
+							return "400 bad request";
+						}
+						res.status(200);
+						return "200 OK";
+					}else if(app.findVMByName(vmdto.getResourceName()) == null && vmdto.getOldResourceName().equals("") == false && vmdto.getResourceName().equals("") == false && vmdto.getCategoryName().equals("") == false && vmdto.getGPU() > 0 && vmdto.getRAM() > 0 && vmdto.getNumberOfCores() > 0 && vmdto.getOrganizationName().equals("") == false) {
+						int flag = app.editVM(vmdto);
+						if(flag == 0) {
+							res.status(400);
+							return "400 bad request";
+						}
+						res.status(200);
+						return "200 OK";
+					}else {
+						res.status(400);
+						return "400 Bad request";
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+					res.status(400);
+					return "400 Bad request";
+				}
+			}
+		});
+		
 		post("SuperAdministrator/VMs/editVM/getVMByName", (req, res)-> {
 			res.type("application/json");
 			
 			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String virt = req.body();
+				VM vm = app.findVMByName(virt);
+				if(vm == null) {
+					res.status(400);
+					return "400 bad request";
+				}
+				VMDTO dto = app.convertVMtoVMDTO(vm);
+				res.status(200);
+				return g.toJson(dto);
+			}
+		});
+		
+		post("Administrator/VMs/editVM/getVMByName", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
 				return "403 Not authorized";
 			}else {
@@ -204,6 +279,23 @@ public class SparkMain {
 				}
 				return g.toJson(categoriesdto);
 				
+			}
+		});
+		
+		get("Administrator/VMs/editVM/getCategories", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				ArrayList<CategoryDTO> categoriesdto = new ArrayList<CategoryDTO>();
+				ArrayList<CategoryVM> categories = app.getCategories();
+				for(CategoryVM cvm : categories) {
+					CategoryDTO dto = app.convertCattoCatDTO(cvm);
+					categoriesdto.add(dto);
+				}
+				return g.toJson(categoriesdto);
 			}
 		});
 		

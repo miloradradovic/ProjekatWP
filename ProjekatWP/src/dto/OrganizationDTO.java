@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class OrganizationDTO {
 	
+	private String oldOrgName;
 	private String orgName; //id, obavezno
 	private String description; //obavezno
 	private String logo; //opciono, postoji opcija koristi defaultni logo
@@ -15,14 +16,26 @@ public class OrganizationDTO {
 		this.usersEmails = new ArrayList<String>();
 		this.resourcesNames = new ArrayList<String>();
 	}
-
-	public OrganizationDTO(String orgName, String description, String logo) {
+	
+	public OrganizationDTO(String oldOrgName, String orgName, String description, String logo,
+			ArrayList<String> usersEmails, ArrayList<String> resourcesNames) {
 		super();
+		this.oldOrgName = oldOrgName;
 		this.orgName = orgName;
 		this.description = description;
 		this.logo = logo;
+		this.usersEmails = usersEmails;
+		this.resourcesNames = resourcesNames;
 	}
-	
+
+	public String getOldOrgName() {
+		return oldOrgName;
+	}
+
+	public void setOldOrgName(String oldOrgName) {
+		this.oldOrgName = oldOrgName;
+	}
+
 	public ArrayList<String> getUsersEmails() {
 		return usersEmails;
 	}

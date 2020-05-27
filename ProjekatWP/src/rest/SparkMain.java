@@ -545,6 +545,19 @@ public class SparkMain {
 			}
 		});
 		
+		get("SuperAdministrator/Users/viewUsers/getUsers", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				ArrayList<UserDTO> dtos = app.getUserDTOs(app.getCurrentLoggedInUser(req));
+				res.status(200);
+				return g.toJson(dtos);
+			}
+		});
+		
 	}
 
 }

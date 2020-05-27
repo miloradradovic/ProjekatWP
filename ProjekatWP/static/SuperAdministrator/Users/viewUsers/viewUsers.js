@@ -1,1 +1,6 @@
-TODO
+let users = []
+$(document).ready(function(){
+
+    
+
+})

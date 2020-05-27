@@ -782,5 +782,41 @@ public class App {
 		}
 		return dtos;
 	}
+
+	public UserDTO convertUserToUserDTO(User user) {
+		UserDTO dto = new UserDTO();
+		dto.setEmail(user.getEmail());
+		dto.setName(user.getName());
+		dto.setOrganizationName(user.getOrganizationName());
+		dto.setPassword(user.getPassword());
+		dto.setSurname(user.getPassword());
+		if(user.getUserType() == UserType.SuperAdmin) {
+			dto.setUserType("superadmin");
+		}else if(user.getUserType() == UserType.Admin) {
+			dto.setUserType("admin");
+		}else {
+			dto.setUserType("user");
+		}
+		return dto;
+	}
+	
+	public ArrayList<UserDTO> getUserDTOs(User currentLoggedInUser) {
+		ArrayList<UserDTO> dtos = new ArrayList<UserDTO>();
+		if(currentLoggedInUser.getUserType() == UserType.SuperAdmin) {
+			for(User u : this.users) {
+				UserDTO dto = this.convertUserToUserDTO(u);
+				dtos.add(dto);
+			}
+		}else {
+			Organization o = this.findOrgByName(currentLoggedInUser.getOrganizationName());
+			for(User u : this.users) {
+				if(u.getOrganizationName().equals(o.getOrgName()) && u.getEmail().equals(currentLoggedInUser.getEmail())) {
+					UserDTO dto = this.convertUserToUserDTO(u);
+					dtos.add(dto);
+				}
+			}
+		}
+		return dtos;
+	}
 	
 }

@@ -2,6 +2,7 @@ package dto;
 
 public class CategoryDTO {
 	
+	private String oldCategoryName;
 	private String categoryName; //id, obavezno
 	private int numberOfCores; //obavezno, mora biti vece od 0
 	private int RAM; //obavezno, mora biti vece od 0
@@ -11,12 +12,21 @@ public class CategoryDTO {
 		super();
 	}
 
-	public CategoryDTO(String categoryName, int numberOfCores, int rAM, int gPU) {
+	public CategoryDTO(String oldCategoryName, String categoryName, int numberOfCores, int rAM, int gPU) {
 		super();
+		this.oldCategoryName = oldCategoryName;
 		this.categoryName = categoryName;
 		this.numberOfCores = numberOfCores;
 		RAM = rAM;
 		GPU = gPU;
+	}
+
+	public String getOldCategoryName() {
+		return oldCategoryName;
+	}
+
+	public void setOldCategoryName(String oldCategoryName) {
+		this.oldCategoryName = oldCategoryName;
 	}
 
 	public String getCategoryName() {

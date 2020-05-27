@@ -13,16 +13,21 @@ public class DiscDTO {
 	public DiscDTO() {
 		super();
 	}
-
-	public DiscDTO(String resourceName, String organizationName, String type, int capacity, String vmName) {
+	
+	public DiscDTO(String oldResourceName, String resourceName, String organizationName, String type, int capacity,
+			String vmName, String created) {
 		super();
+		this.oldResourceName = oldResourceName;
 		this.resourceName = resourceName;
 		this.organizationName = organizationName;
 		this.type = type;
 		this.capacity = capacity;
 		this.vmName = vmName;
+		this.created = created;
 	}
-	
+
+
+
 	public String getOldResourceName() {
 		return oldResourceName;
 	}

@@ -18,7 +18,7 @@ $(document).ready(function() {
     })
 
     function updateTable(){
-        $("#tableVMs tbody").children().remove();;
+        $("#tableVMs tbody").children().remove();
         window.vms.forEach(element => {
             $("#tableVMs tbody").append($("<tr>")
                 .click(function(){

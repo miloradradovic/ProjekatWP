@@ -34,8 +34,20 @@ public class App {
 	}
 
 	private void generateTests() {
-		User u = new User("mico@super.com", "milorad123", "ime", "prezime", "org1", UserType.User);
+		User u = new User("mico@super.com", "milorad123", "ime", "prezime", "", UserType.SuperAdmin);
+		User u2 = new User("mico2@super.com", "milorad123", "ime", "prezime", "org2", UserType.User);
+		User u3 = new User("mico3@super.com", "milorad123", "ime", "prezime", "org2", UserType.User);
+		User u4 = new User("mico4@super.com", "milorad123", "ime", "prezime", "org1", UserType.User);
+		User u5 = new User("mico5@super.com", "milorad123", "ime", "prezime", "org2", UserType.User);
+		User u6 = new User("mico6@super.com", "milorad123", "ime", "prezime", "org3", UserType.User);
+
 		this.users.add(u);
+		this.users.add(u2);
+		this.users.add(u3);
+		this.users.add(u4);
+		this.users.add(u5);
+		this.users.add(u6);
+		
 		Disc d1 = new Disc("d1", "org1", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
 		Disc d2 = new Disc("d2", "org1", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
 		Disc d3 = new Disc("d3", "org2", DiscType.SSD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
@@ -82,11 +94,19 @@ public class App {
 		resources4.add(d5.getResourceName());
 		ArrayList<String> resources5 = new ArrayList<String>();
 		ArrayList<String> userEmails = new ArrayList<String>();
-		userEmails.add(u.getEmail());
+		ArrayList<String> userEmails2 = new ArrayList<String>();
+		ArrayList<String> userEmails3 = new ArrayList<String>();
+		ArrayList<String> userEmails4 = new ArrayList<String>();
+		ArrayList<String> userEmails5 = new ArrayList<String>();
+		userEmails.add(u4.getEmail());
+		userEmails2.add(u2.getEmail());
+		userEmails2.add(u3.getEmail());
+		userEmails2.add(u5.getEmail());
+		userEmails3.add(u6.getEmail());
 		
 		Organization o1 = new Organization("org1", "opis1", "logo1", userEmails, resources1);
-		Organization o2 = new Organization("org2", "opis2", "logo2", new ArrayList<String>(), resources2);
-		Organization o3 = new Organization("org3", "opis3", "logo3", new ArrayList<String>(), resources3);
+		Organization o2 = new Organization("org2", "opis2", "logo2", userEmails2, resources2);
+		Organization o3 = new Organization("org3", "opis3", "logo3", userEmails3, resources3);
 		Organization o4 = new Organization("org4", "opis4", "logo4", new ArrayList<String>(), resources4);
 		Organization o5 = new Organization("org5", "opis5", "logo5", new ArrayList<String>(), resources5);
 		this.organizations.add(o1);
@@ -789,7 +809,7 @@ public class App {
 		dto.setName(user.getName());
 		dto.setOrganizationName(user.getOrganizationName());
 		dto.setPassword(user.getPassword());
-		dto.setSurname(user.getPassword());
+		dto.setSurname(user.getSurname());
 		if(user.getUserType() == UserType.SuperAdmin) {
 			dto.setUserType("superadmin");
 		}else if(user.getUserType() == UserType.Admin) {
@@ -804,8 +824,10 @@ public class App {
 		ArrayList<UserDTO> dtos = new ArrayList<UserDTO>();
 		if(currentLoggedInUser.getUserType() == UserType.SuperAdmin) {
 			for(User u : this.users) {
-				UserDTO dto = this.convertUserToUserDTO(u);
-				dtos.add(dto);
+				if(u.getEmail().equals(currentLoggedInUser.getEmail()) == false) {
+					UserDTO dto = this.convertUserToUserDTO(u);
+					dtos.add(dto);
+				}
 			}
 		}else {
 			Organization o = this.findOrgByName(currentLoggedInUser.getOrganizationName());

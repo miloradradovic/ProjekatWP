@@ -317,6 +317,31 @@ public class App {
 		}
 	}
 
+	public int editUser(UserDTO dto) {
+		int found = 0;
+		for(User u : this.getUsers()) {
+			if(u.getEmail().equals(dto.getEmail())) {
+				found = 1;
+				Organization o = this.findOrgByName(dto.getOrganizationName());
+				if(o == null) {
+					return 0;
+				}
+				if(dto.getUserType().equals("Administrator")) {
+					u.setUserType(UserType.Admin);
+				}else if(dto.getUserType().equals("User")) {
+					u.setUserType(UserType.User);
+				}else {
+					return 0;
+				}
+				u.setName(dto.getName());
+				u.setOrganizationName(o.getOrgName());
+				u.setPassword(dto.getPassword());
+				u.setSurname(dto.getSurname());
+			}
+		}
+		return found;
+	}
+	
 	public int editVM(VMDTO vmdto) {
 		
 		int found = 0;
@@ -824,7 +849,7 @@ public class App {
 		ArrayList<UserDTO> dtos = new ArrayList<UserDTO>();
 		if(currentLoggedInUser.getUserType() == UserType.SuperAdmin) {
 			for(User u : this.users) {
-				if(u.getEmail().equals(currentLoggedInUser.getEmail()) == false) {
+				if(u.getEmail().equals(currentLoggedInUser.getEmail()) == false && (u.getUserType() == UserType.Admin || u.getUserType() == UserType.User)) {
 					UserDTO dto = this.convertUserToUserDTO(u);
 					dtos.add(dto);
 				}
@@ -839,6 +864,19 @@ public class App {
 			}
 		}
 		return dtos;
+	}
+
+	public boolean checkStringLetters(String name) {
+		String check = name.toLowerCase();
+		char[] charArray = check.toCharArray();
+		for (int i = 0; i < charArray.length; i++) {
+	         char ch = charArray[i];
+	         if (!(ch >= 'a' && ch <= 'z')) {
+	            return false;
+	         }
+	      }
+		return true;
+		
 	}
 	
 }

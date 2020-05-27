@@ -20,7 +20,7 @@ $(document).ready(function(){
             $("#tableUsers tbody").append($("<tr>")
                 .click(function(){
                     sessionStorage.setItem("useredit", element.email);
-                    window.location.href = "../../Users/editUser/editUser.html";
+                    window.location.href = "../editUser/editUser.html";
                 })
                 .attr("title", "Click to edit the User")
                 .attr("id", element.email)
@@ -35,5 +35,9 @@ $(document).ready(function(){
             )
         })
     }
+
+    $("#adduser").click(function(){
+        window.location.href = "../addUser/addUser.html";
+    })
 
 })

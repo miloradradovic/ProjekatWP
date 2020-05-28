@@ -388,6 +388,69 @@ public class SparkMain {
 			}
 		});
 		
+		post("SuperAdministrator/Discs/addDisc/addDisc", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				try {
+					DiscDTO dto = g.fromJson(req.body(), DiscDTO.class);
+					if(dto.getResourceName().equals("") || dto.getType().equals("") || dto.getOrganizationName().equals("") || app.findDiscByName(dto.getResourceName()) != null) {
+						res.status(400);
+						return "400 Bad request";
+					}else {
+						int flag = app.addDisc(dto);
+						if(flag == 0) {
+							res.status(400);
+							return "400 bad request";
+						}
+						res.status(200);
+						return "200 OK";
+					}
+				}catch(Exception e) {
+					res.status(400);
+					return "400 bad request";
+				}
+			}
+		});
+		
+		get("SuperAdministrator/Discs/Discs/getOrganizations", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				ArrayList<OrganizationDTO> dto = new ArrayList<OrganizationDTO>();
+				ArrayList<Organization> orgs = app.getOrganizations();
+				for(Organization o : orgs) {
+					OrganizationDTO orgdto = app.convertOrgtoOrgDTO(o);
+					dto.add(orgdto);
+				}
+				return g.toJson(dto);
+			}
+		});
+		
+		get("SuperAdministrator/Discs/addDiscs/getVMs", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				ArrayList<VMDTO> vmsdto = new ArrayList<VMDTO>();
+				ArrayList<VM> vms = app.getVms();
+				for(VM vm : vms) {
+					VMDTO dto = app.convertVMtoVMDTO(vm);
+					vmsdto.add(dto);
+				}
+				return g.toJson(vmsdto);
+				
+			}
+		});
+		
 		post("Administrator/VMs/addVM/addVM", (req, res)->{
 			res.type("application/json");
 			

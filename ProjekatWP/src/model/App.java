@@ -460,6 +460,37 @@ public class App {
 		this.vms.add(vm);
 		return flag;
 	}
+	
+	public int addDisc(DiscDTO dto) {
+		int flag = 0;
+		Disc disc = new Disc();
+		disc.setResourceName(dto.getResourceName());
+		disc.setOrganizationName(dto.getOrganizationName());
+		disc.setCapacity(dto.getCapacity());
+		disc.setVmName(dto.getVmName());
+		if(dto.getType().equals("SSD")) {
+			disc.setType(DiscType.SSD);
+		}
+		else {
+			disc.setType(DiscType.HDD);
+		}
+		disc.setCreated(LocalDateTime.now());
+		
+		for(Organization o : this.organizations) {
+			if(o.getOrgName().equals(dto.getOrganizationName())) {
+				flag = 1;
+				o.getResourcesNames().add(dto.getResourceName());
+				break;
+			}
+		}
+		if(flag == 0) {
+			return flag;
+		}
+		
+		
+		this.discs.add(disc);
+		return flag;
+	}
 
 	public OrganizationDTO convertOrgtoOrgDTO(Organization o) {
 		

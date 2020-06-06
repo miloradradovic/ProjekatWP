@@ -416,7 +416,7 @@ public class SparkMain {
 			}
 		});
 		
-		get("SuperAdministrator/Discs/Discs/getOrganizations", (req, res)->{
+		get("SuperAdministrator/Discs/addDisc/getOrganizations", (req, res)->{
 			res.type("application/json");
 			
 			if(app.checkLoggedInUser(req) != 3) {
@@ -433,7 +433,7 @@ public class SparkMain {
 			}
 		});
 		
-		get("SuperAdministrator/Discs/addDiscs/getVMs", (req, res)->{
+		get("SuperAdministrator/Discs/addDisc/getVMs", (req, res)->{
 			res.type("application/json");
 			
 			if(app.checkLoggedInUser(req) != 3) {

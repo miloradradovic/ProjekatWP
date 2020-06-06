@@ -58,7 +58,7 @@ $(document).ready(function(){
 
     $("#addDiscbutton").click(function(){
 
-        if($("#disc_name_input").valid() && $("#select_disc_type").valid() && $(capacity_input).valid()){
+        if($("#disc_name_input").valid() && $("#select_disc_type").valid() && $("#capacity_input").valid()){
             let org_name = $("#select_organization").children("option:selected").val();
             let disc_name = $("#disc_name_input").val();
             let selected_disc_type = $("#select_disc_type").children("option:selected").val();

@@ -249,7 +249,33 @@ public class App {
 		}
 		return null;
 	}
-
+	
+	public int deleteUser(String userEmail) {
+		int found = 0;
+		
+		for(User u : this.getUsers()) {
+			if(u.getEmail().equals(userEmail)) {
+				this.getUsers().remove(u);
+				found = 1;
+				break;
+			}
+		}
+		
+		if(found == 0) {
+			return 0;
+		}
+		
+		for(Organization o : this.getOrganizations()) {
+			if(o.getUsersEmails().contains(userEmail)) {
+				found = 1;
+				o.getUsersEmails().remove(userEmail);
+				break;
+			}
+		}
+		
+		return found;
+	}
+	
 	public int deleteVM(String vmName) {
 		
 		int found = 0;

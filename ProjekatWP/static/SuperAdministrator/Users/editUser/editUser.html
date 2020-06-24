@@ -7,6 +7,7 @@
     <script type = "text/javascript" src="../../../jquery.js"></script>
     <script type = "text/javascript" src="../../../jquery.validate.js"></script>
     <script type = "text/javascript" src="../../../Validations/users/edit_user_validation.js"></script>
+    <script type = "text/javascript" src="../../../additional_rules.js"></script>
     <script type = "text/javascript" src="editUser.js"></script>
 </head>
 <body>
@@ -32,19 +33,27 @@
         <table id="edit_labels">
             <tr>
                 <td align="left">Email: </td>
-                <td align="left" id="email_td"></td>
+                <td align="left" id="email_td">
+                    <input readonly id="email_input" name="email_input"/>
+                </td>
             </tr>
             <tr>
                 <td align="left">Password: </td>
-                <td align="left" id="pass_td"></td>
+                <td align="left" id="pass_td">
+                    <input type="password" id="password_input" name="password_input"/>
+                </td>
             </tr>
             <tr>
                 <td align="left">Name: </td>
-                <td align="left" id="name_td"></td>
+                <td align="left" id="name_td">
+                    <input type="text" id="name_input" name="name_input" pattern="[A-Z][a-z]+"/>
+                </td>
             </tr>
             <tr>
                 <td align="left">Surname: </td>
-                <td align="left" id="surname_td"></td>
+                <td align="left" id="surname_td">
+                    <input type="text" id="surname_input" name="surname_input" pattern="[A-Z][a-z]+"/>
+                </td>
             </tr>
             <tr>
                 <td align="left">Organization: </td>

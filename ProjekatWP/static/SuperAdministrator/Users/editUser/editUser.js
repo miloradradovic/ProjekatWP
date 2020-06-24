@@ -20,32 +20,14 @@ $(document).ready(function(){
     })
 
     function fillTheData(){
-        $("#email_td").append(
-            $("<input>")
-                .attr("type", "text")
-                .attr("readonly", "true")
-                .attr("id", "email_input")
-                .attr("name", "email_input")
-                .attr("value", window.user.email)
-        )
-        $("#pass_td").append(
-            $("<input>")
-                .attr("type", "password")
-                .attr("id", "password_input")
-                .attr("value", window.user.password)
-        )
-        $("#name_td").append(
-            $("<input>")
-                .attr("type", "text")
-                .attr("id", "name_input")
-                .attr("value", window.user.name)
-        )
-        $("#surname_td").append(
-            $("<input>")
-                .attr("type", "text")
-                .attr("id", "surname_input")
-                .attr("value", window.user.surname)
-        )
+        $("#email_input")
+            .attr("value", window.user.email)
+        $("#password_input")
+            .attr("value", window.user.password)
+        $("#name_input")
+            .attr("value", window.user.name)
+        $("#surname_input")
+            .attr("value", window.user.surname)
         $("#org_td").append(
             $("<input>")
                 .attr("type", "text")
@@ -79,7 +61,7 @@ $(document).ready(function(){
     }
 
     $("#edit_button").click(function(){
-        if($("#password_input").valid && $("#name_input").valid && $("#surname_input").valid){
+        if($("#password_input").valid() && $("#name_input").valid() && $("#surname_input").valid()){
             let email = window.user.email;
             let password = $("#password_input").val();
             console.log("PASSWORD "+password);

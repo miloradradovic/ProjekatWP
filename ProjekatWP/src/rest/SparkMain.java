@@ -435,6 +435,24 @@ public class SparkMain {
 			}
 		});
 		
+		
+		get("SuperAdministrator/Users/addUser/getOrganizations", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				ArrayList<OrganizationDTO> dto = new ArrayList<OrganizationDTO>();
+				ArrayList<Organization> orgs = app.getOrganizations();
+				for(Organization o : orgs) {
+					OrganizationDTO orgdto = app.convertOrgtoOrgDTO(o);
+					dto.add(orgdto);
+				}
+				return g.toJson(dto);
+			}
+		});
+		
 		get("SuperAdministrator/Discs/addDisc/getOrganizations", (req, res)->{
 			res.type("application/json");
 			
@@ -467,6 +485,33 @@ public class SparkMain {
 				}
 				return g.toJson(vmsdto);
 				
+			}
+		});
+		
+		
+		
+		post("SuperAdministrator/Users/addUser/addUser", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				try {
+					UserDTO dto = g.fromJson(req.body(), UserDTO.class);
+					//uraditi provjeru
+					int flag = app.addUser(dto);
+					if(flag == 0) {
+						res.status(400);
+						return "400 bad request";
+					}else {
+						res.status(200);
+						return "200 OK";
+					}
+				}catch(Exception e) {
+					res.status(400);
+					return "400 Bad request";
+				}
 			}
 		});
 		

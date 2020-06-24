@@ -2,11 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add User</title>
+    <link rel="stylesheet" href="addUser.css">
     <script type = "text/javascript" src="../../../jquery.js"></script>
+    <script type = "text/javascript" src="../../../jquery.validate.js"></script>
+    <script type = "text/javascript" src="../../../additional_rules.js"></script>
+    <script type = "text/javascript" src="../../../Validations/users/add_user_validation.js"></script>
     <script type = "text/javascript" src="addUser.js"></script>
 </head>
 <body>
+
+<div id="profilediv">
+    <a href = "../../Profile/editProfile/editProfile.html">Profile</a>
+    <br>
+    <a href = "../../../logout.html">Log out</a>
+</div>
+<div class="topnav">
+    <a title="View all virtual machines" href="../../VMs/viewVMs/viewVMs.html">Virtual machines</a>
+    <a title="View all categories" href="../../Categories/viewCategories/viewCategories.html">Categories</a>
+    <a title="View all discs" href="../../Discs/viewDiscs/viewDiscs.html">Discs</a>
+    <a title="View all organizations" href="../../Organizations/viewOrganizations/viewOrganizations.html">Organizations</a>
+    <a title="View all users" class="active" href="../viewUsers/viewUsers.html">Users</a>
+</div>
+
+<h2 style="text-align: center">Add User</h2>
+<div id = "adduserdiv">
+    <form id = "addUserForm">
+        <table id="addform">
+            <tr>
+                <td align="left">Organization: </td>
+                <td id = "org_td" align="left">
+                    <select id = "select_organization"></select>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Email: </td>
+                <td align="left" id = email_td>
+                    <input id="email_input" name="email_input"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Password: </td>
+                <td align="left" id = password_td>
+                    <input type="password" id="password_input" name="password_input"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Name: </td>
+                <td align="left" id = name_td>
+                    <input type="text" id="name_input" name="name_input"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Surname: </td>
+                <td align="left" id = surname_td>
+                    <input type="text" id="surname_input" name="surname_input"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Role: </td>
+                <td align="left" id="role_td">
+                    <select id="select_role"></select>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <button id = "addUserbutton">Add User</button>
+</div>
 
 </body>
 </html>

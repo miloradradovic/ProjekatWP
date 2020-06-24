@@ -1,12 +1,12 @@
 $(document).ready(function() {
 
-    $("#edit_form").validate({
+    $("#addUserForm").validate({
         rules: {
             email_input: {
                 required: true,
                 email: true
             },
-            password_input:{
+            password_input: {
                 required: true,
                 minlength: 8
             },

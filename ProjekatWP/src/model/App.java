@@ -456,6 +456,40 @@ public class App {
 		return dto;
 	}
 
+	public int addUser(UserDTO dto) {
+		int flag = 0;
+		User u = new User();
+		u.setEmail(dto.getEmail());
+		u.setName(dto.getName());
+		u.setOrganizationName(dto.getOrganizationName());
+		u.setPassword(dto.getPassword());
+		u.setSurname(dto.getSurname());
+		if(dto.getUserType().equals("Administrator")) {
+			u.setUserType(UserType.Admin);
+		}else {
+			u.setUserType(UserType.User);
+		}
+		for(Organization o : this.organizations) {
+			if(o.getOrgName().equals(dto.getOrganizationName())) {
+				flag = 1;
+				o.getUsersEmails().add(dto.getEmail());
+				break;
+			}
+		}
+		if(flag == 0) {
+			return 0;
+		}
+		flag = 0;
+		User u2 = this.findUserByEmail(dto.getEmail());
+		if(u2 == null) {
+			this.users.add(u);
+			flag = 1;
+		}else {
+			return 0;
+		}
+		return flag;
+	}
+	
 	public int addVM(VMDTO dto) {
 		int flag = 0;
 		VM vm = new VM();
@@ -893,11 +927,11 @@ public class App {
 		dto.setPassword(user.getPassword());
 		dto.setSurname(user.getSurname());
 		if(user.getUserType() == UserType.SuperAdmin) {
-			dto.setUserType("superadmin");
+			dto.setUserType("Superadministrator");
 		}else if(user.getUserType() == UserType.Admin) {
-			dto.setUserType("admin");
+			dto.setUserType("Administrator");
 		}else {
-			dto.setUserType("user");
+			dto.setUserType("User");
 		}
 		return dto;
 	}
@@ -935,5 +969,7 @@ public class App {
 		return true;
 		
 	}
+
+	
 	
 }

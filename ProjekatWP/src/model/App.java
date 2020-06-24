@@ -469,23 +469,20 @@ public class App {
 		}else {
 			u.setUserType(UserType.User);
 		}
-		for(Organization o : this.organizations) {
-			if(o.getOrgName().equals(dto.getOrganizationName())) {
-				flag = 1;
-				o.getUsersEmails().add(dto.getEmail());
-				break;
-			}
-		}
-		if(flag == 0) {
-			return 0;
-		}
-		flag = 0;
 		User u2 = this.findUserByEmail(dto.getEmail());
 		if(u2 == null) {
 			this.users.add(u);
 			flag = 1;
 		}else {
 			return 0;
+		}
+		flag = 0;
+		for(Organization o : this.organizations) {
+			if(o.getOrgName().equals(dto.getOrganizationName())) {
+				flag = 1;
+				o.getUsersEmails().add(dto.getEmail());
+				break;
+			}
 		}
 		return flag;
 	}

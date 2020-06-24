@@ -165,6 +165,25 @@ public class SparkMain {
 			}
 		});
 		
+		post("Administrator/Users/editUser/deleteUser", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String userEmail = req.body();
+				int flag = app.deleteUser(userEmail);
+				if(flag == 0) {
+					res.status(400);
+					return "400 bad request";
+				}else {
+					res.status(200);
+					return "200 OK";
+				}
+			}
+		});
+		
 		post("SuperAdministrator/Users/editUser/deleteUser", (req, res)->{
 			res.type("application/json");
 			
@@ -253,6 +272,27 @@ public class SparkMain {
 				}catch(Exception e) {
 					res.status(400);
 					return "400 Bad request";
+				}
+			}
+		});
+		
+		post("Administrator/Users/editUser/editUser", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String user = req.body();
+				UserDTO dto = g.fromJson(user, UserDTO.class);
+				//uradi provjere
+				int flag = app.editUser(dto);
+				if(flag == 0) {
+					res.status(400);
+					return "400 Bad request";
+				}else {
+					res.status(200);
+					return "200 OK";
 				}
 			}
 		});
@@ -488,7 +528,25 @@ public class SparkMain {
 			}
 		});
 		
-		
+		post("Administrator/Users/addUser/addUser", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				UserDTO dto = g.fromJson(req.body(), UserDTO.class);
+				//uraditi provjeru
+				int flag = app.addUser(dto);
+				if(flag == 0) {
+					res.status(400);
+					return "400 bad request";
+				}else {
+					res.status(200);
+					return "200 OK";
+				}
+			}
+		});
 		
 		post("SuperAdministrator/Users/addUser/addUser", (req, res)->{
 			res.type("application/json");
@@ -633,7 +691,32 @@ public class SparkMain {
 			}
 		});
 		
+		get("Administrator/Users/viewUsers/getUsers", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				ArrayList<UserDTO> users = app.getUserDTOs(app.getCurrentLoggedInUser(req));
+				res.status(200);
+				return g.toJson(users);
+			}
+		});
+		
 		get("Administrator/VMs/addVM/getOrganization", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				OrganizationDTO dto = app.convertOrgtoOrgDTO(app.findOrgByName(app.getCurrentLoggedInUser(req).getOrganizationName()));
+				return g.toJson(dto);
+			}
+		});
+		
+		get("Administrator/Users/addUser/getOrganization", (req, res)->{
 			res.type("application/json");
 			
 			if(app.checkLoggedInUser(req) != 2) {
@@ -710,6 +793,25 @@ public class SparkMain {
 				ArrayList<UserDTO> dtos = app.getUserDTOs(app.getCurrentLoggedInUser(req));
 				res.status(200);
 				return g.toJson(dtos);
+			}
+		});
+		
+		post("Administrator/Users/editUser/getUserByEmail", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String user = req.body();
+				User found = app.findUserByEmail(user);
+				if(found == null) {
+					res.status(400);
+					return "400 Bad request";
+				}else {
+					UserDTO dto = app.convertUserToUserDTO(found);
+					return g.toJson(dto);
+				}
 			}
 		});
 		

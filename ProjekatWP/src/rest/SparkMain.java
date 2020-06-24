@@ -100,6 +100,46 @@ public class SparkMain {
 			}
 		});
 		
+		//getting discs of the current logged in SUPERADMINISTRATOR
+		get("SuperAdministrator/Discs/viewDiscs/getDiscs", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				res.status(200);
+				ArrayList<DiscDTO> discs = app.getDiscDTOs(app.getCurrentLoggedInUser(req));
+				return g.toJson(discs);
+			}
+		});
+		
+		post("SuperAdministrator/Discs/addDisc/getAvailableVMs", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				try {
+					Organization o = app.findOrgByName(req.body());
+					if(o == null) {
+						res.status(400);
+						return "400 bad request";
+					}
+					OrganizationDTO dto = new OrganizationDTO();
+					dto.setOrgName(req.body());
+					ArrayList<VMDTO> vms = app.getAvailableVMs(dto);
+					res.status(200);
+					return g.toJson(vms);
+				}catch(Exception e) {
+					res.status(400);
+					return "400 bad request";
+				}
+			}
+		});
+		
+		
 		//getting VMs of the current logged in ADMINISTRATOR
 		get("Administrator/VMs/viewVMs/getVMs", (req, res)->{
 			res.type("application/json");

@@ -48,9 +48,9 @@ public class App {
 		this.users.add(u5);
 		this.users.add(u6);
 		
-		Disc d1 = new Disc("d1", "org1", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
-		Disc d2 = new Disc("d2", "org1", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
-		Disc d3 = new Disc("d3", "org2", DiscType.SSD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
+		Disc d1 = new Disc("d1", "org1", DiscType.HDD, 10, "vm1", LocalDateTime.parse("11-11-2019 12:15", dtf));
+		Disc d2 = new Disc("d2", "org1", DiscType.HDD, 10, "vm2", LocalDateTime.parse("11-11-2019 12:15", dtf));
+		Disc d3 = new Disc("d3", "org2", DiscType.SSD, 10, "vm3", LocalDateTime.parse("11-11-2019 12:15", dtf));
 		Disc d4 = new Disc("d4", "org3", DiscType.SSD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
 		Disc d5 = new Disc("d5", "org4", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
 		this.discs.add(d1);
@@ -516,6 +516,60 @@ public class App {
 		
 		this.vms.add(vm);
 		return flag;
+	}
+	
+	public ArrayList<DiscDTO> getDiscDTOs(User currentLoggedInUser) {
+		ArrayList<DiscDTO> discdto = new ArrayList<DiscDTO>();
+		if(currentLoggedInUser.getUserType() == UserType.SuperAdmin) {
+			for(Disc d : this.getDiscs()) {
+				DiscDTO dto = new DiscDTO();
+				dto.setCapacity(d.getCapacity());
+				if(d.getType() == DiscType.SSD) {
+					dto.setType("SSD");
+				}
+				else {
+					dto.setType("HDD");
+				}
+				dto.setOrganizationName(d.getOrganizationName());
+				dto.setResourceName(d.getResourceName());
+				dto.setVmName(d.getVmName());
+				discdto.add(dto);
+			}
+			return discdto;
+		}else {
+			for(Organization o : this.getOrganizations()) {
+				if(o.getUsersEmails().contains(currentLoggedInUser.getEmail())) {
+					for(Disc d : this.getDiscs()) {
+						if(o.getResourcesNames().contains(d.getResourceName())) {
+							DiscDTO dto = new DiscDTO();
+							dto.setCapacity(d.getCapacity());
+							if(d.getType() == DiscType.SSD) {
+								dto.setType("SSD");
+							}
+							else {
+								dto.setType("HDD");
+							}
+							dto.setOrganizationName(d.getOrganizationName());
+							dto.setResourceName(d.getResourceName());
+							dto.setVmName(d.getVmName());
+							discdto.add(dto);
+						}
+					}
+				}
+			}
+			return discdto;
+		}
+	}
+	
+	public ArrayList<VMDTO> getAvailableVMs(OrganizationDTO dto) {
+		ArrayList<VMDTO> dtos = new ArrayList<VMDTO>();
+		for(VM vm : this.getVms()) {
+			if(dto.getOrgName().equals(vm.getOrganizationName())) {
+				VMDTO vmdto = this.convertVMtoVMDTO(vm);
+				dtos.add(vmdto);
+			}
+		}
+		return dtos;
 	}
 	
 	public int addDisc(DiscDTO dto) {

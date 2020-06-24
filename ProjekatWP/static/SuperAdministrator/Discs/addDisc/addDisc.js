@@ -56,6 +56,37 @@ $(document).ready(function(){
 
     }
 
+    $("#select_organization").change(function(){
+        let selected = $(this).children("option:selected").val();
+        $("#select_vm").empty();
+        getAvailableVMs(selected);
+    })
+
+    function getAvailableVMs(orgname){
+        $.ajax({
+            url: 'getAvailableVMs',
+            type: 'post',
+            data: orgname,
+            dataType: 'json',
+            success: function(data){
+                window.vms = data;
+                window.vms.forEach(element => {
+                    $("#select_vm").append(
+                        $("<option>")
+                            .attr("label", element.resourceName)
+                            .attr("value", element.resourceName)
+                    )
+                })
+            }, error: function(data){
+                if(data === "400 bad request"){
+                    alert("Something went wrong!");
+                }else{
+                    window.location.href = "../../../forbidden.html";
+                }
+            }
+        })
+    }
+
     $("#addDiscbutton").click(function(){
 
         if($("#disc_name_input").valid() && $("#select_disc_type").valid() && $("#capacity_input").valid()){

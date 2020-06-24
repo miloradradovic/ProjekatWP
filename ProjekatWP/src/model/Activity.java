@@ -32,4 +32,11 @@ public class Activity {
 	public void setTo(LocalDateTime to) {
 		this.to = to;
 	}
+
+	@Override
+	public String toString() {
+		return "Activity [from=" + from + ", to=" + to + "]";
+	}
+	
+	
 }

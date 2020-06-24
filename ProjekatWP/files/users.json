@@ -1,0 +1,50 @@
+[
+  {
+    "email": "mico@super.com",
+    "password": "milorad123",
+    "name": "ime",
+    "surname": "prezime",
+    "organizationName": "",
+    "userType": "SuperAdmin"
+  },
+  {
+    "email": "mico2@super.com",
+    "password": "milorad123",
+    "name": "ime",
+    "surname": "prezime",
+    "organizationName": "org2",
+    "userType": "User"
+  },
+  {
+    "email": "mico3@super.com",
+    "password": "milorad123",
+    "name": "ime",
+    "surname": "prezime",
+    "organizationName": "org2",
+    "userType": "User"
+  },
+  {
+    "email": "mico4@super.com",
+    "password": "milorad123",
+    "name": "ime",
+    "surname": "prezime",
+    "organizationName": "org1",
+    "userType": "User"
+  },
+  {
+    "email": "mico5@super.com",
+    "password": "milorad123",
+    "name": "ime",
+    "surname": "prezime",
+    "organizationName": "org2",
+    "userType": "User"
+  },
+  {
+    "email": "mico6@super.com",
+    "password": "milorad123",
+    "name": "ime",
+    "surname": "prezime",
+    "organizationName": "org3",
+    "userType": "User"
+  }
+]

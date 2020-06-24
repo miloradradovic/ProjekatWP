@@ -1,0 +1,102 @@
+[
+  {
+    "organizationName": "org1",
+    "type": "HDD",
+    "capacity": 10,
+    "vmName": "vm1",
+    "created": {
+      "date": {
+        "year": 2019,
+        "month": 11,
+        "day": 11
+      },
+      "time": {
+        "hour": 12,
+        "minute": 15,
+        "second": 0,
+        "nano": 0
+      }
+    },
+    "resourceName": "d1"
+  },
+  {
+    "organizationName": "org1",
+    "type": "HDD",
+    "capacity": 10,
+    "vmName": "vm2",
+    "created": {
+      "date": {
+        "year": 2019,
+        "month": 11,
+        "day": 11
+      },
+      "time": {
+        "hour": 12,
+        "minute": 15,
+        "second": 0,
+        "nano": 0
+      }
+    },
+    "resourceName": "d2"
+  },
+  {
+    "organizationName": "org2",
+    "type": "SSD",
+    "capacity": 10,
+    "vmName": "vm3",
+    "created": {
+      "date": {
+        "year": 2019,
+        "month": 11,
+        "day": 11
+      },
+      "time": {
+        "hour": 12,
+        "minute": 15,
+        "second": 0,
+        "nano": 0
+      }
+    },
+    "resourceName": "d3"
+  },
+  {
+    "organizationName": "org3",
+    "type": "SSD",
+    "capacity": 10,
+    "vmName": "",
+    "created": {
+      "date": {
+        "year": 2019,
+        "month": 11,
+        "day": 11
+      },
+      "time": {
+        "hour": 12,
+        "minute": 15,
+        "second": 0,
+        "nano": 0
+      }
+    },
+    "resourceName": "d4"
+  },
+  {
+    "organizationName": "org4",
+    "type": "HDD",
+    "capacity": 10,
+    "vmName": "",
+    "created": {
+      "date": {
+        "year": 2019,
+        "month": 11,
+        "day": 11
+      },
+      "time": {
+        "hour": 12,
+        "minute": 15,
+        "second": 0,
+        "nano": 0
+      }
+    },
+    "resourceName": "d5"
+  }
+]

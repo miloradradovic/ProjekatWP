@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 public class Organization {
 	
+	@Override
+	public String toString() {
+		return "Organization [orgName=" + orgName + ", description=" + description + ", logo=" + logo + ", usersEmails="
+				+ usersEmails + ", resourcesNames=" + resourcesNames + "]";
+	}
+
 	private String orgName; //id, obavezno
 	private String description; //obavezno
 	private String logo; //opciono, postoji opcija koristi defaultni logo

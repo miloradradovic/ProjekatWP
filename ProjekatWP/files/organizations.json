@@ -1,0 +1,59 @@
+[
+  {
+    "orgName": "org1",
+    "description": "opis1",
+    "logo": "logo1",
+    "usersEmails": [
+      "mico4@super.com"
+    ],
+    "resourcesNames": [
+      "d1",
+      "d2",
+      "vm1",
+      "vm2",
+      "vm5"
+    ]
+  },
+  {
+    "orgName": "org2",
+    "description": "opis2",
+    "logo": "logo2",
+    "usersEmails": [
+      "mico2@super.com",
+      "mico3@super.com",
+      "mico5@super.com"
+    ],
+    "resourcesNames": [
+      "d3",
+      "vm3",
+      "vm4"
+    ]
+  },
+  {
+    "orgName": "org3",
+    "description": "opis3",
+    "logo": "logo3",
+    "usersEmails": [
+      "mico6@super.com"
+    ],
+    "resourcesNames": [
+      "d4"
+    ]
+  },
+  {
+    "orgName": "org4",
+    "description": "opis4",
+    "logo": "logo4",
+    "usersEmails": [],
+    "resourcesNames": [
+      "d5"
+    ]
+  },
+  {
+    "orgName": "org5",
+    "description": "opis5",
+    "logo": "logo5",
+    "usersEmails": [],
+    "resourcesNames": []
+  }
+]

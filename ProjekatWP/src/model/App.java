@@ -1,8 +1,15 @@
 package model;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import dto.CategoryDTO;
 import dto.DiscDTO;
@@ -19,6 +26,8 @@ public class App {
 	private ArrayList<Disc> discs;
 	private ArrayList<Organization> organizations;
 	private ArrayList<CategoryVM> categories;
+	public static Gson g;
+
 	
 	public DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 	
@@ -29,94 +38,7 @@ public class App {
 		this.discs = new ArrayList<Disc>();
 		this.organizations = new ArrayList<Organization>();
 		this.categories = new ArrayList<CategoryVM>();
-		//TODO napraviti metode za citanje i upis u json fajlove
-		generateTests();
-	}
-
-	private void generateTests() {
-		User u = new User("mico@super.com", "milorad123", "ime", "prezime", "", UserType.SuperAdmin);
-		User u2 = new User("mico2@super.com", "milorad123", "ime", "prezime", "org2", UserType.User);
-		User u3 = new User("mico3@super.com", "milorad123", "ime", "prezime", "org2", UserType.User);
-		User u4 = new User("mico4@super.com", "milorad123", "ime", "prezime", "org1", UserType.User);
-		User u5 = new User("mico5@super.com", "milorad123", "ime", "prezime", "org2", UserType.User);
-		User u6 = new User("mico6@super.com", "milorad123", "ime", "prezime", "org3", UserType.User);
-
-		this.users.add(u);
-		this.users.add(u2);
-		this.users.add(u3);
-		this.users.add(u4);
-		this.users.add(u5);
-		this.users.add(u6);
-		
-		Disc d1 = new Disc("d1", "org1", DiscType.HDD, 10, "vm1", LocalDateTime.parse("11-11-2019 12:15", dtf));
-		Disc d2 = new Disc("d2", "org1", DiscType.HDD, 10, "vm2", LocalDateTime.parse("11-11-2019 12:15", dtf));
-		Disc d3 = new Disc("d3", "org2", DiscType.SSD, 10, "vm3", LocalDateTime.parse("11-11-2019 12:15", dtf));
-		Disc d4 = new Disc("d4", "org3", DiscType.SSD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
-		Disc d5 = new Disc("d5", "org4", DiscType.HDD, 10, "", LocalDateTime.parse("11-11-2019 12:15", dtf));
-		this.discs.add(d1);
-		this.discs.add(d2);
-		this.discs.add(d3);
-		this.discs.add(d4);
-		this.discs.add(d5);
-		VM vm1 = new VM("vm1", "org1", "cat1", new ArrayList<String>(), new ArrayList<Activity>());
-		VM vm2 = new VM("vm2", "org1", "cat2", new ArrayList<String>(), new ArrayList<Activity>());
-		VM vm3 = new VM("vm3", "org2", "cat3", new ArrayList<String>(), new ArrayList<Activity>());
-		VM vm4 = new VM("vm4", "org2", "cat4", new ArrayList<String>(), new ArrayList<Activity>());
-		VM vm5 = new VM("vm5", "org1", "cat5", new ArrayList<String>(), new ArrayList<Activity>());
-		this.vms.add(vm1);
-		this.vms.add(vm2);
-		this.vms.add(vm3);
-		this.vms.add(vm4);
-		this.vms.add(vm5);
-		CategoryVM c1 = new CategoryVM("cat1", 1, 1, 1);
-		CategoryVM c2 = new CategoryVM("cat2", 2, 2, 2);
-		CategoryVM c3 = new CategoryVM("cat3", 3, 3, 3);
-		CategoryVM c4 = new CategoryVM("cat4", 4, 4, 4);
-		CategoryVM c5 = new CategoryVM("cat5", 5, 5, 5);
-		this.categories.add(c1);
-		this.categories.add(c2);
-		this.categories.add(c3);
-		this.categories.add(c4);
-		this.categories.add(c5);
-		ArrayList<String> resources1 = new ArrayList<String>();
-		resources1.add(d1.getResourceName());
-		resources1.add(d2.getResourceName());
-		resources1.add(vm1.getResourceName());
-		resources1.add(vm2.getResourceName());
-		resources1.add(vm5.getResourceName());
-		ArrayList<String> resources2 = new ArrayList<String>();
-		resources2.add(d3.getResourceName());
-		resources2.add(vm3.getResourceName());
-		resources2.add(vm4.getResourceName());
-		ArrayList<String> resources3 = new ArrayList<String>();
-		resources3.add(d4.getResourceName());
-		ArrayList<String> resources4 = new ArrayList<String>();
-		resources4.add(d5.getResourceName());
-		ArrayList<String> resources5 = new ArrayList<String>();
-		ArrayList<String> userEmails = new ArrayList<String>();
-		ArrayList<String> userEmails2 = new ArrayList<String>();
-		ArrayList<String> userEmails3 = new ArrayList<String>();
-		ArrayList<String> userEmails4 = new ArrayList<String>();
-		ArrayList<String> userEmails5 = new ArrayList<String>();
-		userEmails.add(u4.getEmail());
-		userEmails2.add(u2.getEmail());
-		userEmails2.add(u3.getEmail());
-		userEmails2.add(u5.getEmail());
-		userEmails3.add(u6.getEmail());
-		
-		Organization o1 = new Organization("org1", "opis1", "logo1", userEmails, resources1);
-		Organization o2 = new Organization("org2", "opis2", "logo2", userEmails2, resources2);
-		Organization o3 = new Organization("org3", "opis3", "logo3", userEmails3, resources3);
-		Organization o4 = new Organization("org4", "opis4", "logo4", new ArrayList<String>(), resources4);
-		Organization o5 = new Organization("org5", "opis5", "logo5", new ArrayList<String>(), resources5);
-		this.organizations.add(o1);
-		this.organizations.add(o2);
-		this.organizations.add(o3);
-		this.organizations.add(o4);
-		this.organizations.add(o5);
-		
-
-
+		readFiles();
 	}
 
 	public ArrayList<User> getUsers() {
@@ -157,6 +79,47 @@ public class App {
 
 	public void setCategories(ArrayList<CategoryVM> categories) {
 		this.categories = categories;
+	}
+	
+	public void readFiles() {
+		g = new Gson();
+		try {
+			this.setUsers(g.fromJson(new FileReader("./files/users.json"), new TypeToken<ArrayList<User>>(){}.getType()));
+			this.setCategories(g.fromJson(new FileReader("./files/categories.json"), new TypeToken<ArrayList<CategoryVM>>(){}.getType()));
+			this.setVms(g.fromJson(new FileReader("./files/vms.json"), new TypeToken<ArrayList<VM>>(){}.getType()));
+			this.setOrganizations(g.fromJson(new FileReader("./files/organizations.json"), new TypeToken<ArrayList<Organization>>(){}.getType()));
+			this.setDiscs(g.fromJson(new FileReader("./files/discs.json"), new TypeToken<ArrayList<Disc>>(){}.getType()));
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void writeToFiles() {
+	    g = new GsonBuilder().setPrettyPrinting().create();
+		try {
+			
+			Writer user = new FileWriter("./files/users.json");
+			Writer vm = new FileWriter("./files/vms.json");
+			Writer disc = new FileWriter("./files/discs.json");
+			Writer category = new FileWriter("./files/categories.json");
+			Writer organization = new FileWriter("./files/organizations.json");
+			
+			g.toJson(this.users, user);
+			g.toJson(this.categories, category);
+			g.toJson(this.vms, vm);
+			g.toJson(this.discs, disc);
+			g.toJson(this.organizations, organization);
+			user.close();
+			vm.close();
+			category.close();
+			disc.close();
+			organization.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public User getCurrentLoggedInUser(Request req) {
@@ -272,7 +235,6 @@ public class App {
 				break;
 			}
 		}
-		
 		return found;
 	}
 	
@@ -587,6 +549,11 @@ public class App {
 		}
 		disc.setCreated(LocalDateTime.now());
 		
+		Disc d = this.findDiscByName(dto.getResourceName());
+		if(d != null) {
+			return 0;
+		}
+		
 		for(Organization o : this.organizations) {
 			if(o.getOrgName().equals(dto.getOrganizationName())) {
 				flag = 1;
@@ -598,7 +565,14 @@ public class App {
 			return flag;
 		}
 		
-		
+		if(dto.getVmName().equals("") == false) {
+			for(VM vm : this.vms) {
+				if(vm.getResourceName().equals(dto.getVmName())) {
+					vm.getConnectedDiscs().add(dto.getResourceName());
+					break;
+				}
+			}
+		}
 		this.discs.add(disc);
 		return flag;
 	}

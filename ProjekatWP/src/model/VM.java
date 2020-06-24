@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 public class VM extends Resource {
 	
+	@Override
+	public String toString() {
+		return "VM [organizationName=" + organizationName + ", categoryName=" + categoryName + ", connectedDiscs="
+				+ connectedDiscs + ", activities=" + activities + "]";
+	}
+
 	private String organizationName; //obavezno
 	private String categoryName; //obavezno, odavde kupi ram, gpu i broj jezgara
 	private ArrayList<String> connectedDiscs;

@@ -1,0 +1,32 @@
+[
+  {
+    "categoryName": "cat1",
+    "numberOfCores": 1,
+    "RAM": 1,
+    "GPU": 1
+  },
+  {
+    "categoryName": "cat2",
+    "numberOfCores": 2,
+    "RAM": 2,
+    "GPU": 2
+  },
+  {
+    "categoryName": "cat3",
+    "numberOfCores": 3,
+    "RAM": 3,
+    "GPU": 3
+  },
+  {
+    "categoryName": "cat4",
+    "numberOfCores": 4,
+    "RAM": 4,
+    "GPU": 4
+  },
+  {
+    "categoryName": "cat5",
+    "numberOfCores": 5,
+    "RAM": 5,
+    "GPU": 5
+  }
+]

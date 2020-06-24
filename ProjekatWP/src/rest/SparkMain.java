@@ -74,7 +74,6 @@ public class SparkMain {
 		
 		get("getCurrentUser", (req, res)->{
 			res.type("application/json");
-			
 			if(app.checkLoggedInUser(req) == 0) {
 				return 0;
 			}else if(app.checkLoggedInUser(req) == 1) {
@@ -182,6 +181,7 @@ public class SparkMain {
 					res.status(400);
 					return "400 bad request";
 				}
+				app.writeToFiles();
 				res.status(200);
 				return "200 OK";
 			}
@@ -200,6 +200,7 @@ public class SparkMain {
 					res.status(400);
 					return "400 bad request";
 				}
+				app.writeToFiles();
 				res.status(200);
 				return "200 OK";
 			}
@@ -218,6 +219,7 @@ public class SparkMain {
 					res.status(400);
 					return "400 bad request";
 				}else {
+					app.writeToFiles();
 					res.status(200);
 					return "200 OK";
 				}
@@ -237,6 +239,7 @@ public class SparkMain {
 					res.status(400);
 					return "400 bad request";
 				}
+				app.writeToFiles();
 				res.status(200);
 				return "200 OK";
 			}
@@ -258,6 +261,7 @@ public class SparkMain {
 							res.status(400);
 							return "400 bad request";
 						}
+						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
 					}else if(app.findVMByName(vmdto.getResourceName()) == null && vmdto.getOldResourceName().equals("") == false && vmdto.getResourceName().equals("") == false && vmdto.getCategoryName().equals("") == false && vmdto.getGPU() > 0 && vmdto.getRAM() > 0 && vmdto.getNumberOfCores() > 0 && vmdto.getOrganizationName().equals("") == false) {
@@ -266,6 +270,7 @@ public class SparkMain {
 							res.status(400);
 							return "400 bad request";
 						}
+						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
 					}else {
@@ -295,6 +300,7 @@ public class SparkMain {
 							res.status(400);
 							return "400 bad request";
 						}
+						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
 					}else if(app.findVMByName(vmdto.getResourceName()) == null && vmdto.getOldResourceName().equals("") == false && vmdto.getResourceName().equals("") == false && vmdto.getCategoryName().equals("") == false && vmdto.getGPU() > 0 && vmdto.getRAM() > 0 && vmdto.getNumberOfCores() > 0 && vmdto.getOrganizationName().equals("") == false) {
@@ -303,6 +309,7 @@ public class SparkMain {
 							res.status(400);
 							return "400 bad request";
 						}
+						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
 					}else {
@@ -331,6 +338,7 @@ public class SparkMain {
 					res.status(400);
 					return "400 Bad request";
 				}else {
+					app.writeToFiles();
 					res.status(200);
 					return "200 OK";
 				}
@@ -356,6 +364,7 @@ public class SparkMain {
 							res.status(400);
 							return "400 Bad request";
 						}
+						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
 					}
@@ -477,6 +486,7 @@ public class SparkMain {
 							res.status(400);
 							return "400 bad request";
 						}
+						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
 					}
@@ -505,6 +515,7 @@ public class SparkMain {
 							res.status(400);
 							return "400 bad request";
 						}
+						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
 					}
@@ -582,6 +593,7 @@ public class SparkMain {
 					res.status(400);
 					return "400 bad request";
 				}else {
+					app.writeToFiles();
 					res.status(200);
 					return "200 OK";
 				}
@@ -603,6 +615,7 @@ public class SparkMain {
 						res.status(400);
 						return "400 bad request";
 					}else {
+						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
 					}
@@ -631,6 +644,7 @@ public class SparkMain {
 							res.status(400);
 							return "400 bad request";
 						}
+						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
 					}
@@ -906,6 +920,7 @@ public class SparkMain {
 					res.status(400);
 					return "400 bad request";
 				}else {
+					app.writeToFiles();
 					res.status(200);
 					return "200 OK";
 				}
@@ -927,6 +942,7 @@ public class SparkMain {
 					res.status(400);
 					return "400 bad request";
 				}else {
+					app.writeToFiles();
 					res.status(200);
 					return "200 OK";
 				}
@@ -948,6 +964,7 @@ public class SparkMain {
 					res.status(400);
 					return "400 bad request";
 				}else {
+					app.writeToFiles();
 					res.status(200);
 					return "200 OK";
 				}

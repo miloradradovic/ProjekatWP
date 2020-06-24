@@ -50,5 +50,13 @@ public class CategoryVM {
 	public void setGPU(int gPU) {
 		GPU = gPU;
 	}
+
+	@Override
+	public String toString() {
+		return "CategoryVM [categoryName=" + categoryName + ", numberOfCores=" + numberOfCores + ", RAM=" + RAM
+				+ ", GPU=" + GPU + "]";
+	}
+	
+	
 	
 }

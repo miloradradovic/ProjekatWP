@@ -2,6 +2,12 @@ package model;
 
 public class User {
 	
+	@Override
+	public String toString() {
+		return "User [email=" + email + ", password=" + password + ", name=" + name + ", surname=" + surname
+				+ ", organizationName=" + organizationName + ", userType=" + userType + "]";
+	}
+
 	private String email; //id, obavezno
 	private String password; //obavezno
 	private String name; //obavezno

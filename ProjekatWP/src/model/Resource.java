@@ -2,6 +2,11 @@ package model;
 
 public abstract class Resource {
 	
+	@Override
+	public String toString() {
+		return "Resource [resourceName=" + resourceName + "]";
+	}
+
 	private String resourceName; //id, obavezno
 
 	public Resource() {

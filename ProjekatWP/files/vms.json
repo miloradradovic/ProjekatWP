@@ -1,0 +1,37 @@
+[
+  {
+    "organizationName": "org1",
+    "categoryName": "cat1",
+    "connectedDiscs": [],
+    "activities": [],
+    "resourceName": "vm1"
+  },
+  {
+    "organizationName": "org1",
+    "categoryName": "cat2",
+    "connectedDiscs": [],
+    "activities": [],
+    "resourceName": "vm2"
+  },
+  {
+    "organizationName": "org2",
+    "categoryName": "cat3",
+    "connectedDiscs": [],
+    "activities": [],
+    "resourceName": "vm3"
+  },
+  {
+    "organizationName": "org2",
+    "categoryName": "cat4",
+    "connectedDiscs": [],
+    "activities": [],
+    "resourceName": "vm4"
+  },
+  {
+    "organizationName": "org1",
+    "categoryName": "cat5",
+    "connectedDiscs": [],
+    "activities": [],
+    "resourceName": "vm5"
+  }
+]

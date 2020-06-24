@@ -63,5 +63,11 @@ public class Disc extends Resource {
 	public void setVmName(String vmName) {
 		this.vmName = vmName;
 	}
+
+	@Override
+	public String toString() {
+		return "Disc [organizationName=" + organizationName + ", type=" + type + ", capacity=" + capacity + ", vmName="
+				+ vmName + ", created=" + created + "]";
+	}
 	
 }

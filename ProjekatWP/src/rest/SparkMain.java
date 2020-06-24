@@ -815,6 +815,105 @@ public class SparkMain {
 			}
 		});
 		
+		get("SuperAdministrator/Profile/editProfile/getUserByEmail", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				UserDTO dto = app.convertUserToUserDTO(app.getCurrentLoggedInUser(req));
+				return g.toJson(dto);
+			}
+		});
+		
+		get("Administrator/Profile/editProfile/getUserByEmail", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				UserDTO dto = app.convertUserToUserDTO(app.getCurrentLoggedInUser(req));
+				return g.toJson(dto);
+			}
+		});
+		
+		get("User/Profile/editProfile/getUserByEmail", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 1) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				UserDTO dto = app.convertUserToUserDTO(app.getCurrentLoggedInUser(req));
+				return g.toJson(dto);
+			}
+		});
+		
+		post("SuperAdministrator/Profile/editProfile/editProfile", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 not authorized";
+			}else {
+				String profile = req.body();
+				UserDTO dto = g.fromJson(profile, UserDTO.class);
+				//uradi provjere
+				int flag = app.editProfile(dto);
+				if(flag == 0) {
+					res.status(400);
+					return "400 bad request";
+				}else {
+					res.status(200);
+					return "200 OK";
+				}
+			}
+		});
+		
+		post("Administrator/Profile/editProfile/editProfile", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String profile = req.body();
+				UserDTO dto = g.fromJson(profile, UserDTO.class);
+				//uradi provjere
+				int flag = app.editProfile(dto);
+				if(flag == 0) {
+					res.status(400);
+					return "400 bad request";
+				}else {
+					res.status(200);
+					return "200 OK";
+				}
+			}
+		});
+		
+		post("User/Profile/editProfile/editProfile", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 1) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String profile = req.body();
+				UserDTO dto = g.fromJson(profile, UserDTO.class);
+				//uradi provjere
+				int flag = app.editProfile(dto);
+				if(flag == 0) {
+					res.status(400);
+					return "400 bad request";
+				}else {
+					res.status(200);
+					return "200 OK";
+				}
+			}
+		});
+		
 		post("SuperAdministrator/Users/editUser/getUserByEmail", (req, res)->{
 			res.type("application/json");
 			if(app.checkLoggedInUser(req) != 3) {

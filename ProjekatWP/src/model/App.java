@@ -923,6 +923,7 @@ public class App {
 		dto.setOrganizationName(user.getOrganizationName());
 		dto.setPassword(user.getPassword());
 		dto.setSurname(user.getSurname());
+		dto.setOldEmail(user.getEmail());
 		if(user.getUserType() == UserType.SuperAdmin) {
 			dto.setUserType("Superadministrator");
 		}else if(user.getUserType() == UserType.Admin) {
@@ -965,6 +966,41 @@ public class App {
 	      }
 		return true;
 		
+	}
+
+	public int editProfile(UserDTO dto) {
+		int flag = 0;
+		
+		for(User u : this.users) {
+			if(u.getEmail().equals(dto.getOldEmail())) {
+				u.setEmail(dto.getEmail());
+				u.setName(dto.getName());
+				u.setPassword(dto.getPassword());
+				u.setSurname(dto.getSurname());
+				flag = 1;
+				break;
+			}
+		}
+		
+		if(flag == 0) {
+			return 0;
+		}
+		
+		if(dto.getUserType().equals("Superadministrator") == false) {
+			flag = 0;
+			
+			for(Organization o : this.organizations) {
+				if(o.getUsersEmails().contains(dto.getOldEmail())) {
+					int index = o.getUsersEmails().indexOf(dto.getOldEmail());
+					o.getUsersEmails().remove(index);
+					o.getUsersEmails().add(index, dto.getEmail());
+					flag = 1;
+					break;
+				}
+			}
+		}
+		
+		return flag;
 	}
 
 	

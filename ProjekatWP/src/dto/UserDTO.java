@@ -3,6 +3,7 @@ package dto;
 
 public class UserDTO {
 	
+	private String oldEmail;
 	private String email; //id, obavezno
 	private String password; //obavezno
 	private String name; //obavezno
@@ -23,6 +24,14 @@ public class UserDTO {
 		this.surname = surname;
 		this.organizationName = organizationName;
 		this.userType = userType;
+	}
+	
+	public String getOldEmail() {
+		return oldEmail;
+	}
+
+	public void setOldEmail(String oldEmail) {
+		this.oldEmail = oldEmail;
 	}
 
 	public String getEmail() {

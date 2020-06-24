@@ -2,11 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Profile</title>
+    <link rel="stylesheet" href="editProfile.css">
     <script type = "text/javascript" src="../../../jquery.js"></script>
+    <script type = "text/javascript" src="../../../jquery.validate.js"></script>
+    <script type = "text/javascript" src="../../../Validations/profile/profile_validation.js"></script>
+    <script type = "text/javascript" src="../../../additional_rules.js"></script>
     <script type = "text/javascript" src="editProfile.js"></script>
 </head>
 <body>
+
+<div id="profilediv">
+    <a href = "editProfile.html">Profile</a>
+    <br>
+    <a href = "../../../logout.html">Log out</a>
+</div>
+<div class="topnav">
+    <a title="View all virtual machines" href="../../VMs/viewVMs/viewVMs.html">Virtual machines</a>
+    <a title="View all discs" href="../../Discs/viewDiscs/viewDiscs.html">Discs</a>
+</div>
+
+<h2 style="text-align: center; margin-top: 100px">Profile</h2>
+
+<div id = "edit_form_div">
+    <form id = "edit_form">
+
+        <table id="edit_labels">
+            <tr>
+                <td align="left">Email: </td>
+                <td align="left" id="email_td">
+                    <input id="email_input" name="email_input"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Password: </td>
+                <td align="left" id="pass1_td">
+                    <input type="password" id="password1_input" name="password1_input"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Confirm password: </td>
+                <td align="left" id="pass2_td">
+                    <input type="password" id="password2_input" name="password2_input"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Name: </td>
+                <td align="left" id="name_td">
+                    <input type="text" id="name_input" name="name_input" pattern="[A-Z][a-z]+"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">Surname: </td>
+                <td align="left" id="surname_td">
+                    <input type="text" id="surname_input" name="surname_input" pattern="[A-Z][a-z]+"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <br><br><br><br>
+    <button id = "edit_button">Edit</button>
+
+</div>
+
+
 
 </body>
 </html>

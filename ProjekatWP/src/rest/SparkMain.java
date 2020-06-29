@@ -19,6 +19,7 @@ import dto.UserDTO;
 import dto.VMDTO;
 import model.App;
 import model.CategoryVM;
+import model.Disc;
 import model.Organization;
 import model.User;
 import model.UserType;
@@ -138,6 +139,31 @@ public class SparkMain {
 			}
 		});
 		
+		post("SuperAdministrator/Discs/editDisc/getAvailableVMs", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				try {
+					Organization o = app.findOrgByName(req.body());
+					if(o == null) {
+						res.status(400);
+						return "400 bad request";
+					}
+					OrganizationDTO dto = new OrganizationDTO();
+					dto.setOrgName(req.body());
+					ArrayList<VMDTO> vms = app.getAvailableVMs(dto);
+					res.status(200);
+					return g.toJson(vms);
+				}catch(Exception e) {
+					res.status(400);
+					return "400 bad request";
+				}
+			}
+		});
+		
 		
 		//getting VMs of the current logged in ADMINISTRATOR
 		get("Administrator/VMs/viewVMs/getVMs", (req, res)->{
@@ -177,6 +203,25 @@ public class SparkMain {
 			}else {
 				String vmName = req.body();
 				int flag = app.deleteVM(vmName);
+				if(flag == 0) {
+					res.status(400);
+					return "400 bad request";
+				}
+				app.writeToFiles();
+				res.status(200);
+				return "200 OK";
+			}
+		});
+		
+		post("SuperAdministrator/Discs/editDisc/deleteDisc", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String dName = req.body();
+				int flag = app.deleteDisc(dName);
 				if(flag == 0) {
 					res.status(400);
 					return "400 bad request";
@@ -266,6 +311,45 @@ public class SparkMain {
 						return "200 OK";
 					}else if(app.findVMByName(vmdto.getResourceName()) == null && vmdto.getOldResourceName().equals("") == false && vmdto.getResourceName().equals("") == false && vmdto.getCategoryName().equals("") == false && vmdto.getGPU() > 0 && vmdto.getRAM() > 0 && vmdto.getNumberOfCores() > 0 && vmdto.getOrganizationName().equals("") == false) {
 						int flag = app.editVM(vmdto);
+						if(flag == 0) {
+							res.status(400);
+							return "400 bad request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}else {
+						res.status(400);
+						return "400 Bad request";
+					}
+				}catch(Exception e) {
+					res.status(400);
+					return "400 Bad request";
+				}
+			}
+		});
+		
+		post("SuperAdministrator/Discs/editDisc/editDisc", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String d = req.body();
+				try {
+					DiscDTO discdto = g.fromJson(d, DiscDTO.class);
+					if(discdto.getOldResourceName().equals(discdto.getResourceName()) && discdto.getOldResourceName().equals("") == false && discdto.getResourceName().equals("") == false && discdto.getCapacity() > 0 && discdto.getOrganizationName().equals("") == false  && discdto.getType().equals("") == false) {
+						int flag = app.editDisc(discdto);
+						if(flag == 0) {
+							res.status(400);
+							return "400 bad request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}else if(app.findDiscByName(discdto.getResourceName()) == null && discdto.getOldResourceName().equals("") == false && discdto.getResourceName().equals("") == false  && discdto.getCapacity() > 0 && discdto.getOrganizationName().equals("") == false && discdto.getType().equals("") == false) {
+						int flag = app.editDisc(discdto);
 						if(flag == 0) {
 							res.status(400);
 							return "400 bad request";
@@ -390,6 +474,25 @@ public class SparkMain {
 					return "400 bad request";
 				}
 				VMDTO dto = app.convertVMtoVMDTO(vm);
+				res.status(200);
+				return g.toJson(dto);
+			}
+		});
+		
+		post("SuperAdministrator/Discs/editDisc/getDiscByName", (req, res)-> {
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String d = req.body();
+				Disc disc = app.findDiscByName(d);
+				if(disc == null) {
+					res.status(400);
+					return "400 bad request";
+				}
+				DiscDTO dto = app.convertDisctoDiscDTO(disc);
 				res.status(200);
 				return g.toJson(dto);
 			}

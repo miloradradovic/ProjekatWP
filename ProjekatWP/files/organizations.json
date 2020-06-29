@@ -7,11 +7,10 @@
       "mico4@super.com"
     ],
     "resourcesNames": [
-      "d1",
-      "d2",
       "vm1",
       "vm2",
-      "vm5"
+      "vm5",
+      "Diskkk123"
     ]
   },
   {
@@ -24,7 +23,7 @@
       "mico5@super.com"
     ],
     "resourcesNames": [
-      "d3",
+      "d13",
       "vm3",
       "vm4"
     ]
@@ -37,7 +36,7 @@
       "mico6@super.com"
     ],
     "resourcesNames": [
-      "d4"
+      "d54"
     ]
   },
   {
@@ -46,7 +45,7 @@
     "logo": "logo4",
     "usersEmails": [],
     "resourcesNames": [
-      "d5"
+      "d566"
     ]
   },
   {

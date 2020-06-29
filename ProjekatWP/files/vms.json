@@ -2,7 +2,9 @@
   {
     "organizationName": "org1",
     "categoryName": "cat1",
-    "connectedDiscs": [],
+    "connectedDiscs": [
+      "Diskkk"
+    ],
     "activities": [],
     "resourceName": "vm1"
   },

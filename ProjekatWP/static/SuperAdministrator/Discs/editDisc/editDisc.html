@@ -2,11 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit disc</title>
+    <link rel="stylesheet" href="editDisc.css">
     <script type = "text/javascript" src="../../../jquery.js"></script>
+    <script type = "text/javascript" src="../../../jquery.validate.js"></script>
+    <script type = "text/javascript" src="../../../Validations/discs/edit_disc_validation.js"></script>
+    <script type = "text/javascript" src="../../../additional_rules.js"></script>
     <script type = "text/javascript" src="editDisc.js"></script>
 </head>
 <body>
 
+    <div id="profilediv">
+        <a href = "../../Profile/editProfile/editProfile.html">Profile</a>
+        <br>
+        <a href = "../../../logout.html">Log out</a>
+    </div>
+    <div class="topnav">
+        <a title="View all virtual machines" href="../viewVMs/viewVMs.html">Virtual machines</a>
+        <a title="View all categories" href="../../Categories/viewCategories/viewCategories.html">Categories</a>
+        <a title="View all discs" class="active"  href="../../Discs/viewDiscs/viewDiscs.html">Discs</a>
+        <a title="View all organizations" href="../../Organizations/viewOrganizations/viewOrganizations.html">Organizations</a>
+        <a title="View all users" href="../../Users/viewUsers/viewUsers.html">Users</a>
+    </div>
+
+    <h2 style="text-align: center">Edit disc</h2>
+
+    <div id = "edit_form_div">
+        <form id = "edit_form">
+
+            <table id="edit_labels">
+                <tr>
+                    <td align="left">Name: </td>
+                    <td align="left" id="name_td"></td>
+                </tr>
+                <tr>
+                    <td align="left">Organization: </td>
+                    <td align="left" id="org_td"></td>
+                </tr>
+                <tr>
+                    <td align="left">Capacity: </td>
+                    <td align="left" id="cap_td"></td>
+                </tr>
+                <tr>
+                    <td align="left">Type: </td>
+                    <td align="left" id="dic_type_td">
+                        <select name = "Disc type" id="select_disc_type">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">VM: </td>
+                    <td align="left" id="vm_td">
+                        <select name = "VM" id="select_vm">
+                        </select>
+                    </td>
+                </tr>
+            </table>
+
+
+        </form>
+
+        <br><br><br><br>
+        <button id = "edit_button">Edit</button>
+        <button id = "delete_button">Delete</button>
+
+    </div>
 </body>
 </html>

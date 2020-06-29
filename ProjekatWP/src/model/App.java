@@ -269,6 +269,35 @@ public class App {
 		}
 		return found;
 	}
+	
+public int deleteDisc(String dName) {
+		
+		int found = 0;
+		for(Disc d : this.getDiscs()) {
+			if(d.getResourceName().equals(dName)) {
+				this.getDiscs().remove(d);
+				found = 1;
+				break;
+			}
+		}
+		if(found == 0) {
+			return found;
+		}
+		
+		for(Organization o : this.getOrganizations()) {
+			if(o.getResourcesNames().contains(dName)) {
+				found = 1;
+				o.getResourcesNames().remove(dName);
+			}
+		}
+		
+		for(VM vm : this.getVms()) {
+			if(vm.getConnectedDiscs().contains(dName)) {
+				vm.getConnectedDiscs().remove(dName);
+			}
+		}
+		return found;
+	}
 
 	public ArrayList<VMDTO> getVMDTOs(User currentLoggedInUser) {
 		ArrayList<VMDTO> vmdto = new ArrayList<VMDTO>();
@@ -386,6 +415,62 @@ public class App {
 				}
 			}
 		}
+		return found;
+		
+	}
+	
+public int editDisc(DiscDTO discdto) {
+	
+		int found = 0;
+		
+		for(Disc d : this.getDiscs()) {
+			if(d.getResourceName().equals(discdto.getOldResourceName())) {
+				
+				found = 1;
+				d.setResourceName(discdto.getResourceName());
+				d.setCapacity(discdto.getCapacity());
+				d.setOrganizationName(discdto.getOrganizationName());
+				if (discdto.getType().equals("SSD")) {
+					d.setType(DiscType.SSD);
+				}
+				else {
+					d.setType(
+							DiscType.HDD);
+				}
+				if(discdto.getVmName() == null) {
+					d.setVmName("");
+				}else {
+					d.setVmName(discdto.getVmName());			
+				}
+			}
+		}
+		if(found == 0) {
+			return found;
+		}
+		
+		found = 0;
+		
+		for(Organization o : this.getOrganizations()) {
+			for(String name : o.getResourcesNames()) {
+				if(name.equals(discdto.getOldResourceName())) {
+					found = 1;
+					int index = o.getResourcesNames().indexOf(name);
+					o.getResourcesNames().remove(index);
+					o.getResourcesNames().add(index, discdto.getResourceName());
+					break;
+				}
+			}
+		}
+		
+		for(VM vm : this.getVms()) {
+			if(vm.getConnectedDiscs().contains(discdto.getOldResourceName())) {
+				vm.getConnectedDiscs().remove(discdto.getOldResourceName());
+			}
+			if(vm.getResourceName().equals(discdto.getVmName())) {
+				vm.getConnectedDiscs().add(discdto.getResourceName());
+			}
+		}
+		
 		return found;
 		
 	}
@@ -540,7 +625,11 @@ public class App {
 		disc.setResourceName(dto.getResourceName());
 		disc.setOrganizationName(dto.getOrganizationName());
 		disc.setCapacity(dto.getCapacity());
-		disc.setVmName(dto.getVmName());
+		if(dto.getVmName() == null) {
+			disc.setVmName("");
+		}else {
+			disc.setVmName(dto.getVmName());
+		}
 		if(dto.getType().equals("SSD")) {
 			disc.setType(DiscType.SSD);
 		}
@@ -599,7 +688,7 @@ public class App {
 		return dtos;
 	}
 
-	private DiscDTO convertDisctoDiscDTO(Disc d) {
+	public DiscDTO convertDisctoDiscDTO(Disc d) {
 		DiscDTO dto = new DiscDTO();
 		dto.setCapacity(d.getCapacity());
 		dto.setCreated(d.getCreated().format(dtf));

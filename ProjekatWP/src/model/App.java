@@ -333,6 +333,19 @@ public int deleteDisc(String dName) {
 			return vmdto;
 		}
 	}
+	
+	public ArrayList<CategoryDTO> getCategoryDTOs() {
+		ArrayList<CategoryDTO> cdto = new ArrayList<CategoryDTO>();
+		for(CategoryVM c : this.getCategories()) {
+			CategoryDTO dto = new CategoryDTO();
+			dto.setGPU(c.getGPU());
+			dto.setNumberOfCores(c.getNumberOfCores());
+			dto.setRAM(c.getRAM());
+			dto.setCategoryName(c.getCategoryName());
+			cdto.add(dto);
+		}
+		return cdto;
+	}
 
 	public int editUser(UserDTO dto) {
 		int found = 0;

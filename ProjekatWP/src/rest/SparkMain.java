@@ -100,6 +100,19 @@ public class SparkMain {
 			}
 		});
 		
+		get("SuperAdministrator/Categories/viewCategories/getCategories", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				res.status(200);
+				ArrayList<CategoryDTO> c = app.getCategoryDTOs();
+				return g.toJson(c);
+			}
+		});
+		
 		//getting discs of the current logged in SUPERADMINISTRATOR
 		get("SuperAdministrator/Discs/viewDiscs/getDiscs", (req, res)->{
 			res.type("application/json");

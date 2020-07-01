@@ -2,11 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>View categories</title>
+    <link rel="stylesheet" href="viewCategories.css">
     <script type = "text/javascript" src="../../../jquery.js"></script>
     <script type = "text/javascript" src="viewCategories.js"></script>
 </head>
 <body>
+
+    <div id="profilediv">
+        <a href = "../../Profile/editProfile/editProfile.html">Profile</a>
+        <br>
+        <a href = "../../../logout.html">Log out</a>
+    </div>
+    <div class="topnav">
+        <a title="View all virtual machines" href="viewVMs.html">Virtual machines</a>
+        <a title="View all categories" class="active" href="../../Categories/viewCategories/viewCategories.html">Categories</a>
+        <a title="View all discs" href="../../Discs/viewDiscs/viewDiscs.html">Discs</a>
+        <a title="View all organizations" href="../../Organizations/viewOrganizations/viewOrganizations.html">Organizations</a>
+        <a title="View all users" href="../../Users/viewUsers/viewUsers.html">Users</a>
+    </div>
+
+    <div id="div_table_h2">
+        <h2 id ="vm_par">Categories</h2>
+
+        <table border = "1" id = "tableC">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Number of cores</th>
+                <th>RAM</th>
+                <th>GPU</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div id="addbuttondiv">
+        <input id = "addcategory" type="button" value="Add new category">
+    </div>
 
 </body>
 </html>

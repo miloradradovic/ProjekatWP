@@ -2,11 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>View Discs</title>
+    <link rel="stylesheet" href="viewDiscs.css">
     <script type = "text/javascript" src="../../../jquery.js"></script>
     <script type = "text/javascript" src="viewDiscs.js"></script>
 </head>
 <body>
+
+    <div id="profilediv">
+        <a href = "../../Profile/editProfile/editProfile.html">Profile</a>
+        <br>
+        <a href = "../../../logout.html">Log out</a>
+    </div>
+    <div class="topnav">
+        <a title="View all virtual machines" href="viewVMs.html">Virtual machines</a>
+        <a title="View all categories" href="../../Categories/viewCategories/viewCategories.html">Categories</a>
+        <a title="View all discs" class="active"  href="../../Discs/viewDiscs/viewDiscs.html">Discs</a>
+        <a title="View all organizations" href="../../Organizations/viewOrganizations/viewOrganizations.html">Organizations</a>
+        <a title="View all users" href="../../Users/viewUsers/viewUsers.html">Users</a>
+    </div>
+
+    <div id="div_table_h2">
+        <h2 id ="disc_par">Discs</h2>
+        <table border = "1" id = "tableDiscs">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Capacity</th>
+                <th>VM</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <hr>
 
 </body>
 </html>

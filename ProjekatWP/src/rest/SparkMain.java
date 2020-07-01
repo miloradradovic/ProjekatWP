@@ -127,6 +127,19 @@ public class SparkMain {
 			}
 		});
 		
+		get("User/Discs/viewDiscs/getDiscs", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 1) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				res.status(200);
+				ArrayList<DiscDTO> discs = app.getDiscDTOs(app.getCurrentLoggedInUser(req));
+				return g.toJson(discs);
+			}
+		});
+		
 		post("SuperAdministrator/Discs/addDisc/getAvailableVMs", (req, res)->{
 			res.type("application/json");
 			
@@ -594,6 +607,25 @@ public class SparkMain {
 			res.type("application/json");
 			
 			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String d = req.body();
+				Disc disc = app.findDiscByName(d);
+				if(disc == null) {
+					res.status(400);
+					return "400 bad request";
+				}
+				DiscDTO dto = app.convertDisctoDiscDTO(disc);
+				res.status(200);
+				return g.toJson(dto);
+			}
+		});
+		
+		post("User/Discs/editDisc/getDiscByName", (req, res)-> {
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 1) {
 				res.status(403);
 				return "403 Not authorized";
 			}else {

@@ -785,6 +785,39 @@ public class SparkMain {
 			}
 		});
 		
+		post("SuperAdministrator/Categories/addCategory/addCategory", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				try {
+					CategoryDTO dto = g.fromJson(req.body(), CategoryDTO.class);
+					System.out.println(dto.getCategoryName() + ", " + dto.getNumberOfCores() + ", " + dto.getRAM() + ", " + dto.getGPU());
+					if(dto.getCategoryName().equals("") || dto.getNumberOfCores() <= 0 || dto.getRAM() <= 0 || dto.getGPU() <= 0 || app.findCatByName(dto.getCategoryName()) != null) {
+						res.status(400);
+						System.out.println("1");
+						return "400 Bad request";
+					}else {
+						int flag = app.addCategory(dto);
+						if(flag == 0) {
+							res.status(400);
+							System.out.println("2");
+							return "400 bad request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}
+				}catch(Exception e) {
+					res.status(400);
+					System.out.println("3");
+					return "400 bad request";
+				}
+			}
+		});
+		
 		post("Administrator/Discs/addDisc/addDisc", (req, res)->{
 			res.type("application/json");
 			

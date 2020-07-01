@@ -28,5 +28,17 @@
     "numberOfCores": 5,
     "RAM": 5,
     "GPU": 5
+  },
+  {
+    "categoryName": "cat6",
+    "numberOfCores": 3,
+    "RAM": 4,
+    "GPU": 2
+  },
+  {
+    "categoryName": "cat8",
+    "numberOfCores": 3,
+    "RAM": 4,
+    "GPU": 2
   }
 ]

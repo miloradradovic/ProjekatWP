@@ -2,11 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add category</title>
+    <link rel="stylesheet" href="addCategory.css">
     <script type = "text/javascript" src="../../../jquery.js"></script>
+    <script type = "text/javascript" src="../../../jquery.validate.js"></script>
+    <script type = "text/javascript" src="../../../Validations/categories/add_category_validation.js"></script>
     <script type = "text/javascript" src="addCategory.js"></script>
 </head>
 <body>
+
+    <div id="profilediv">
+        <a href = "../../Profile/editProfile/editProfile.html">Profile</a>
+        <br>
+        <a href = "../../../logout.html">Log out</a>
+    </div>
+    <div class="topnav">
+        <a title="View all virtual machines" href="../../VMs/viewVMs/viewVMs.html">Virtual machines</a>
+        <a title="View all categories" class="active" href="../../Categories/viewCategories/viewCategories.html">Categories</a>
+        <a title="View all discs" href="../viewDiscs/viewDiscs.html">Discs</a>
+        <a title="View all organizations" href="../../Organizations/viewOrganizations/viewOrganizations.html">Organizations</a>
+        <a title="View all users" href="../../Users/viewUsers/viewUsers.html">Users</a>
+    </div>
+
+    <h2 style="text-align: center">Add category</h2>
+    <div id = "addcategorydiv">
+        <form id = "addCategoryForm">
+            <table id="addform">
+                <tr>
+                    <td align="left">Category name: </td>
+                    <td align="left" id = "category_name_td">
+                        <input type="text" id="category_name_input" name="category_name_input"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">Number of cores: </td>
+                    <td align="left" id="number_of_cores_td">
+                        <input type="number" id="number_of_cores_input"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">RAM: </td>
+                    <td align="left" id="ram_td">
+                        <input type="number" id="ram_input"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">GPU: </td>
+                    <td align="left" id="gpu_td">
+                        <input type="number" id="gpu_input"/>
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+        <button id = "addCategoryButton">Add category</button>
+
+    </div>
 
 </body>
 </html>

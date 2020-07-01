@@ -685,6 +685,27 @@ public int editDisc(DiscDTO discdto) {
 		this.discs.add(disc);
 		return flag;
 	}
+	
+	public int addCategory(CategoryDTO dto) {
+		int flag = 0;
+
+		CategoryVM c = new CategoryVM();
+		c.setCategoryName(dto.getCategoryName());
+		c.setNumberOfCores(dto.getNumberOfCores());
+		c.setRAM(dto.getRAM());
+		c.setGPU(dto.getGPU());
+
+		CategoryVM cat = this.findCatByName(dto.getCategoryName());
+		
+		if(cat != null) {
+			return 0;
+		}
+		
+		this.categories.add(c);
+		flag = 1;
+		
+		return 1;
+	}
 
 	public OrganizationDTO convertOrgtoOrgDTO(Organization o) {
 		

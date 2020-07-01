@@ -1,8 +1,9 @@
 [
   {
     "organizationName": "org2",
-    "type": "SSD",
+    "type": "HDD",
     "capacity": 10,
+    "vmName": "vm4",
     "created": {
       "date": {
         "year": 2019,
@@ -16,7 +17,7 @@
         "nano": 0
       }
     },
-    "resourceName": "d3"
+    "resourceName": "d88"
   },
   {
     "organizationName": "org3",
@@ -75,5 +76,25 @@
       }
     },
     "resourceName": "Diskkk123"
+  },
+  {
+    "organizationName": "org2",
+    "type": "SSD",
+    "capacity": 50,
+    "vmName": "vm3",
+    "created": {
+      "date": {
+        "year": 2020,
+        "month": 7,
+        "day": 1
+      },
+      "time": {
+        "hour": 19,
+        "minute": 23,
+        "second": 14,
+        "nano": 784000000
+      }
+    },
+    "resourceName": "Disk123"
   }
 ]

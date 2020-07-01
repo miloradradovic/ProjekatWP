@@ -586,8 +586,13 @@ public int editDisc(DiscDTO discdto) {
 		}else {
 			for(Organization o : this.getOrganizations()) {
 				if(o.getUsersEmails().contains(currentLoggedInUser.getEmail())) {
+					//System.out.println("a");
 					for(Disc d : this.getDiscs()) {
+						//System.out.println("d " + d);
+						//System.out.println(d.getResourceName());
+						//System.out.println("o " + o);
 						if(o.getResourcesNames().contains(d.getResourceName())) {
+							//System.out.println("aa");
 							DiscDTO dto = new DiscDTO();
 							dto.setCapacity(d.getCapacity());
 							if(d.getType() == DiscType.SSD) {
@@ -600,10 +605,12 @@ public int editDisc(DiscDTO discdto) {
 							dto.setResourceName(d.getResourceName());
 							dto.setVmName(d.getVmName());
 							discdto.add(dto);
+							//System.out.println(dto);
 						}
 					}
 				}
 			}
+			System.out.println(discdto);
 			return discdto;
 		}
 	}

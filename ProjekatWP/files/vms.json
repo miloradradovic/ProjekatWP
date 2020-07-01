@@ -18,14 +18,18 @@
   {
     "organizationName": "org2",
     "categoryName": "cat3",
-    "connectedDiscs": [],
+    "connectedDiscs": [
+      "Disk123"
+    ],
     "activities": [],
     "resourceName": "vm3"
   },
   {
     "organizationName": "org2",
     "categoryName": "cat4",
-    "connectedDiscs": [],
+    "connectedDiscs": [
+      "d88"
+    ],
     "activities": [],
     "resourceName": "vm4"
   },

@@ -2,11 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add category</title>
+    <link rel="stylesheet" href="addOrganization.css">
     <script type = "text/javascript" src="../../../jquery.js"></script>
+    <script type = "text/javascript" src="../../../jquery.validate.js"></script>
+    <script type = "text/javascript" src="../../../Validations/organizations/add_organization_validation.js"></script>
     <script type = "text/javascript" src="addOrganization.js"></script>
 </head>
 <body>
+
+    <div id="profilediv">
+        <a href = "../../Profile/editProfile/editProfile.html">Profile</a>
+        <br>
+        <a href = "../../../logout.html">Log out</a>
+    </div>
+    <div class="topnav">
+        <a title="View all virtual machines" href="../../VMs/viewVMs/viewVMs.html">Virtual machines</a>
+        <a title="View all categories" href="../../Categories/viewCategories/viewCategories.html">Categories</a>
+        <a title="View all discs" href="../..Discs/viewDiscs/viewDiscs.html">Discs</a>
+        <a title="View all organizations" class="active"  href="../viewOrganizations/viewOrganizations.html">Organizations</a>
+        <a title="View all users" href="../../Users/viewUsers/viewUsers.html">Users</a>
+    </div>
+
+    <h2 style="text-align: center">Add organization</h2>
+    <div id = "addorganizationdiv">
+        <form id = "addOrganizationForm">
+            <table id="addform">
+                <tr>
+                    <td align="left">Organization name: </td>
+                    <td align="left" id = "org_name_td">
+                        <input type="text" id="org_name_input" name="org_name_input"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">Description: </td>
+                    <td align="left" id="description_td">
+                        <input type="text" id="description_input"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left">Logo: </td>
+                    <td align="left" id="logo_td">
+                        <input id="logo_input" type="file" accept="image/jpeg, .jpeg, image/png, .png, image/pjpeg, .jpg"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" colspan="2">
+                        <label>
+                            <output>
+                                <img id="photo" style="width:250px">
+                            </output>
+                        </label>
+                    </td>
+                </tr>
+            </table>
+            
+        </form>
+        <button id = "addOrganizationButton">Add organization</button>
+
+    </div>
 
 </body>
 </html>

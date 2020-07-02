@@ -370,6 +370,18 @@ public class App {
 		}
 		return cdto;
 	}
+	
+	public ArrayList<OrganizationDTO> getOrganizationDTOs() {
+		ArrayList<OrganizationDTO> odto = new ArrayList<OrganizationDTO>();
+		for(Organization o : this.getOrganizations()) {
+			OrganizationDTO dto = new OrganizationDTO();
+			dto.setOrgName(o.getOrgName());
+			dto.setDescription(o.getDescription());
+			dto.setLogo(o.getLogo());
+			odto.add(dto);
+		}
+		return odto;
+	}
 
 	public int editUser(UserDTO dto) {
 		int found = 0;
@@ -529,6 +541,39 @@ public int editCategory(CategoryDTO cdto) {
 	for(VM vm : this.getVms()) {
 		if(vm.getCategoryName().equals(cdto.getOldCategoryName())) {
 			vm.setCategoryName(cdto.getCategoryName());;
+		}
+	}
+	
+	if(found == 0) {
+		return found;
+	}
+	
+	return found;
+	
+}
+
+public int editOrganization(OrganizationDTO odto) {
+	
+	int found = 0;
+	
+	for(Organization o : this.getOrganizations()) {
+		if(o.getOrgName().equals(odto.getOldOrgName())) {		
+			found = 1;
+			o.setOrgName(odto.getOrgName());
+			o.setDescription(odto.getDescription());
+			o.setLogo(odto.getLogo());
+		}
+	}
+	
+	for(VM vm : this.getVms()) {
+		if(vm.getOrganizationName().equals(odto.getOldOrgName())) {
+			vm.setOrganizationName(odto.getOrgName());;
+		}
+	}
+	
+	for(Disc d : this.getDiscs()) {
+		if(d.getOrganizationName().equals(odto.getOldOrgName())) {
+			d.setOrganizationName(odto.getOrgName());;
 		}
 	}
 	
@@ -759,6 +804,26 @@ public int editCategory(CategoryDTO cdto) {
 		
 		return 1;
 	}
+	
+	public int addOrganization(OrganizationDTO dto) {
+		int flag = 0;
+
+		Organization o = new Organization();
+		o.setOrgName(dto.getOrgName());
+		o.setDescription(dto.getDescription());
+		o.setLogo(dto.getLogo());
+
+		Organization org = this.findOrgByName(dto.getOrgName());
+		
+		if(org != null) {
+			return 0;
+		}
+		
+		this.organizations.add(o);
+		flag = 1;
+		
+		return 1;
+	}
 
 	public OrganizationDTO convertOrgtoOrgDTO(Organization o) {
 		
@@ -768,6 +833,7 @@ public int editCategory(CategoryDTO cdto) {
 		dto.setOrgName(o.getOrgName());
 		dto.setResourcesNames(o.getResourcesNames());
 		dto.setUsersEmails(o.getResourcesNames());
+		dto.setOldOrgName(o.getOrgName());
 		return dto;
 	}
 

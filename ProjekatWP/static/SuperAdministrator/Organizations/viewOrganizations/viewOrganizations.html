@@ -2,11 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>View categories</title>
+    <link rel="stylesheet" href="viewOrganizations.css">
     <script type = "text/javascript" src="../../../jquery.js"></script>
     <script type = "text/javascript" src="viewOrganizations.js"></script>
 </head>
 <body>
+
+    <div id="profilediv">
+        <a href = "../../Profile/editProfile/editProfile.html">Profile</a>
+        <br>
+        <a href = "../../../logout.html">Log out</a>
+    </div>
+    <div class="topnav">
+        <a title="View all virtual machines" href="../../VMs/viewVMs/viewVMs.html">Virtual machines</a>
+        <a title="View all categories" href="../../Categories/viewCategories/viewCategories.html">Categories</a>
+        <a title="View all discs" href="../../Discs/viewDiscs/viewDiscs.html">Discs</a>
+        <a title="View all organizations" class="active"  href="viewOrganizations.html">Organizations</a>
+        <a title="View all users" href="../../Users/viewUsers/viewUsers.html">Users</a>
+    </div>
+
+    <div id="div_table_h2">
+        <h2 id ="vm_par">Organizations</h2>
+
+        <table border = "1" id = "tableO">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Logo</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div id="addbuttondiv">
+        <input id = "addorganization" type="button" value="Add new organization">
+    </div>
 
 </body>
 </html>

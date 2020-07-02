@@ -41,9 +41,9 @@
     ]
   },
   {
-    "orgName": "org4",
-    "description": "opis4",
-    "logo": "logo4",
+    "orgName": "org4555",
+    "description": "opis4555",
+    "logo": "logo4555",
     "usersEmails": [],
     "resourcesNames": [
       "d566"
@@ -53,6 +53,27 @@
     "orgName": "org5",
     "description": "opis5",
     "logo": "logo5",
+    "usersEmails": [],
+    "resourcesNames": []
+  },
+  {
+    "orgName": "org22",
+    "description": "lepa",
+    "logo": "logoooo",
+    "usersEmails": [],
+    "resourcesNames": []
+  },
+  {
+    "orgName": "org66",
+    "description": "lepa",
+    "logo": "C:\\fakepath\\icloud-logo-581b32425f9b581c0bb7281c.jpg",
+    "usersEmails": [],
+    "resourcesNames": []
+  },
+  {
+    "orgName": "orggggg",
+    "description": "opissssss",
+    "logo": "C:\\fakepath\\icloud-logo-581b32425f9b581c0bb7281c.jpg",
     "usersEmails": [],
     "resourcesNames": []
   }

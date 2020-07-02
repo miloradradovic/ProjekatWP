@@ -113,6 +113,19 @@ public class SparkMain {
 			}
 		});
 		
+		get("SuperAdministrator/Organizations/viewOrganizations/getOrganizations", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				res.status(200);
+				ArrayList<OrganizationDTO> c = app.getOrganizationDTOs();
+				return g.toJson(c);
+			}
+		});
+		
 		//getting discs of the current logged in SUPERADMINISTRATOR
 		get("SuperAdministrator/Discs/viewDiscs/getDiscs", (req, res)->{
 			res.type("application/json");
@@ -510,6 +523,50 @@ public class SparkMain {
 			}
 		});
 		
+		post("SuperAdministrator/Organizations/editOrganization/editOrganization", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String o = req.body();
+				try {
+					OrganizationDTO odto = g.fromJson(o, OrganizationDTO.class);
+					System.out.println(odto.getOldOrgName() + ", " + odto.getOrgName() + ", " + odto.getDescription() + ", " + odto.getLogo());
+					if(odto.getOldOrgName().equals(odto.getOrgName()) && odto.getOldOrgName().equals("") == false && odto.getDescription().equals("") && odto.getLogo().equals("")) {
+						int flag = app.editOrganization(odto);
+						if(flag == 0) {
+							res.status(400);
+							System.out.println("1");
+							return "400 bad request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}else if(app.findOrgByName(odto.getOrgName()) == null && odto.getOldOrgName().equals("") == false && odto.getOrgName().equals("") == false  && odto.getDescription().equals("") == false && odto.getLogo().equals("") == false) {
+						int flag = app.editOrganization(odto);
+						if(flag == 0) {
+							res.status(400);
+							System.out.println("2");
+							return "400 bad request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}else {
+						res.status(400);
+						System.out.println("3");
+						return "400 Bad request";
+					}
+				}catch(Exception e) {
+					res.status(400);
+					System.out.println("4");
+					return "400 Bad request";
+				}
+			}
+		});
+		
 		post("Administrator/Discs/editDisc/editDisc", (req, res)->{
 			res.type("application/json");
 			
@@ -693,6 +750,25 @@ public class SparkMain {
 					return "400 bad request";
 				}
 				CategoryDTO dto = app.convertCattoCatDTO(cat);
+				res.status(200);
+				return g.toJson(dto);
+			}
+		});
+		
+		post("SuperAdministrator/Organizations/editOrganization/getOrganizationByName", (req, res)-> {
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String o = req.body();
+				Organization org = app.findOrgByName(o);
+				if(org == null) {
+					res.status(400);
+					return "400 bad request";
+				}
+				OrganizationDTO dto = app.convertOrgtoOrgDTO(org);
 				res.status(200);
 				return g.toJson(dto);
 			}
@@ -883,6 +959,38 @@ public class SparkMain {
 						return "400 Bad request";
 					}else {
 						int flag = app.addCategory(dto);
+						if(flag == 0) {
+							res.status(400);
+							System.out.println("2");
+							return "400 bad request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}
+				}catch(Exception e) {
+					res.status(400);
+					System.out.println("3");
+					return "400 bad request";
+				}
+			}
+		});
+		
+		post("SuperAdministrator/Organizations/addOrganization/addOrganization", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				try {
+					OrganizationDTO dto = g.fromJson(req.body(), OrganizationDTO.class);
+					if(dto.getOrgName().equals("") || dto.getDescription().equals("") || dto.getLogo().equals("") || app.findOrgByName(dto.getOrgName()) != null) {
+						res.status(400);
+						System.out.println("1");
+						return "400 Bad request";
+					}else {
+						int flag = app.addOrganization(dto);
 						if(flag == 0) {
 							res.status(400);
 							System.out.println("2");

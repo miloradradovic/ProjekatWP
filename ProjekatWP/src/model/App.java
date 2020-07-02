@@ -270,7 +270,7 @@ public class App {
 		return found;
 	}
 	
-public int deleteDisc(String dName) {
+	public int deleteDisc(String dName) {
 		
 		int found = 0;
 		for(Disc d : this.getDiscs()) {
@@ -296,6 +296,30 @@ public int deleteDisc(String dName) {
 				vm.getConnectedDiscs().remove(dName);
 			}
 		}
+		return found;
+	}
+	
+	public int deleteCategory(String cName) {
+		
+		int found = 0;
+		for(CategoryVM c : this.getCategories()) {
+			if(c.getCategoryName().equals(cName)) {
+				this.getCategories().remove(c);
+				found = 1;
+				break;
+			}
+		}
+		
+		if(found == 0) {
+			return found;
+		}
+		
+		for(VM vm : this.getVms()) {
+			if(vm.getCategoryName().equals(cName)) {
+				vm.setCategoryName("");;
+			}
+		}
+		
 		return found;
 	}
 
@@ -488,6 +512,34 @@ public int editDisc(DiscDTO discdto) {
 		
 	}
 
+public int editCategory(CategoryDTO cdto) {
+	
+	int found = 0;
+	
+	for(CategoryVM c : this.getCategories()) {
+		if(c.getCategoryName().equals(cdto.getOldCategoryName())) {		
+			found = 1;
+			c.setCategoryName(cdto.getCategoryName());
+			c.setNumberOfCores(cdto.getNumberOfCores());
+			c.setRAM(cdto.getRAM());
+			c.setGPU(cdto.getGPU());
+		}
+	}
+	
+	for(VM vm : this.getVms()) {
+		if(vm.getCategoryName().equals(cdto.getOldCategoryName())) {
+			vm.setCategoryName(cdto.getCategoryName());;
+		}
+	}
+	
+	if(found == 0) {
+		return found;
+	}
+	
+	return found;
+	
+}
+
 	public VMDTO convertVMtoVMDTO(VM vm) {
 		VMDTO dto = new VMDTO();
 		dto.setCategoryName(vm.getCategoryName());
@@ -513,6 +565,7 @@ public int editDisc(DiscDTO discdto) {
 		dto.setGPU(cvm.getGPU());
 		dto.setNumberOfCores(cvm.getNumberOfCores());
 		dto.setRAM(cvm.getRAM());
+		dto.setOldCategoryName(cvm.getCategoryName());
 		return dto;
 	}
 

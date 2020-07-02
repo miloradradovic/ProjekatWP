@@ -310,6 +310,25 @@ public class SparkMain {
 			}
 		});
 		
+		post("SuperAdministrator/Categories/editCategory/deleteCategory", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String c = req.body();
+				int flag = app.deleteCategory(c);
+				if(flag == 0) {
+					res.status(400);
+					return "400 bad request";
+				}
+				app.writeToFiles();
+				res.status(200);
+				return "200 OK";
+			}
+		});
+		
 		
 		post("Administrator/VMs/editVM/deleteVM", (req, res)->{
 			res.type("application/json");
@@ -442,6 +461,50 @@ public class SparkMain {
 					}
 				}catch(Exception e) {
 					res.status(400);
+					return "400 Bad request";
+				}
+			}
+		});
+		
+		post("SuperAdministrator/Categories/editCategory/editCategory", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String c = req.body();
+				try {
+					CategoryDTO cdto = g.fromJson(c, CategoryDTO.class);
+					System.out.println(cdto.getOldCategoryName() + ", " + cdto.getCategoryName() + ", " + cdto.getNumberOfCores() + ", " + cdto.getGPU() + ", " + cdto.getRAM());
+					if(cdto.getOldCategoryName().equals(cdto.getCategoryName()) && cdto.getOldCategoryName().equals("") == false && cdto.getCategoryName().equals("") == false && cdto.getNumberOfCores() > 0 && cdto.getRAM() > 0 && cdto.getGPU() > 0) {
+						int flag = app.editCategory(cdto);
+						if(flag == 0) {
+							res.status(400);
+							System.out.println("1");
+							return "400 bad request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}else if(app.findCatByName(cdto.getCategoryName()) == null && cdto.getOldCategoryName().equals("") == false && cdto.getCategoryName().equals("") == false  && cdto.getNumberOfCores() > 0 && cdto.getRAM() > 0 && cdto.getGPU() > 0) {
+						int flag = app.editCategory(cdto);
+						if(flag == 0) {
+							res.status(400);
+							System.out.println("2");
+							return "400 bad request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}else {
+						res.status(400);
+						System.out.println("3");
+						return "400 Bad request";
+					}
+				}catch(Exception e) {
+					res.status(400);
+					System.out.println("4");
 					return "400 Bad request";
 				}
 			}
@@ -611,6 +674,25 @@ public class SparkMain {
 					return "400 bad request";
 				}
 				DiscDTO dto = app.convertDisctoDiscDTO(disc);
+				res.status(200);
+				return g.toJson(dto);
+			}
+		});
+		
+		post("SuperAdministrator/Categories/editCategory/getCategoryByName", (req, res)-> {
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 3) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String c = req.body();
+				CategoryVM cat = app.findCatByName(c);
+				if(cat == null) {
+					res.status(400);
+					return "400 bad request";
+				}
+				CategoryDTO dto = app.convertCattoCatDTO(cat);
 				res.status(200);
 				return g.toJson(dto);
 			}

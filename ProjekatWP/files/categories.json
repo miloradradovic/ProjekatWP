@@ -8,7 +8,7 @@
   {
     "categoryName": "cat2",
     "numberOfCores": 2,
-    "RAM": 2,
+    "RAM": 5,
     "GPU": 2
   },
   {
@@ -31,12 +31,6 @@
   },
   {
     "categoryName": "cat6",
-    "numberOfCores": 3,
-    "RAM": 4,
-    "GPU": 2
-  },
-  {
-    "categoryName": "cat8",
     "numberOfCores": 3,
     "RAM": 4,
     "GPU": 2

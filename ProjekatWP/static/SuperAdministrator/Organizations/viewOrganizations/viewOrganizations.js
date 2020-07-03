@@ -31,7 +31,8 @@ $(document).ready(function() {
                 .append($("<td>")
                     .text(element.description))
                 .append($("<td>")
-                    .text(element.logo))
+                    .append($("<img>")
+                        .attr("src", element.logo)))
             )
         })
     }

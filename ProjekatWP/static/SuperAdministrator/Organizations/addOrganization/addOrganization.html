@@ -43,16 +43,18 @@
                 <tr>
                     <td align="left">Logo: </td>
                     <td align="left" id="logo_td">
-                        <input id="logo_input" type="file" accept="image/jpeg, .jpeg, image/png, .png, image/pjpeg, .jpg"/>
+                        <input title="Choose logo. If you don't, the default one will be selected!" id="logo_input" type="file" accept="image/jpeg, .jpeg, image/png, .png, image/pjpeg, .jpg"/>
                     </td>
                 </tr>
                 <tr>
                     <td align="left" colspan="2">
-                        <label>
-                            <output>
-                                <img id="photo" style="width:250px">
-                            </output>
-                        </label>
+                        <img id="photo" style="width:250px">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" colspan="2">
+                        <input type="checkbox" id="defaultLogo" name="defaultLogo" value="defaultLogo">
+                        <label>Use default logo</label>
                     </td>
                 </tr>
             </table>

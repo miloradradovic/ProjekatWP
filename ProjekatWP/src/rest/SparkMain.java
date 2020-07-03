@@ -985,11 +985,14 @@ public class SparkMain {
 			}else {
 				try {
 					OrganizationDTO dto = g.fromJson(req.body(), OrganizationDTO.class);
-					if(dto.getOrgName().equals("") || dto.getDescription().equals("") || dto.getLogo().equals("") || app.findOrgByName(dto.getOrgName()) != null) {
+					if(dto.getOrgName().equals("") || dto.getDescription().equals("") || app.findOrgByName(dto.getOrgName()) != null) {
 						res.status(400);
 						System.out.println("1");
 						return "400 Bad request";
 					}else {
+						if(dto.getLogo().equals("")) {
+							dto.setLogo(app.getDefaultLogo());
+						}
 						int flag = app.addOrganization(dto);
 						if(flag == 0) {
 							res.status(400);

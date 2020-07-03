@@ -36,12 +36,7 @@ $(document).ready(function(){
                 .attr("value", window.organization.description)
         )
 
-        $("#logo_td").append(
-            $("<input>")
-                .attr("type", "text")
-                .attr("id", "logo_input")
-                .attr("value", window.organization.logo)
-        )
+        $("#photo").attr("src", window.organization.logo)
 
 
     }
@@ -52,7 +47,10 @@ $(document).ready(function(){
             let oldOrgName = window.organization.oldOrgName;
             let orgName = $("#org_name_input").val();
             let description = $("#description_input").val();
-            let logo = $("#logo_input").val();
+            let logo = $("#photo").attr("src")
+            if($("defaultLogo").is(":checked")) {
+                logo = ""
+            }
             $.ajax({
                 url: 'editOrganization',
                 type: 'post',
@@ -75,6 +73,27 @@ $(document).ready(function(){
                 }
             })
         }
+    })
+
+    $("#logo_input").change(function(event){
+        // if (this.files && this.files[0]) {
+        //     $("#photo").attr("src", URL.createObjectURL(this.files[0]))
+        //     console.log(URL.createObjectURL(this.files[0]))
+        // }
+        var reader = new FileReader();
+        reader.onload = function(){
+            $("#photo").attr("src", reader.result)
+            console.log(reader.result)
+        }
+        reader.readAsDataURL(event.target.files[0]);
+
+    })
+
+    $("#photo").dblclick(function(){
+        $("#photo").attr("src", "")
+        console.log($("#logo_input").attr("value"))
+        $("#logo_input").attr("value", "")
+        console.log($("#logo_input"))
     })
 
 

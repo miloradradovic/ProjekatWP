@@ -577,6 +577,12 @@ public int editOrganization(OrganizationDTO odto) {
 		}
 	}
 	
+	for(User u : this.getUsers()) {
+		if(u.getOrganizationName().equals(odto.getOldOrgName())) {
+			u.setOrganizationName(odto.getOrgName());
+		}
+	}
+	
 	if(found == 0) {
 		return found;
 	}

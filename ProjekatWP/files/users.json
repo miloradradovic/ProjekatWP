@@ -12,7 +12,7 @@
     "password": "milorad123",
     "name": "ime",
     "surname": "prezime",
-    "organizationName": "org2",
+    "organizationName": "promjena",
     "userType": "Admin"
   },
   {
@@ -20,7 +20,7 @@
     "password": "milorad123",
     "name": "ime",
     "surname": "prezime",
-    "organizationName": "org2",
+    "organizationName": "promjena",
     "userType": "User"
   },
   {
@@ -36,7 +36,7 @@
     "password": "milorad123",
     "name": "ime",
     "surname": "prezime",
-    "organizationName": "org2",
+    "organizationName": "promjena",
     "userType": "User"
   },
   {

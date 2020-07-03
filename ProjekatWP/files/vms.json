@@ -16,7 +16,7 @@
     "resourceName": "vm2"
   },
   {
-    "organizationName": "org2",
+    "organizationName": "promjena",
     "categoryName": "cat3",
     "connectedDiscs": [
       "Disk123"
@@ -25,7 +25,7 @@
     "resourceName": "vm3"
   },
   {
-    "organizationName": "org2",
+    "organizationName": "promjena",
     "categoryName": "cat4",
     "connectedDiscs": [
       "d88"

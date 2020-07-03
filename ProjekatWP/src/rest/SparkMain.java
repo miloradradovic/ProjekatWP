@@ -50,6 +50,14 @@ public class SparkMain {
 		//provjeri argumente, ako su nevalidni vrati 400
 		//ako je sve ok vrati 200
 		
+		
+		get("logout", (req, res)->{
+			Session s = req.session(false);
+			s.invalidate();
+			res.status(200);
+			return "200 OK";
+		});
+		
 		//login
 		post("login", (req, res)->{
 			res.type("application/json");
@@ -545,6 +553,56 @@ public class SparkMain {
 						res.status(200);
 						return "200 OK";
 					}else if(app.findOrgByName(odto.getOrgName()) == null && odto.getOldOrgName().equals("") == false && odto.getOrgName().equals("") == false  && odto.getDescription().equals("") == false && odto.getLogo().equals("") == false) {
+						int flag = app.editOrganization(odto);
+						if(flag == 0) {
+							res.status(400);
+							System.out.println("2");
+							return "400 bad request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}else {
+						res.status(400);
+						System.out.println("3");
+						return "400 Bad request";
+					}
+				}catch(Exception e) {
+					res.status(400);
+					System.out.println("4");
+					return "400 Bad request";
+				}
+			}
+		});
+		
+		post("Administrator/Organizations/editOrganization/editOrganization", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				String o = req.body();
+				try {
+					OrganizationDTO odto = g.fromJson(o, OrganizationDTO.class);
+					System.out.println(odto.getOldOrgName() + ", " + odto.getOrgName() + ", " + odto.getDescription() + ", " + odto.getLogo());
+					if(odto.getOldOrgName().equals(odto.getOrgName()) && odto.getOldOrgName().equals("") == false && odto.getDescription().equals("") == false) {
+						if(odto.getLogo().equals("")) {
+							odto.setLogo(app.getDefaultLogo());
+						}
+						int flag = app.editOrganization(odto);
+						if(flag == 0) {
+							res.status(400);
+							System.out.println("1");
+							return "400 bad request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}else if(app.findOrgByName(odto.getOrgName()) == null && odto.getOldOrgName().equals("") == false && odto.getOrgName().equals("") == false  && odto.getDescription().equals("") == false) {
+						if(odto.getLogo().equals("")) {
+							odto.setLogo(app.getDefaultLogo());
+						}
 						int flag = app.editOrganization(odto);
 						if(flag == 0) {
 							res.status(400);
@@ -1294,6 +1352,18 @@ public class SparkMain {
 		});
 		
 		get("Administrator/VMs/addVM/getOrganization", (req, res)->{
+			res.type("application/json");
+			
+			if(app.checkLoggedInUser(req) != 2) {
+				res.status(403);
+				return "403 Not authorized";
+			}else {
+				OrganizationDTO dto = app.convertOrgtoOrgDTO(app.findOrgByName(app.getCurrentLoggedInUser(req).getOrganizationName()));
+				return g.toJson(dto);
+			}
+		});
+		
+		get("Administrator/Organizations/editOrganization/getOrganization", (req, res)->{
 			res.type("application/json");
 			
 			if(app.checkLoggedInUser(req) != 2) {

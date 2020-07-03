@@ -48,7 +48,8 @@ $(document).ready(function(){
             let orgName = $("#org_name_input").val();
             let description = $("#description_input").val();
             let logo = $("#photo").attr("src")
-            if($("defaultLogo").is(":checked")) {
+            
+            if($("#defaultLogo").is(":checked")) {
                 logo = ""
             }
             $.ajax({

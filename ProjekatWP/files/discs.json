@@ -1,6 +1,6 @@
 [
   {
-    "organizationName": "org2",
+    "organizationName": "promjena",
     "type": "HDD",
     "capacity": 10,
     "vmName": "vm4",
@@ -78,7 +78,7 @@
     "resourceName": "Diskkk123"
   },
   {
-    "organizationName": "org2",
+    "organizationName": "promjena",
     "type": "SSD",
     "capacity": 50,
     "vmName": "vm3",

@@ -6,12 +6,11 @@ $(document).ready(function(){
         type: 'get',
         dataType: 'json',
         complete: function(response){
-            if(response.responseText === "1"){
-                window.location.href = "User/VMs/viewVMs/viewVMs.html";
-            }else if(response.responseText === "2"){
-                window.location.href = "Administrator/VMs/viewVMs/viewVMs.html";
-            }else if(response.responseText === "3"){
-                window.location.href = "SuperAdministrator/VMs/viewVMs/viewVMs.html";
+            if(response.responseText === "200 OK"){
+                window.location.href = "index.html";
+            }else{
+                alert("Something went wrong")
+                window.location.href = "index.html";
             }
         }
     })

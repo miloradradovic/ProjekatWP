@@ -52,6 +52,7 @@ public class SparkMain {
 		
 		
 		get("logout", (req, res)->{
+			res.type("application/json");
 			Session s = req.session(false);
 			s.invalidate();
 			res.status(200);

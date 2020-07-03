@@ -56,6 +56,7 @@ public class SparkMain {
 			Session s = req.session(false);
 			s.invalidate();
 			res.status(200);
+			System.out.print("usao");
 			return "200 OK";
 		});
 		

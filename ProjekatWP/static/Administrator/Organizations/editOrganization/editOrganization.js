@@ -10,7 +10,7 @@ $(document).ready(function(){
             window.organization = data;
             fillInputs();
         }, error: function(data){
-            if(data === "400 bad request"){
+            if(data === "400 Bad Request"){
                 alert("Something went wrong!");
             }else{
                 window.location.href = "../../../forbidden.html";
@@ -65,7 +65,7 @@ $(document).ready(function(){
                     if (response.status === 200) {
                         alert("Organization successfully edited!");
                         sessionStorage.removeItem("organizationedit");
-                        //window.location.href = "../viewOrganizations/viewOrganizations.html";
+                        window.location.href = "editOrganization.html";
                     }else if(response.status === 400){
                         alert("Something went wrong!");
                     }else{

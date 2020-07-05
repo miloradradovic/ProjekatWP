@@ -13,7 +13,7 @@ $(document).ready(function(){
             alert("UPRAVO ULAZIM U FILL INPUTS");
             fillInputs();
         }, error: function(data){
-            if(data === "400 bad request"){
+            if(data === "400 Bad Request"){
                 alert("Something went wrong!");
             }else{
                 console.log(data);

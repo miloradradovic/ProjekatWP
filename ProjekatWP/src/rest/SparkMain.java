@@ -42,13 +42,6 @@ public class SparkMain {
 			e.printStackTrace();
 		}
 		
-		//provjeriti da li ulogovani korisnik ima pravo na ovu stranicu
-		//ako nema, vrati error 403
-		//nesto = req.body() -> req.body treba da bude u obliku json-a nestoDTO
-		//nestoDTO = g.fromJson(nesto, nestoDTO.class);
-		//onda se iz nestoDTO napravi objekat nesto iz modela
-		//provjeri argumente, ako su nevalidni vrati 400
-		//ako je sve ok vrati 200
 		
 		
 		get("logout", (req, res)->{
@@ -56,7 +49,6 @@ public class SparkMain {
 			Session s = req.session(false);
 			s.invalidate();
 			res.status(200);
-			System.out.print("usao");
 			return "200 OK";
 		});
 		
@@ -66,9 +58,9 @@ public class SparkMain {
 			String user = req.body();
 			UserDTO userdto = g.fromJson(user, UserDTO.class);
 			User found_user = app.findUserLogIn(userdto);
-			if(found_user == null || userdto.getEmail().equals("") || userdto.getPassword().equals("")) {
+			if(found_user == null || app.loginValidation(userdto) == false) {
 				res.status(400);
-				return "400 Bad request";
+				return "400 Bad Request";
 			}
 			
 			Session ss = req.session(true);
@@ -102,7 +94,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				res.status(200);
 				ArrayList<VMDTO> vms = app.getVMDTOs(app.getCurrentLoggedInUser(req));
@@ -115,7 +107,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				res.status(200);
 				ArrayList<CategoryDTO> c = app.getCategoryDTOs();
@@ -128,7 +120,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				res.status(200);
 				ArrayList<OrganizationDTO> c = app.getOrganizationDTOs();
@@ -142,7 +134,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				res.status(200);
 				ArrayList<DiscDTO> discs = app.getDiscDTOs(app.getCurrentLoggedInUser(req));
@@ -155,7 +147,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				res.status(200);
 				ArrayList<DiscDTO> discs = app.getDiscDTOs(app.getCurrentLoggedInUser(req));
@@ -168,7 +160,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 1) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				res.status(200);
 				ArrayList<DiscDTO> discs = app.getDiscDTOs(app.getCurrentLoggedInUser(req));
@@ -181,13 +173,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					Organization o = app.findOrgByName(req.body());
 					if(o == null) {
 						res.status(400);
-						return "400 bad request";
+						return "400 Bad Request";
 					}
 					OrganizationDTO dto = new OrganizationDTO();
 					dto.setOrgName(req.body());
@@ -196,7 +188,7 @@ public class SparkMain {
 					return g.toJson(vms);
 				}catch(Exception e) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -206,7 +198,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					OrganizationDTO dto = app.convertOrgtoOrgDTO(app.findOrgByName(app.getCurrentLoggedInUser(req).getOrganizationName()));
@@ -215,7 +207,7 @@ public class SparkMain {
 					return g.toJson(vms);
 				}catch(Exception e) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -225,13 +217,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					Organization o = app.findOrgByName(req.body());
 					if(o == null) {
 						res.status(400);
-						return "400 bad request";
+						return "400 Bad Request";
 					}
 					OrganizationDTO dto = new OrganizationDTO();
 					dto.setOrgName(req.body());
@@ -240,7 +232,7 @@ public class SparkMain {
 					return g.toJson(vms);
 				}catch(Exception e) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -250,7 +242,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					OrganizationDTO dto = app.convertOrgtoOrgDTO(app.findOrgByName(app.getCurrentLoggedInUser(req).getOrganizationName()));
@@ -260,7 +252,7 @@ public class SparkMain {
 					return g.toJson(vms);
 				}catch(Exception e) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -272,7 +264,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				res.status(200);
 				ArrayList<VMDTO> vms = app.getVMDTOs(app.getCurrentLoggedInUser(req));
@@ -286,7 +278,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 1) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<VMDTO> vms = app.getVMDTOs(app.getCurrentLoggedInUser(req));
 				res.status(200);
@@ -300,13 +292,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String vmName = req.body();
 				int flag = app.deleteVM(vmName);
 				if(flag == 0) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad request";
 				}
 				app.writeToFiles();
 				res.status(200);
@@ -319,13 +311,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String dName = req.body();
 				int flag = app.deleteDisc(dName);
 				if(flag == 0) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				app.writeToFiles();
 				res.status(200);
@@ -338,13 +330,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String c = req.body();
 				int flag = app.deleteCategory(c);
 				if(flag == 0) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				app.writeToFiles();
 				res.status(200);
@@ -358,13 +350,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String vmName = req.body();
 				int flag = app.deleteVM(vmName);
 				if(flag == 0) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				app.writeToFiles();
 				res.status(200);
@@ -377,13 +369,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String userEmail = req.body();
 				int flag = app.deleteUser(userEmail);
 				if(flag == 0) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}else {
 					app.writeToFiles();
 					res.status(200);
@@ -397,13 +389,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String userEmail = req.body();
 				int flag = app.deleteUser(userEmail);
 				if(flag == 0) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				app.writeToFiles();
 				res.status(200);
@@ -416,36 +408,27 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String virt = req.body();
 				try {
 					VMDTO vmdto = g.fromJson(virt, VMDTO.class);
-					if(vmdto.getOldResourceName().equals(vmdto.getResourceName()) && vmdto.getOldResourceName().equals("") == false && vmdto.getResourceName().equals("") == false && vmdto.getCategoryName().equals("") == false && vmdto.getGPU() > 0 && vmdto.getRAM() > 0 && vmdto.getNumberOfCores() > 0 && vmdto.getOrganizationName().equals("") == false) {
-						int flag = app.editVM(vmdto);
-						if(flag == 0) {
-							res.status(400);
-							return "400 bad request";
-						}
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
-					}else if(app.findVMByName(vmdto.getResourceName()) == null && vmdto.getOldResourceName().equals("") == false && vmdto.getResourceName().equals("") == false && vmdto.getCategoryName().equals("") == false && vmdto.getGPU() > 0 && vmdto.getRAM() > 0 && vmdto.getNumberOfCores() > 0 && vmdto.getOrganizationName().equals("") == false) {
-						int flag = app.editVM(vmdto);
-						if(flag == 0) {
-							res.status(400);
-							return "400 bad request";
-						}
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
-					}else {
+					if(app.editVMValidation(vmdto) == false) {
 						res.status(400);
-						return "400 Bad request";
+						return "400 Bad Request";
+					}else {
+						int flag = app.editVM(vmdto);
+						if(flag == 0) {
+							res.status(400);
+							return "400 Bad Request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
 					}
 				}catch(Exception e) {
 					res.status(400);
-					return "400 Bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -455,36 +438,27 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String d = req.body();
 				try {
 					DiscDTO discdto = g.fromJson(d, DiscDTO.class);
-					if(discdto.getOldResourceName().equals(discdto.getResourceName()) && discdto.getOldResourceName().equals("") == false && discdto.getResourceName().equals("") == false && discdto.getCapacity() > 0 && discdto.getOrganizationName().equals("") == false  && discdto.getType().equals("") == false) {
-						int flag = app.editDisc(discdto);
-						if(flag == 0) {
-							res.status(400);
-							return "400 bad request";
-						}
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
-					}else if(app.findDiscByName(discdto.getResourceName()) == null && discdto.getOldResourceName().equals("") == false && discdto.getResourceName().equals("") == false  && discdto.getCapacity() > 0 && discdto.getOrganizationName().equals("") == false && discdto.getType().equals("") == false) {
-						int flag = app.editDisc(discdto);
-						if(flag == 0) {
-							res.status(400);
-							return "400 bad request";
-						}
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
-					}else {
+					if(app.editDiscValidation(discdto) == false) {
 						res.status(400);
-						return "400 Bad request";
+						return "400 Bad Request";
+					}else {
+						int flag = app.editDisc(discdto);
+						if(flag == 0) {
+							res.status(400);
+							return "400 Bad Request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
 					}
 				}catch(Exception e) {
 					res.status(400);
-					return "400 Bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -494,41 +468,29 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String c = req.body();
 				try {
 					CategoryDTO cdto = g.fromJson(c, CategoryDTO.class);
-					System.out.println(cdto.getOldCategoryName() + ", " + cdto.getCategoryName() + ", " + cdto.getNumberOfCores() + ", " + cdto.getGPU() + ", " + cdto.getRAM());
-					if(cdto.getOldCategoryName().equals(cdto.getCategoryName()) && cdto.getOldCategoryName().equals("") == false && cdto.getCategoryName().equals("") == false && cdto.getNumberOfCores() > 0 && cdto.getRAM() > 0 && cdto.getGPU() > 0) {
+					if(app.editCategoryValidation(cdto) == false) {
+						res.status(400);
+						return "400 Bad Request";
+					}else {
 						int flag = app.editCategory(cdto);
 						if(flag == 0) {
 							res.status(400);
 							System.out.println("1");
-							return "400 bad request";
+							return "400 Bad Request";
 						}
 						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
-					}else if(app.findCatByName(cdto.getCategoryName()) == null && cdto.getOldCategoryName().equals("") == false && cdto.getCategoryName().equals("") == false  && cdto.getNumberOfCores() > 0 && cdto.getRAM() > 0 && cdto.getGPU() > 0) {
-						int flag = app.editCategory(cdto);
-						if(flag == 0) {
-							res.status(400);
-							System.out.println("2");
-							return "400 bad request";
-						}
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
-					}else {
-						res.status(400);
-						System.out.println("3");
-						return "400 Bad request";
 					}
 				}catch(Exception e) {
 					res.status(400);
 					System.out.println("4");
-					return "400 Bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -538,41 +500,29 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String o = req.body();
 				try {
 					OrganizationDTO odto = g.fromJson(o, OrganizationDTO.class);
-					System.out.println(odto.getOldOrgName() + ", " + odto.getOrgName() + ", " + odto.getDescription() + ", " + odto.getLogo());
-					if(odto.getOldOrgName().equals(odto.getOrgName()) && odto.getOldOrgName().equals("") == false && odto.getDescription().equals("") && odto.getLogo().equals("")) {
+					if(app.editOrganizationValidation(odto) == false) {
+						res.status(400);
+						return "400 Bad Request";
+					}else {
 						int flag = app.editOrganization(odto);
 						if(flag == 0) {
 							res.status(400);
 							System.out.println("1");
-							return "400 bad request";
+							return "400 Bad Request";
 						}
 						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
-					}else if(app.findOrgByName(odto.getOrgName()) == null && odto.getOldOrgName().equals("") == false && odto.getOrgName().equals("") == false  && odto.getDescription().equals("") == false && odto.getLogo().equals("") == false) {
-						int flag = app.editOrganization(odto);
-						if(flag == 0) {
-							res.status(400);
-							System.out.println("2");
-							return "400 bad request";
-						}
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
-					}else {
-						res.status(400);
-						System.out.println("3");
-						return "400 Bad request";
 					}
 				}catch(Exception e) {
 					res.status(400);
 					System.out.println("4");
-					return "400 Bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -582,13 +532,15 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String o = req.body();
 				try {
 					OrganizationDTO odto = g.fromJson(o, OrganizationDTO.class);
-					System.out.println(odto.getOldOrgName() + ", " + odto.getOrgName() + ", " + odto.getDescription() + ", " + odto.getLogo());
-					if(odto.getOldOrgName().equals(odto.getOrgName()) && odto.getOldOrgName().equals("") == false && odto.getDescription().equals("") == false) {
+					if(app.editOrganizationValidation(odto) == false) {
+						res.status(400);
+						return "400 Bad Request";
+					}else {
 						if(odto.getLogo().equals("")) {
 							odto.setLogo(app.getDefaultLogo());
 						}
@@ -596,33 +548,16 @@ public class SparkMain {
 						if(flag == 0) {
 							res.status(400);
 							System.out.println("1");
-							return "400 bad request";
+							return "400 Bad Request";
 						}
 						app.writeToFiles();
 						res.status(200);
 						return "200 OK";
-					}else if(app.findOrgByName(odto.getOrgName()) == null && odto.getOldOrgName().equals("") == false && odto.getOrgName().equals("") == false  && odto.getDescription().equals("") == false) {
-						if(odto.getLogo().equals("")) {
-							odto.setLogo(app.getDefaultLogo());
-						}
-						int flag = app.editOrganization(odto);
-						if(flag == 0) {
-							res.status(400);
-							System.out.println("2");
-							return "400 bad request";
-						}
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
-					}else {
-						res.status(400);
-						System.out.println("3");
-						return "400 Bad request";
 					}
 				}catch(Exception e) {
 					res.status(400);
 					System.out.println("4");
-					return "400 Bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -632,36 +567,27 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String d = req.body();
 				try {
 					DiscDTO discdto = g.fromJson(d, DiscDTO.class);
-					if(discdto.getOldResourceName().equals(discdto.getResourceName()) && discdto.getOldResourceName().equals("") == false && discdto.getResourceName().equals("") == false && discdto.getCapacity() > 0 && discdto.getOrganizationName().equals("") == false  && discdto.getType().equals("") == false) {
-						int flag = app.editDisc(discdto);
-						if(flag == 0) {
-							res.status(400);
-							return "400 bad request";
-						}
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
-					}else if(app.findDiscByName(discdto.getResourceName()) == null && discdto.getOldResourceName().equals("") == false && discdto.getResourceName().equals("") == false  && discdto.getCapacity() > 0 && discdto.getOrganizationName().equals("") == false && discdto.getType().equals("") == false) {
-						int flag = app.editDisc(discdto);
-						if(flag == 0) {
-							res.status(400);
-							return "400 bad request";
-						}
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
-					}else {
+					if(app.editDiscValidation(discdto) == false) {
 						res.status(400);
-						return "400 Bad request";
+						return "400 Bad Request";
+					}else {
+						int flag = app.editDisc(discdto);
+						if(flag == 0) {
+							res.status(400);
+							return "400 Bad Request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
 					}
 				}catch(Exception e) {
 					res.status(400);
-					return "400 Bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -671,36 +597,27 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String virt = req.body();
 				try {
 					VMDTO vmdto = g.fromJson(virt, VMDTO.class);
-					if(vmdto.getOldResourceName().equals(vmdto.getResourceName()) && vmdto.getOldResourceName().equals("") == false && vmdto.getResourceName().equals("") == false && vmdto.getCategoryName().equals("") == false && vmdto.getGPU() > 0 && vmdto.getRAM() > 0 && vmdto.getNumberOfCores() > 0 && vmdto.getOrganizationName().equals("") == false) {
-						int flag = app.editVM(vmdto);
-						if(flag == 0) {
-							res.status(400);
-							return "400 bad request";
-						}
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
-					}else if(app.findVMByName(vmdto.getResourceName()) == null && vmdto.getOldResourceName().equals("") == false && vmdto.getResourceName().equals("") == false && vmdto.getCategoryName().equals("") == false && vmdto.getGPU() > 0 && vmdto.getRAM() > 0 && vmdto.getNumberOfCores() > 0 && vmdto.getOrganizationName().equals("") == false) {
-						int flag = app.editVM(vmdto);
-						if(flag == 0) {
-							res.status(400);
-							return "400 bad request";
-						}
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
-					}else {
+					if(app.editVMValidation(vmdto) == false) {
 						res.status(400);
-						return "400 Bad request";
+						return "400 Bad Request";
+					}else {
+						int flag = app.editVM(vmdto);
+						if(flag == 0) {
+							res.status(400);
+							return "400 Bad Request";
+						}
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
 					}
 				}catch(Exception e) {
 					res.status(400);
-					return "400 Bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -710,19 +627,23 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String user = req.body();
 				UserDTO dto = g.fromJson(user, UserDTO.class);
-				//uradi provjere
-				int flag = app.editUser(dto);
-				if(flag == 0) {
+				if(app.editUserValidation(dto) == false) {
 					res.status(400);
-					return "400 Bad request";
+					return "400 Bad Request";
 				}else {
-					app.writeToFiles();
-					res.status(200);
-					return "200 OK";
+					int flag = app.editUser(dto);
+					if(flag == 0) {
+						res.status(400);
+						return "400 Bad Request";
+					}else {
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}
 				}
 			}
 		});
@@ -732,19 +653,19 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String user = req.body();
 				try {
 					UserDTO dto = g.fromJson(user, UserDTO.class);
-					if(dto.getPassword().length() < 8 || dto.getEmail().equals("") || dto.getName().equals("") || dto.getOrganizationName().equals("") || dto.getPassword().equals("") || dto.getSurname().equals("") || dto.getUserType().equals("") || app.checkStringLetters(dto.getName()) == false || app.checkStringLetters(dto.getSurname()) == false) {
+					if(app.editUserValidation(dto) == false) {
 						res.status(400);
-						return "400 Bad request";
+						return "400 Bad Request";
 					}else {
 						int flag = app.editUser(dto);
 						if(flag == 0) {
 							res.status(400);
-							return "400 Bad request";
+							return "400 Bad Request";
 						}
 						app.writeToFiles();
 						res.status(200);
@@ -753,7 +674,7 @@ public class SparkMain {
 				}catch(Exception e) {
 					e.printStackTrace();
 					res.status(400);
-					return "400 Bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -763,13 +684,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String virt = req.body();
 				VM vm = app.findVMByName(virt);
 				if(vm == null) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				VMDTO dto = app.convertVMtoVMDTO(vm);
 				res.status(200);
@@ -782,13 +703,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String d = req.body();
 				Disc disc = app.findDiscByName(d);
 				if(disc == null) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				DiscDTO dto = app.convertDisctoDiscDTO(disc);
 				res.status(200);
@@ -801,13 +722,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String c = req.body();
 				CategoryVM cat = app.findCatByName(c);
 				if(cat == null) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				CategoryDTO dto = app.convertCattoCatDTO(cat);
 				res.status(200);
@@ -820,13 +741,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String o = req.body();
 				Organization org = app.findOrgByName(o);
 				if(org == null) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				OrganizationDTO dto = app.convertOrgtoOrgDTO(org);
 				res.status(200);
@@ -839,13 +760,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String d = req.body();
 				Disc disc = app.findDiscByName(d);
 				if(disc == null) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				DiscDTO dto = app.convertDisctoDiscDTO(disc);
 				res.status(200);
@@ -858,13 +779,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 1) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String d = req.body();
 				Disc disc = app.findDiscByName(d);
 				if(disc == null) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				DiscDTO dto = app.convertDisctoDiscDTO(disc);
 				res.status(200);
@@ -877,13 +798,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String virt = req.body();
 				VM vm = app.findVMByName(virt);
 				if(vm == null) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				VMDTO dto = app.convertVMtoVMDTO(vm);
 				res.status(200);
@@ -896,13 +817,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 1) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String virt = req.body();
 				VM vm = app.findVMByName(virt);
 				if(vm == null) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 				VMDTO dto = app.convertVMtoVMDTO(vm);
 				res.status(200);
@@ -915,7 +836,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<CategoryDTO> categoriesdto = new ArrayList<CategoryDTO>();
 				ArrayList<CategoryVM> categories = app.getCategories();
@@ -933,7 +854,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<CategoryDTO> categoriesdto = new ArrayList<CategoryDTO>();
 				ArrayList<CategoryVM> categories = app.getCategories();
@@ -950,18 +871,18 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					VMDTO dto = g.fromJson(req.body(), VMDTO.class);
-					if(dto.getResourceName().equals("") || dto.getCategoryName().equals("") || dto.getOrganizationName().equals("") || app.findVMByName(dto.getResourceName()) != null || dto.getRAM() <= 0 || dto.getGPU() <= 0 || dto.getNumberOfCores() <= 0) {
+					if(app.addVMValidation(dto) == false) {
 						res.status(400);
-						return "400 Bad request";
+						return "400 Bad Request";
 					}else {
 						int flag = app.addVM(dto);
 						if(flag == 0) {
 							res.status(400);
-							return "400 bad request";
+							return "400 Bad Request";
 						}
 						app.writeToFiles();
 						res.status(200);
@@ -969,7 +890,7 @@ public class SparkMain {
 					}
 				}catch(Exception e) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -979,18 +900,18 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					DiscDTO dto = g.fromJson(req.body(), DiscDTO.class);
-					if(dto.getResourceName().equals("") || dto.getType().equals("") || dto.getOrganizationName().equals("") || app.findDiscByName(dto.getResourceName()) != null) {
+					if(app.addDiscValidation(dto) == false) {
 						res.status(400);
-						return "400 Bad request";
+						return "400 Bad Request";
 					}else {
 						int flag = app.addDisc(dto);
 						if(flag == 0) {
 							res.status(400);
-							return "400 bad request";
+							return "400 Bad Request";
 						}
 						app.writeToFiles();
 						res.status(200);
@@ -998,7 +919,7 @@ public class SparkMain {
 					}
 				}catch(Exception e) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -1008,21 +929,19 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					CategoryDTO dto = g.fromJson(req.body(), CategoryDTO.class);
-					System.out.println(dto.getCategoryName() + ", " + dto.getNumberOfCores() + ", " + dto.getRAM() + ", " + dto.getGPU());
-					if(dto.getCategoryName().equals("") || dto.getNumberOfCores() <= 0 || dto.getRAM() <= 0 || dto.getGPU() <= 0 || app.findCatByName(dto.getCategoryName()) != null) {
+					if(app.addCategoryValidation(dto) == false) {
 						res.status(400);
-						System.out.println("1");
-						return "400 Bad request";
+						return "400 Bad Request";
 					}else {
 						int flag = app.addCategory(dto);
 						if(flag == 0) {
 							res.status(400);
 							System.out.println("2");
-							return "400 bad request";
+							return "400 Bad Request";
 						}
 						app.writeToFiles();
 						res.status(200);
@@ -1031,7 +950,7 @@ public class SparkMain {
 				}catch(Exception e) {
 					res.status(400);
 					System.out.println("3");
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -1041,14 +960,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					OrganizationDTO dto = g.fromJson(req.body(), OrganizationDTO.class);
-					if(dto.getOrgName().equals("") || dto.getDescription().equals("") || app.findOrgByName(dto.getOrgName()) != null) {
+					if(app.addOrganizationValidation(dto) == false) {
 						res.status(400);
-						System.out.println("1");
-						return "400 Bad request";
+						return "400 Bad Request";
 					}else {
 						if(dto.getLogo().equals("")) {
 							dto.setLogo(app.getDefaultLogo());
@@ -1057,7 +975,7 @@ public class SparkMain {
 						if(flag == 0) {
 							res.status(400);
 							System.out.println("2");
-							return "400 bad request";
+							return "400 Bad Request";
 						}
 						app.writeToFiles();
 						res.status(200);
@@ -1066,7 +984,7 @@ public class SparkMain {
 				}catch(Exception e) {
 					res.status(400);
 					System.out.println("3");
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -1076,20 +994,19 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					DiscDTO dto = g.fromJson(req.body(), DiscDTO.class);
-					if(dto.getResourceName().equals("") || dto.getType().equals("") || dto.getOrganizationName().equals("") || app.findDiscByName(dto.getResourceName()) != null) {
+					if(app.addDiscValidation(dto) == false) {
 						res.status(400);
-						System.out.println("1");
-						return "400 Bad request";
+						return "400 Bad Request";
 					}else {
 						int flag = app.addDisc(dto);
 						if(flag == 0) {
 							res.status(400);
 							System.out.println("2");
-							return "400 bad request";
+							return "400 Bad Request";
 						}
 						app.writeToFiles();
 						res.status(200);
@@ -1098,7 +1015,7 @@ public class SparkMain {
 				}catch(Exception e) {
 					res.status(400);
 					System.out.println("3ne cu");
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -1109,7 +1026,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<OrganizationDTO> dto = new ArrayList<OrganizationDTO>();
 				ArrayList<Organization> orgs = app.getOrganizations();
@@ -1126,7 +1043,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<OrganizationDTO> dto = new ArrayList<OrganizationDTO>();
 				ArrayList<Organization> orgs = app.getOrganizations();
@@ -1143,7 +1060,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<VMDTO> vmsdto = new ArrayList<VMDTO>();
 				ArrayList<VM> vms = app.getVms();
@@ -1161,7 +1078,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<VMDTO> vmsdto = new ArrayList<VMDTO>();
 				ArrayList<VM> vms = app.getVms();
@@ -1179,18 +1096,22 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				UserDTO dto = g.fromJson(req.body(), UserDTO.class);
-				//uraditi provjeru
-				int flag = app.addUser(dto);
-				if(flag == 0) {
+				if(app.addUserValidation(dto) == false) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}else {
-					app.writeToFiles();
-					res.status(200);
-					return "200 OK";
+					int flag = app.addUser(dto);
+					if(flag == 0) {
+						res.status(400);
+						return "400 Bad Request";
+					}else {
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}
 				}
 			}
 		});
@@ -1200,23 +1121,27 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					UserDTO dto = g.fromJson(req.body(), UserDTO.class);
-					//uraditi provjeru
-					int flag = app.addUser(dto);
-					if(flag == 0) {
+					if(app.addUserValidation(dto) == false) {
 						res.status(400);
-						return "400 bad request";
+						return "400 Bad Request";
 					}else {
-						app.writeToFiles();
-						res.status(200);
-						return "200 OK";
+						int flag = app.addUser(dto);
+						if(flag == 0) {
+							res.status(400);
+							return "400 Bad Request";
+						}else {
+							app.writeToFiles();
+							res.status(200);
+							return "200 OK";
+						}
 					}
 				}catch(Exception e) {
 					res.status(400);
-					return "400 Bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -1226,18 +1151,18 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					VMDTO dto = g.fromJson(req.body(), VMDTO.class);
-					if(dto.getResourceName().equals("") || dto.getCategoryName().equals("") || dto.getOrganizationName().equals("") || app.findVMByName(dto.getResourceName()) != null || dto.getRAM() <= 0 || dto.getGPU() <= 0 || dto.getNumberOfCores() <= 0) {
+					if(app.addVMValidation(dto) == false) {
 						res.status(400);
-						return "400 Bad request";
+						return "400 Bad Request";
 					}else {
 						int flag = app.addVM(dto);
 						if(flag == 0) {
 							res.status(400);
-							return "400 bad request";
+							return "400 Bad Request";
 						}
 						app.writeToFiles();
 						res.status(200);
@@ -1245,7 +1170,7 @@ public class SparkMain {
 					}
 				}catch(Exception e) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -1255,7 +1180,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<OrganizationDTO> dto = new ArrayList<OrganizationDTO>();
 				ArrayList<Organization> orgs = app.getOrganizations();
@@ -1272,7 +1197,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<CategoryDTO> categoriesdto = new ArrayList<CategoryDTO>();
 				ArrayList<CategoryVM> categories = app.getCategories();
@@ -1290,7 +1215,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<CategoryDTO> categoriesdto = new ArrayList<CategoryDTO>();
 				ArrayList<CategoryVM> categories = app.getCategories();
@@ -1307,13 +1232,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					Organization o = app.findOrgByName(req.body());
 					if(o == null) {
 						res.status(400);
-						return "400 bad request";
+						return "400 Bad Request";
 					}
 					OrganizationDTO dto = new OrganizationDTO();
 					dto.setOrgName(req.body());
@@ -1322,7 +1247,7 @@ public class SparkMain {
 					return g.toJson(discs);
 				}catch(Exception e) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -1332,7 +1257,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<DiscDTO> discs = app.getDiscs(app.getCurrentLoggedInUser(req));
 				res.status(200);
@@ -1345,7 +1270,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<UserDTO> users = app.getUserDTOs(app.getCurrentLoggedInUser(req));
 				res.status(200);
@@ -1358,7 +1283,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				OrganizationDTO dto = app.convertOrgtoOrgDTO(app.findOrgByName(app.getCurrentLoggedInUser(req).getOrganizationName()));
 				return g.toJson(dto);
@@ -1370,7 +1295,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				OrganizationDTO dto = app.convertOrgtoOrgDTO(app.findOrgByName(app.getCurrentLoggedInUser(req).getOrganizationName()));
 				return g.toJson(dto);
@@ -1382,7 +1307,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				OrganizationDTO dto = app.convertOrgtoOrgDTO(app.findOrgByName(app.getCurrentLoggedInUser(req).getOrganizationName()));
 				return g.toJson(dto);
@@ -1394,7 +1319,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				OrganizationDTO dto = app.convertOrgtoOrgDTO(app.findOrgByName(app.getCurrentLoggedInUser(req).getOrganizationName()));
 				return g.toJson(dto);
@@ -1406,7 +1331,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					SearchDTO dto = g.fromJson(req.body(), SearchDTO.class);
@@ -1415,7 +1340,7 @@ public class SparkMain {
 					return g.toJson(dtos);
 				}catch(Exception e) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -1424,7 +1349,7 @@ public class SparkMain {
 			res.type("application/json");
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					SearchDTO dto = g.fromJson(req.body(), SearchDTO.class);
@@ -1433,7 +1358,7 @@ public class SparkMain {
 					return g.toJson(dtos);
 				}catch(Exception e) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -1442,7 +1367,7 @@ public class SparkMain {
 			res.type("application/json");
 			if(app.checkLoggedInUser(req) != 1) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				try {
 					SearchDTO dto = g.fromJson(req.body(), SearchDTO.class);
@@ -1451,7 +1376,7 @@ public class SparkMain {
 					return g.toJson(dtos);
 				}catch(Exception e) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}
 			}
 		});
@@ -1461,7 +1386,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				ArrayList<UserDTO> dtos = app.getUserDTOs(app.getCurrentLoggedInUser(req));
 				res.status(200);
@@ -1474,13 +1399,13 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String user = req.body();
 				User found = app.findUserByEmail(user);
 				if(found == null) {
 					res.status(400);
-					return "400 Bad request";
+					return "400 Bad Request";
 				}else {
 					UserDTO dto = app.convertUserToUserDTO(found);
 					return g.toJson(dto);
@@ -1493,7 +1418,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				UserDTO dto = app.convertUserToUserDTO(app.getCurrentLoggedInUser(req));
 				return g.toJson(dto);
@@ -1505,7 +1430,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				UserDTO dto = app.convertUserToUserDTO(app.getCurrentLoggedInUser(req));
 				return g.toJson(dto);
@@ -1517,7 +1442,7 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 1) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				UserDTO dto = app.convertUserToUserDTO(app.getCurrentLoggedInUser(req));
 				return g.toJson(dto);
@@ -1529,19 +1454,23 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 not authorized";
+				return "403 Not Authorized";
 			}else {
 				String profile = req.body();
 				UserDTO dto = g.fromJson(profile, UserDTO.class);
-				//uradi provjere
-				int flag = app.editProfile(dto);
-				if(flag == 0) {
+				if(app.editProfileValidation(dto) == false) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}else {
-					app.writeToFiles();
-					res.status(200);
-					return "200 OK";
+					int flag = app.editProfile(dto);
+					if(flag == 0) {
+						res.status(400);
+						return "400 Bad Request";
+					}else {
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}
 				}
 			}
 		});
@@ -1551,19 +1480,23 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 2) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String profile = req.body();
 				UserDTO dto = g.fromJson(profile, UserDTO.class);
-				//uradi provjere
-				int flag = app.editProfile(dto);
-				if(flag == 0) {
+				if(app.editProfileValidation(dto) == false) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}else {
-					app.writeToFiles();
-					res.status(200);
-					return "200 OK";
+					int flag = app.editProfile(dto);
+					if(flag == 0) {
+						res.status(400);
+						return "400 Bad Request";
+					}else {
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}
 				}
 			}
 		});
@@ -1573,19 +1506,23 @@ public class SparkMain {
 			
 			if(app.checkLoggedInUser(req) != 1) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String profile = req.body();
 				UserDTO dto = g.fromJson(profile, UserDTO.class);
-				//uradi provjere
-				int flag = app.editProfile(dto);
-				if(flag == 0) {
+				if(app.editProfileValidation(dto) == false) {
 					res.status(400);
-					return "400 bad request";
+					return "400 Bad Request";
 				}else {
-					app.writeToFiles();
-					res.status(200);
-					return "200 OK";
+					int flag = app.editProfile(dto);
+					if(flag == 0) {
+						res.status(400);
+						return "400 Bad Request";
+					}else {
+						app.writeToFiles();
+						res.status(200);
+						return "200 OK";
+					}
 				}
 			}
 		});
@@ -1594,13 +1531,13 @@ public class SparkMain {
 			res.type("application/json");
 			if(app.checkLoggedInUser(req) != 3) {
 				res.status(403);
-				return "403 Not authorized";
+				return "403 Not Authorized";
 			}else {
 				String user = req.body();
 				User found = app.findUserByEmail(user);
 				if(found == null) {
 					res.status(400);
-					return "400 Bad request";
+					return "400 Bad Request";
 				}
 				UserDTO dto = app.convertUserToUserDTO(found);
 				return g.toJson(dto);

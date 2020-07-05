@@ -2,49 +2,49 @@
   {
     "email": "mico@super.com",
     "password": "milorad123",
-    "name": "ime",
-    "surname": "prezime",
+    "name": "Mico",
+    "surname": "Superadmin",
     "organizationName": "",
     "userType": "SuperAdmin"
   },
   {
-    "email": "mico2@super.com",
+    "email": "marina@super.com",
+    "password": "marina123",
+    "name": "Marina",
+    "surname": "Superadmin",
+    "organizationName": "",
+    "userType": "SuperAdmin"
+  },
+  {
+    "email": "mico@admin.com",
     "password": "milorad123",
-    "name": "ime",
-    "surname": "prezime",
-    "organizationName": "promjena",
+    "name": "Mico",
+    "surname": "Admin",
+    "organizationName": "Org1",
     "userType": "Admin"
   },
   {
-    "email": "mico3@super.com",
+    "email": "marina@admin.com",
+    "password": "marina123",
+    "name": "Marina",
+    "surname": "Admin",
+    "organizationName": "Org2",
+    "userType": "Admin"
+  },
+  {
+    "email": "mico@user.com",
     "password": "milorad123",
-    "name": "ime",
-    "surname": "prezime",
-    "organizationName": "promjena",
+    "name": "Mico",
+    "surname": "User",
+    "organizationName": "Org1",
     "userType": "User"
   },
   {
-    "email": "mico4@super.com",
-    "password": "milorad123",
-    "name": "ime",
-    "surname": "prezime",
-    "organizationName": "org1",
-    "userType": "User"
-  },
-  {
-    "email": "mico5@super.com",
-    "password": "milorad123",
-    "name": "ime",
-    "surname": "prezime",
-    "organizationName": "promjena",
-    "userType": "User"
-  },
-  {
-    "email": "mico6@super.com",
-    "password": "milorad123",
-    "name": "ime",
-    "surname": "prezime",
-    "organizationName": "org3",
+    "email": "marina@user.com",
+    "password": "marina123",
+    "name": "Marina",
+    "surname": "User",
+    "organizationName": "Org2",
     "userType": "User"
   }
 ]

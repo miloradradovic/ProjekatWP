@@ -44,14 +44,12 @@ $(document).ready(function(){
                         .attr("label", element.orgName)
                 )
         })
-        window.vms.forEach(element =>{
-            $("#select_vm")
-                .append(
-                    $("<option>")
-                        .attr("value", element.resourceName)
-                        .attr("label", element.resourceName)
-                )
-        })
+        $("#select_vm").append(
+            $("<option>")
+                .attr("value", "")
+                .attr("label", "")
+        )
+        getAvailableVMs(window.orgs[0])
 
 
     }
@@ -78,7 +76,7 @@ $(document).ready(function(){
                     )
                 })
             }, error: function(data){
-                if(data === "400 bad request"){
+                if(data === "400 Bad Request"){
                     alert("Something went wrong!");
                 }else{
                     window.location.href = "../../../forbidden.html";

@@ -11,7 +11,7 @@ $(document).ready(function(){
             window.disc = data;
             getAvailableVMs(window.disc.organizationName);
         }, error: function(data){
-            if(data === "400 bad request"){
+            if(data === "400 Bad Request"){
                 alert("Something went wrong!");
             }else{
                 window.location.href = "../../../forbidden.html";
@@ -100,9 +100,14 @@ $(document).ready(function(){
                         )
                     }
                 })
+                $("#select_vm").append(
+                    $("<option>")
+                        .attr("value", "")
+                        .attr("label", "")
+                )
                 fillInputs();
             }, error: function(data){
-                if(data === "400 bad request"){
+                if(data === "400 Bad Request"){
                     alert("Something went wrong!");
                 }else{
                     window.location.href = "../../../forbidden.html";

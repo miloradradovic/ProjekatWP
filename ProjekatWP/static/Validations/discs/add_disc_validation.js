@@ -9,7 +9,8 @@ $(document).ready(function() {
                 required: true
             },
             capacity_input: {
-                required: true
+                required: true,
+                min: 1
             }
         },
         messages: {
@@ -20,7 +21,8 @@ $(document).ready(function() {
                 required: "You have to select a disc type!"
             },
             capacity_input: {
-                required: "Capacity field must not be empty!"
+                required: "Capacity field must not be empty!",
+                min: "Capacity must be greater than 0!"
             }
         }
     });

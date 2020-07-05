@@ -9,6 +9,11 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(data){
             window.org = data;
+            $("#select_vm").append(
+                $("<option>")
+                    .attr("value", "")
+                    .attr("label", "")
+            )
             getAvailableVMs(data);
         }, error: function(data){
             window.location.href = "../../../forbidden.html";

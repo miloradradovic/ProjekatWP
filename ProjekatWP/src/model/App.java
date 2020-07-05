@@ -468,7 +468,7 @@ public class App {
 		
 	}
 	
-public int editDisc(DiscDTO discdto) {
+	public int editDisc(DiscDTO discdto) {
 	
 		int found = 0;
 		
@@ -488,7 +488,10 @@ public int editDisc(DiscDTO discdto) {
 				}
 				if(discdto.getVmName() == null) {
 					d.setVmName("");
-				}else {
+				}else if(discdto.getVmName().equals("")) {
+					d.setVmName("");
+				}
+				else {
 					d.setVmName(discdto.getVmName());			
 				}
 			}
@@ -512,11 +515,10 @@ public int editDisc(DiscDTO discdto) {
 		}
 		
 		for(VM vm : this.getVms()) {
-			if(vm.getConnectedDiscs().contains(discdto.getOldResourceName())) {
-				vm.getConnectedDiscs().remove(discdto.getOldResourceName());
-			}
-			if(vm.getResourceName().equals(discdto.getVmName())) {
-				vm.getConnectedDiscs().add(discdto.getResourceName());
+			for(String disc : vm.getConnectedDiscs()) {
+				if(disc.equals(discdto.getOldResourceName())) {
+					disc = discdto.getResourceName();
+				}
 			}
 		}
 		
@@ -524,72 +526,72 @@ public int editDisc(DiscDTO discdto) {
 		
 	}
 
-public int editCategory(CategoryDTO cdto) {
-	
-	int found = 0;
-	
-	for(CategoryVM c : this.getCategories()) {
-		if(c.getCategoryName().equals(cdto.getOldCategoryName())) {		
-			found = 1;
-			c.setCategoryName(cdto.getCategoryName());
-			c.setNumberOfCores(cdto.getNumberOfCores());
-			c.setRAM(cdto.getRAM());
-			c.setGPU(cdto.getGPU());
+	public int editCategory(CategoryDTO cdto) {
+		
+		int found = 0;
+		
+		for(CategoryVM c : this.getCategories()) {
+			if(c.getCategoryName().equals(cdto.getOldCategoryName())) {		
+				found = 1;
+				c.setCategoryName(cdto.getCategoryName());
+				c.setNumberOfCores(cdto.getNumberOfCores());
+				c.setRAM(cdto.getRAM());
+				c.setGPU(cdto.getGPU());
+			}
 		}
-	}
-	
-	for(VM vm : this.getVms()) {
-		if(vm.getCategoryName().equals(cdto.getOldCategoryName())) {
-			vm.setCategoryName(cdto.getCategoryName());;
+		
+		for(VM vm : this.getVms()) {
+			if(vm.getCategoryName().equals(cdto.getOldCategoryName())) {
+				vm.setCategoryName(cdto.getCategoryName());;
+			}
 		}
-	}
-	
-	if(found == 0) {
+		
+		if(found == 0) {
+			return found;
+		}
+		
 		return found;
+		
 	}
-	
-	return found;
-	
-}
 
-public int editOrganization(OrganizationDTO odto) {
-	
-	int found = 0;
-	
-	for(Organization o : this.getOrganizations()) {
-		if(o.getOrgName().equals(odto.getOldOrgName())) {		
-			found = 1;
-			o.setOrgName(odto.getOrgName());
-			o.setDescription(odto.getDescription());
-			o.setLogo(odto.getLogo());
+	public int editOrganization(OrganizationDTO odto) {
+		
+		int found = 0;
+		
+		for(Organization o : this.getOrganizations()) {
+			if(o.getOrgName().equals(odto.getOldOrgName())) {		
+				found = 1;
+				o.setOrgName(odto.getOrgName());
+				o.setDescription(odto.getDescription());
+				o.setLogo(odto.getLogo());
+			}
 		}
-	}
-	
-	for(VM vm : this.getVms()) {
-		if(vm.getOrganizationName().equals(odto.getOldOrgName())) {
-			vm.setOrganizationName(odto.getOrgName());;
+		
+		for(VM vm : this.getVms()) {
+			if(vm.getOrganizationName().equals(odto.getOldOrgName())) {
+				vm.setOrganizationName(odto.getOrgName());;
+			}
 		}
-	}
-	
-	for(Disc d : this.getDiscs()) {
-		if(d.getOrganizationName().equals(odto.getOldOrgName())) {
-			d.setOrganizationName(odto.getOrgName());;
+		
+		for(Disc d : this.getDiscs()) {
+			if(d.getOrganizationName().equals(odto.getOldOrgName())) {
+				d.setOrganizationName(odto.getOrgName());;
+			}
 		}
-	}
-	
-	for(User u : this.getUsers()) {
-		if(u.getOrganizationName().equals(odto.getOldOrgName())) {
-			u.setOrganizationName(odto.getOrgName());
+		
+		for(User u : this.getUsers()) {
+			if(u.getOrganizationName().equals(odto.getOldOrgName())) {
+				u.setOrganizationName(odto.getOrgName());
+			}
 		}
-	}
-	
-	if(found == 0) {
+		
+		if(found == 0) {
+			return found;
+		}
+		
 		return found;
+		
 	}
-	
-	return found;
-	
-}
 
 	public VMDTO convertVMtoVMDTO(VM vm) {
 		VMDTO dto = new VMDTO();
@@ -751,7 +753,10 @@ public int editOrganization(OrganizationDTO odto) {
 		disc.setCapacity(dto.getCapacity());
 		if(dto.getVmName() == null) {
 			disc.setVmName("");
-		}else {
+		}else if(dto.getVmName().equals("")) {
+			disc.setVmName("");
+		}
+		else {
 			disc.setVmName(dto.getVmName());
 		}
 		if(dto.getType().equals("SSD")) {
@@ -1290,6 +1295,174 @@ public int editOrganization(OrganizationDTO odto) {
 		return "data:image/png;base64,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\u003d";
 	}
 
-	
+	public boolean loginValidation(UserDTO dto) {
+		String emailPattern = "[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com";
+		if(dto.getEmail().equals("") || dto.getPassword().equals("") || dto.getEmail().matches(emailPattern) == false || dto.getPassword().length() < 8) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	public boolean editVMValidation(VMDTO dto) {
+				
+		if(dto.getOldResourceName().equals(dto.getResourceName())) {
+			//nije promijenio ime
+			if(dto.getOldResourceName().equals("") || dto.getResourceName().equals("") || dto.getCategoryName().equals("") || dto.getGPU() <= 0 || dto.getRAM() <= 0 || dto.getNumberOfCores() <= 0 || dto.getOrganizationName().equals("")) {
+				return false;
+			}else {
+				return true;
+			}
+		}else {
+			//promijenio je ime
+			if(this.findVMByName(dto.getResourceName()) != null || dto.getOldResourceName().equals("") || dto.getResourceName().equals("") || dto.getCategoryName().equals("") || dto.getGPU() <= 0 || dto.getRAM() <= 0 || dto.getNumberOfCores() <= 0 || dto.getOrganizationName().equals("")) {
+				return false;
+			}else {
+				return true;
+			}
+			
+		}
+	}
+
+	public boolean editDiscValidation(DiscDTO dto) {
+		
+		if(dto.getOldResourceName().equals(dto.getResourceName())) {
+		//nije promijenio ime
+			if(dto.getOldResourceName().equals("") || dto.getResourceName().equals("") || dto.getCapacity() <= 0 || dto.getOrganizationName().equals("") || dto.getType().equals("")) {
+				return false;
+			}else {
+				return true;
+			}
+		}else {
+			//promijenio ime
+			if(this.findDiscByName(dto.getResourceName()) != null || dto.getOldResourceName().equals("") || dto.getResourceName().equals("") || dto.getCapacity() <= 0 || dto.getOrganizationName().equals("") || dto.getType().equals("")) {
+				return false;
+			}else {
+				return true;
+			}
+		}
+	}
+
+	public boolean editCategoryValidation(CategoryDTO cdto) {
+		
+		if(cdto.getOldCategoryName().equals(cdto.getCategoryName())) {
+			//nije promijenio
+			if(cdto.getCategoryName().equals("") || cdto.getOldCategoryName().equals("") || cdto.getGPU() <= 0 || cdto.getNumberOfCores() <= 0 || cdto.getRAM() <= 0) {
+				return false;
+			}else {
+				return true;
+			}
+		}else {
+			//promijenio
+			if(this.findCatByName(cdto.getCategoryName()) != null || cdto.getCategoryName().equals("") || cdto.getOldCategoryName().equals("") || cdto.getGPU() <= 0 || cdto.getNumberOfCores() <= 0 || cdto.getRAM() <= 0) {
+				return false;
+			}else {
+				return true;
+			}
+		}
+	}
+
+	public boolean editOrganizationValidation(OrganizationDTO odto) {
+		
+		if(odto.getOrgName().equals(odto.getOldOrgName())) {
+			//nije mijenjao
+			if(odto.getOrgName().equals("") || odto.getOldOrgName().equals("") || odto.getDescription().equals("")) {
+				return false;
+			}else {
+				return true;
+			}
+		}else {
+			//mijenjao
+			if(this.findOrgByName(odto.getOrgName()) != null || odto.getOrgName().equals("") || odto.getOldOrgName().equals("") || odto.getDescription().equals("")) {
+				return false;
+			}else {
+				return true;
+			}
+		}
+	}
+
+	public boolean editUserValidation(UserDTO dto) {
+		
+		String namePattern = "[A-Z][a-z]+";
+		String surnamePattern = "[A-Z][a-z]+";
+		
+		if(dto.getName().matches(namePattern) == false || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().matches(surnamePattern) || dto.getUserType().equals("")) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	public boolean addVMValidation(VMDTO dto) {
+				
+		if(dto.getResourceName().equals("") || dto.getCategoryName().equals("") || dto.getOrganizationName().equals("") || this.findVMByName(dto.getResourceName()) != null || dto.getRAM() <= 0 || dto.getGPU() <= 0 || dto.getNumberOfCores() <= 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	public boolean addDiscValidation(DiscDTO dto) {
+		
+		if(dto.getCapacity() <= 0 || dto.getResourceName().equals("") || dto.getType().equals("") || dto.getOrganizationName().equals("") || this.findDiscByName(dto.getResourceName()) != null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	public boolean addCategoryValidation(CategoryDTO dto) {
+		
+		if(dto.getCategoryName().equals("") || dto.getNumberOfCores() <= 0 || dto.getRAM() <= 0 || dto.getGPU() <= 0 || this.findCatByName(dto.getCategoryName()) != null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	public boolean addOrganizationValidation(OrganizationDTO dto) {
+		
+		if(dto.getOrgName().equals("") || dto.getDescription().equals("") || this.findOrgByName(dto.getOrgName()) != null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	public boolean addUserValidation(UserDTO dto) {
+		
+		String emailPattern = "[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com";
+		String namePattern = "[A-Z][a-z]+";
+		String surnamePattern = "[A-Z][a-z]+";
+		
+		if(dto.getEmail().equals("") || dto.getEmail().matches(emailPattern) == false || dto.getName().equals("") || dto.getName().matches(namePattern) == false || dto.getOrganizationName().equals("") || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().equals("") || dto.getSurname().matches(surnamePattern) == false || dto.getUserType().equals("")) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	public boolean editProfileValidation(UserDTO dto) {
+		String namePattern = "[A-Z][a-z]+";
+		String surnamePattern = "[A-Z][a-z]+";
+		String emailPattern = "[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com";
+
+		if(dto.getOldEmail().equals(dto.getEmail())) {
+			//nije promijenio
+			if(dto.getEmail().equals("") || dto.getEmail().matches(emailPattern) == false || dto.getName().equals("") || dto.getName().matches(namePattern) == false || dto.getOrganizationName().equals("") || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().equals("") || dto.getSurname().matches(surnamePattern) == false || dto.getUserType().equals("")) {
+				return false;
+			}else {
+				return true;
+			}
+		}else {
+			//promijenio
+			if(this.findUserByEmail(dto.getEmail()) != null || dto.getEmail().equals("") || dto.getEmail().matches(emailPattern) == false || dto.getName().equals("") || dto.getName().matches(namePattern) == false || dto.getOrganizationName().equals("") || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().equals("") || dto.getSurname().matches(surnamePattern) == false || dto.getUserType().equals("")) {
+				return false;
+			}else {
+				return true;
+			}
+			
+		}
+	}
 	
 }

@@ -52,6 +52,7 @@ $(document).ready(function(){
                 complete: function (response) {
                     if (response.status === 200) {
                         alert("Profile successfully updated!");
+                        window.location.href = "editProfile.html";
                     }else if(response.status === 400){
                         alert("Something went wrong!");
                     }else{

@@ -89,7 +89,22 @@ public class App {
 			this.setVms(g.fromJson(new FileReader("./files/vms.json"), new TypeToken<ArrayList<VM>>(){}.getType()));
 			this.setOrganizations(g.fromJson(new FileReader("./files/organizations.json"), new TypeToken<ArrayList<Organization>>(){}.getType()));
 			this.setDiscs(g.fromJson(new FileReader("./files/discs.json"), new TypeToken<ArrayList<Disc>>(){}.getType()));
-
+			if(this.users == null) {
+				this.setUsers(new ArrayList<User>());
+			}
+			if(this.vms == null) {
+				this.setVms(new ArrayList<VM>());
+			}
+			if(this.categories == null) {
+				this.setCategories(new ArrayList<CategoryVM>());
+			}
+			if(this.organizations == null) {
+				this.setOrganizations(new ArrayList<Organization>());
+			}
+			if(this.discs == null) {
+				this.setDiscs(new ArrayList<Disc>());
+			}
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -514,10 +529,21 @@ public class App {
 			}
 		}
 		
-		for(VM vm : this.getVms()) {
-			for(String disc : vm.getConnectedDiscs()) {
-				if(disc.equals(discdto.getOldResourceName())) {
-					disc = discdto.getResourceName();
+		if(discdto.getVmName().equals("")) {
+			for(VM vm : this.getVms()) {
+				for(String disc : vm.getConnectedDiscs()) {
+					if(disc.equals(discdto.getOldResourceName())) {
+						vm.getConnectedDiscs().remove(disc);
+						break;
+					}
+				}
+			}
+		}else {
+			for(VM vm : this.getVms()) {
+				for(String disc : vm.getConnectedDiscs()) {
+					if(disc.equals(discdto.getOldResourceName())) {
+						disc = discdto.getResourceName();
+					}
 				}
 			}
 		}
@@ -1234,7 +1260,7 @@ public class App {
 		}else {
 			Organization o = this.findOrgByName(currentLoggedInUser.getOrganizationName());
 			for(User u : this.users) {
-				if(u.getOrganizationName().equals(o.getOrgName()) && u.getEmail().equals(currentLoggedInUser.getEmail())) {
+				if(u.getOrganizationName().equals(o.getOrgName()) && u.getEmail().equals(currentLoggedInUser.getEmail()) == false) {
 					UserDTO dto = this.convertUserToUserDTO(u);
 					dtos.add(dto);
 				}
@@ -1386,7 +1412,7 @@ public class App {
 		String namePattern = "[A-Z][a-z]+";
 		String surnamePattern = "[A-Z][a-z]+";
 		
-		if(dto.getName().matches(namePattern) == false || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().matches(surnamePattern) || dto.getUserType().equals("")) {
+		if(dto.getName().matches(namePattern) == false || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().matches(surnamePattern) == false || dto.getUserType().equals("")) {
 			return false;
 		}else {
 			return true;
@@ -1446,22 +1472,40 @@ public class App {
 		String namePattern = "[A-Z][a-z]+";
 		String surnamePattern = "[A-Z][a-z]+";
 		String emailPattern = "[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com";
-
-		if(dto.getOldEmail().equals(dto.getEmail())) {
-			//nije promijenio
-			if(dto.getEmail().equals("") || dto.getEmail().matches(emailPattern) == false || dto.getName().equals("") || dto.getName().matches(namePattern) == false || dto.getOrganizationName().equals("") || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().equals("") || dto.getSurname().matches(surnamePattern) == false || dto.getUserType().equals("")) {
-				return false;
+		
+		if(dto.getUserType().equals("Superadministrator")) {
+			if(dto.getOldEmail().equals(dto.getEmail())) {
+				//nije promijenio
+				if(dto.getEmail().equals("") || dto.getEmail().matches(emailPattern) == false || dto.getName().equals("") || dto.getName().matches(namePattern) == false || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().equals("") || dto.getSurname().matches(surnamePattern) == false || dto.getUserType().equals("")) {
+					return false;
+				}else {
+					return true;
+				}
 			}else {
-				return true;
+				//promijenio
+				if(this.findUserByEmail(dto.getEmail()) != null || dto.getEmail().equals("") || dto.getEmail().matches(emailPattern) == false || dto.getName().equals("") || dto.getName().matches(namePattern) == false || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().equals("") || dto.getSurname().matches(surnamePattern) == false || dto.getUserType().equals("")) {
+					return false;
+				}else {
+					return true;
+				}
 			}
 		}else {
-			//promijenio
-			if(this.findUserByEmail(dto.getEmail()) != null || dto.getEmail().equals("") || dto.getEmail().matches(emailPattern) == false || dto.getName().equals("") || dto.getName().matches(namePattern) == false || dto.getOrganizationName().equals("") || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().equals("") || dto.getSurname().matches(surnamePattern) == false || dto.getUserType().equals("")) {
-				return false;
+			if(dto.getOldEmail().equals(dto.getEmail())) {
+				//nije promijenio
+				if(dto.getEmail().equals("") || dto.getEmail().matches(emailPattern) == false || dto.getName().equals("") || dto.getName().matches(namePattern) == false || dto.getOrganizationName().equals("") || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().equals("") || dto.getSurname().matches(surnamePattern) == false || dto.getUserType().equals("")) {
+					return false;
+				}else {
+					return true;
+				}
 			}else {
-				return true;
+				//promijenio
+				if(this.findUserByEmail(dto.getEmail()) != null || dto.getEmail().equals("") || dto.getEmail().matches(emailPattern) == false || dto.getName().equals("") || dto.getName().matches(namePattern) == false || dto.getOrganizationName().equals("") || dto.getPassword().equals("") || dto.getPassword().length() < 8 || dto.getSurname().equals("") || dto.getSurname().matches(surnamePattern) == false || dto.getUserType().equals("")) {
+					return false;
+				}else {
+					return true;
+				}
+				
 			}
-			
 		}
 	}
 	

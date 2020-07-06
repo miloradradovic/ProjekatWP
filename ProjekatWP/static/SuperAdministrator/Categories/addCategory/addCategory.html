@@ -18,11 +18,11 @@
         <a href = "../../../logout.html">Log out</a>
     </div>
     <div class="topnav">
-        <a title="View all virtual machines" href="../../VMs/viewVMs/viewVMs.html">Virtual machines</a>
-        <a title="View all categories" class="active" href="../viewCategories/viewCategories.html">Categories</a>
-        <a title="View all discs" href="../..Discs/viewDiscs/viewDiscs.html">Discs</a>
+        <a title="View all virtual machines" class="active" href="../../VMs/viewVMs/viewVMs.html">Virtual machines</a>
+        <a title="View all discs" href="../../Discs/viewDiscs/viewDiscs.html">Discs</a>
         <a title="View all organizations" href="../../Organizations/viewOrganizations/viewOrganizations.html">Organizations</a>
         <a title="View all users" href="../../Users/viewUsers/viewUsers.html">Users</a>
+        <a title="View all categories" href="../viewCategories/viewCategories.html">Categories</a>
     </div>
 
     <h2 style="text-align: center">Add category</h2>
@@ -38,19 +38,19 @@
                 <tr>
                     <td align="left">Number of cores: </td>
                     <td align="left" id="number_of_cores_td">
-                        <input type="number" id="number_of_cores_input"/>
+                        <input type="number" id="number_of_cores_input" name="number_of_cores_input"/>
                     </td>
                 </tr>
                 <tr>
                     <td align="left">RAM: </td>
                     <td align="left" id="ram_td">
-                        <input type="number" id="ram_input"/>
+                        <input type="number" id="ram_input" name="ram_input"/>
                     </td>
                 </tr>
                 <tr>
                     <td align="left">GPU: </td>
                     <td align="left" id="gpu_td">
-                        <input type="number" id="gpu_input"/>
+                        <input type="number" id="gpu_input" name="gpu_input"/>
                     </td>
                 </tr>
             </table>

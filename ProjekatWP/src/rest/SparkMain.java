@@ -509,6 +509,9 @@ public class SparkMain {
 						res.status(400);
 						return "400 Bad Request";
 					}else {
+						if(odto.getLogo().equals("")) {
+							odto.setLogo(app.getDefaultLogo());
+						}
 						int flag = app.editOrganization(odto);
 						if(flag == 0) {
 							res.status(400);

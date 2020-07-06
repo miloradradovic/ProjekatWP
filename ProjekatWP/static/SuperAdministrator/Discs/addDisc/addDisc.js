@@ -8,6 +8,8 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(data){
             window.orgs = data;
+            console.log(window.orgs)
+            alert("USAO U WINDOW ORGS")
             if(window.orgs.length === 0){
                 alert("Please add the organization first!");
                 window.location.href = "../viewDiscs/viewDiscs.html";
@@ -18,6 +20,8 @@ $(document).ready(function(){
                     dataType: 'json',
                     success: function(data){
                         window.vms = data;
+                        console.log(window.vms)
+                        alert("USAO U WINDOW VMS")
                         if(window.vms.length === 0){
                             alert("Please add at least one VM first!")
                             window.location.href = "../viewDiscs/viewDiscs.html";
@@ -44,12 +48,7 @@ $(document).ready(function(){
                         .attr("label", element.orgName)
                 )
         })
-        $("#select_vm").append(
-            $("<option>")
-                .attr("value", "")
-                .attr("label", "")
-        )
-        getAvailableVMs(window.orgs[0])
+        getAvailableVMs(window.orgs[0].orgName)
 
 
     }
@@ -68,6 +67,11 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(data){
                 window.vms = data;
+                $("#select_vm").append(
+                     $("<option>")
+                         .attr("label", "")
+                         .attr("value", "")
+                )
                 window.vms.forEach(element => {
                     $("#select_vm").append(
                         $("<option>")

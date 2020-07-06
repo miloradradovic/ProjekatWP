@@ -276,6 +276,7 @@ $(document).ready(function(){
             complete: function(response){
                 if(response.status === 200){
                     sessionStorage.removeItem("vmedit");
+                    alert("VM successfully deleted!");
                     window.location.href = "../viewVMs/viewVMs.html";
                 }else if(response.status === 400){
                     alert("Something went wrong!");

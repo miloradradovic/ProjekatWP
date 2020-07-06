@@ -82,29 +82,47 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(data){
                 window.vms = data;
-                window.vms.forEach(element => {
-                    if(element.resourceName === window.disc.resourceName){
-                        $("#select_vm").append(
-                            $("<option>")
-                                .attr("label", element.resourceName)
-                                .attr("value", element.resourceName)
-                        )
-                    }
-                })
-                window.vms.forEach(element => {
-                    if(element.resourceName !== window.disc.resourceName){
-                        $("#select_vm").append(
-                            $("<option>")
-                                .attr("label", element.resourceName)
-                                .attr("value", element.resourceName)
-                        )
-                    }
-                })
-                $("#select_vm").append(
-                    $("<option>")
-                        .attr("value", "")
-                        .attr("label", "")
-                )
+                if(window.disc.vmName === ""){
+                    $("#select_vm").append(
+                        $("<option>")
+                            .attr("value", "")
+                            .attr("label", "")
+                    )
+                    window.vms.forEach(element => {
+
+                            $("#select_vm").append(
+                                $("<option>")
+                                    .attr("label", element.resourceName)
+                                    .attr("value", element.resourceName)
+                            )
+
+                    })
+
+                }else {
+                    window.vms.forEach(element => {
+                        if(element.resourceName === window.disc.vmName){
+                            $("#select_vm").append(
+                                $("<option>")
+                                    .attr("label", element.resourceName)
+                                    .attr("value", element.resourceName)
+                            )
+                        }
+                    })
+                    window.vms.forEach(element => {
+                        if(element.resourceName !== window.disc.vmName){
+                            $("#select_vm").append(
+                                $("<option>")
+                                    .attr("label", element.resourceName)
+                                    .attr("value", element.resourceName)
+                            )
+                        }
+                    })
+                    $("#select_vm").append(
+                        $("<option>")
+                            .attr("value", "")
+                            .attr("label", "")
+                    )
+                }
                 fillInputs();
             }, error: function(data){
                 if(data === "400 Bad Request"){
@@ -161,6 +179,7 @@ $(document).ready(function(){
             complete: function(response){
                 if(response.status === 200){
                     sessionStorage.removeItem("discedit");
+                    alert("Disc successfully deleted!")
                     window.location.href = "../viewDiscs/viewDiscs.html";
                 }else if(response.status === 400){
                     alert("Something went wrong!");

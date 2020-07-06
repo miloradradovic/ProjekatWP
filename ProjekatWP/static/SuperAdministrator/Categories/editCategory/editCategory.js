@@ -33,6 +33,7 @@ $(document).ready(function(){
             $("<input>")
                 .attr("type", "number")
                 .attr("id", "number_of_cores_input")
+                .attr("name", "number_of_cores_input")
                 .attr("value", window.category.numberOfCores)
         )
 
@@ -40,6 +41,7 @@ $(document).ready(function(){
             $("<input>")
                 .attr("type", "number")
                 .attr("id", "ram_input")
+                .attr("name", "ram_input")
                 .attr("value", window.category.RAM)
         )
         
@@ -47,6 +49,7 @@ $(document).ready(function(){
             $("<input>")
                 .attr("type", "number")
                 .attr("id", "gpu_input")
+                .attr("name", "gpu_input")
                 .attr("value", window.category.GPU)
         )
 

@@ -38,10 +38,7 @@ $(document).ready(function(){
             $("<select>")
                 .attr("id", "select_new_category")
                 .change(function(){
-                    console.log("USAO U METODU");
                     window.categories.forEach(element =>{
-                        console.log("SELEKTOVAO: "+$(this).children("option:selected").val())
-                        console.log("TRENUTNI: "+element.categoryName);
                         if(element.categoryName === $(this).children("option:selected").val()){
                             $("#num_of_cores_input").attr("value", element.numberOfCores);
                             $("#ram_input").attr("value", element.RAM);
@@ -82,7 +79,6 @@ $(document).ready(function(){
         )
 
         window.vm.connectedDiscs.forEach(element => {
-            console.log("DISK "+ element);
             $("#connectedDiscs").append(
                 $("<option>")
                     .attr("value", element)

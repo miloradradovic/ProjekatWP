@@ -9,14 +9,11 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(data){
             window.vm = data;
-            console.log("USPJESNO");
-            alert("UPRAVO ULAZIM U FILL INPUTS");
             fillInputs();
         }, error: function(data){
             if(data === "400 Bad Request"){
                 alert("Something went wrong!");
             }else{
-                console.log(data);
                 window.location.href = "../../../forbidden.html";
             }
         }
@@ -76,7 +73,6 @@ $(document).ready(function(){
         )
 
         window.vm.connectedDiscs.forEach(element => {
-            console.log("DISK "+ element);
             $("#connectedDiscs").append(
                 $("<option>")
                     .attr("value", element)

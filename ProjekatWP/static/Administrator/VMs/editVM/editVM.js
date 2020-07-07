@@ -80,7 +80,6 @@ $(document).ready(function(){
         )
 
         window.vm.connectedDiscs.forEach(element => {
-            console.log("DISK "+ element);
             $("#connectedDiscs").append(
                 $("<option>")
                     .attr("value", element)

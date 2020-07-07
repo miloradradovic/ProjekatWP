@@ -59,7 +59,6 @@ $(document).ready(function(){
                 }),
                 dataType: 'json',
                 complete: function(response){
-                    console.log(response)
                     if(response.status === 200){
                         alert("User successfully added!");
                         window.location.href = "../viewUsers/viewUsers.html";

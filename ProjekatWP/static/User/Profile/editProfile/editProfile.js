@@ -7,7 +7,6 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(data){
             window.user = data;
-            console.log(window.user);
             fillTheData();
         }, error: function(data){
             if(data === "400 Bad Request"){
@@ -34,7 +33,6 @@ $(document).ready(function(){
             let oldEmail = window.user.oldEmail;
             let newEmail = $("#email_input").val();
             let password = $("#password1_input").val();
-            console.log("PASSWORD "+password);
             let name = $("#name_input").val();
             let surname = $("#surname_input").val();
             $.ajax({

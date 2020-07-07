@@ -21,9 +21,6 @@ $(document).ready(function(){
 
     function fillInputs(){
 
-        console.log(window.disc);
-
-
         $("#name_td").append(
             $("<input>")
                 .attr("type", "text")

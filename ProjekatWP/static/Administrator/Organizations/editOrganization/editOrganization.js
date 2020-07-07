@@ -49,7 +49,6 @@ $(document).ready(function(){
             let description = $("#description_input").val();
             let logo = $("#photo").attr("src")
             if($("#defaultLogo").is(":checked")) {
-                console.log("USAO u if")
                 logo = ""
             }
             $.ajax({
@@ -84,7 +83,6 @@ $(document).ready(function(){
         var reader = new FileReader();
         reader.onload = function(){
             $("#photo").attr("src", reader.result)
-            console.log(reader.result)
         }
         reader.readAsDataURL(event.target.files[0]);
 
@@ -92,9 +90,7 @@ $(document).ready(function(){
 
     $("#photo").dblclick(function(){
         $("#photo").attr("src", "")
-        console.log($("#logo_input").attr("value"))
         $("#logo_input").attr("value", "")
-        console.log($("#logo_input"))
     })
 
 

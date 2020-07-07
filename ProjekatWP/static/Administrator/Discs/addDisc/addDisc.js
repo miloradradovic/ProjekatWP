@@ -17,7 +17,6 @@ $(document).ready(function(){
             getAvailableVMs(data);
         }, error: function(data){
             window.location.href = "../../../forbidden.html";
-            console.log("bla");
         }
     })
 
@@ -50,7 +49,6 @@ $(document).ready(function(){
                     alert("Something went wrong!");
                 }else{
                     window.location.href = "../../../forbidden.html";
-                    console.log("blablabla");
                 }
             }
         })
@@ -82,7 +80,6 @@ $(document).ready(function(){
                         window.location.href = "../viewDiscs/viewDiscs.html";
                     }else if(response.status === 403){
                         window.location.href = "../../../forbidden.html";
-                        console.log("bla4");
                     }else{
                         alert("Something went wrong!");
                     }

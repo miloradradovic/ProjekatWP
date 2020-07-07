@@ -8,7 +8,6 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(data){
             window.user = data;
-            console.log(window.user);
             fillTheData();
         }, error: function(data){
             if(data === "400 Bad Request"){
@@ -64,7 +63,6 @@ $(document).ready(function(){
         if($("#password_input").valid() && $("#name_input").valid() && $("#surname_input").valid()){
             let email = window.user.email;
             let password = $("#password_input").val();
-            console.log("PASSWORD "+password);
             let name = $("#name_input").val();
             let surname = $("#surname_input").val();
             let org = window.user.organizationName;

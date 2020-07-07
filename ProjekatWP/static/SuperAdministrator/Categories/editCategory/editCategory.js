@@ -64,7 +64,6 @@ $(document).ready(function(){
             let numberOfCores = $("#number_of_cores_input").val();
             let ram = $("#ram_input").val();
             let gpu = $("#gpu_input").val();
-            console.log(window.category.oldCategoryName);
             $.ajax({
                 url: 'editCategory',
                 type: 'post',

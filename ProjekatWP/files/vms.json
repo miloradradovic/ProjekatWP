@@ -1,1 +1,81 @@
-[]
+[
+  {
+    "organizationName": "Org1",
+    "categoryName": "Category2",
+    "connectedDiscs": [
+      "Disc2Org1",
+      "Disc3Org1"
+    ],
+    "activities": [],
+    "resourceName": "VM1Org1"
+  },
+  {
+    "organizationName": "Org1",
+    "categoryName": "Category5",
+    "connectedDiscs": [],
+    "activities": [],
+    "resourceName": "VM2Org1"
+  },
+  {
+    "organizationName": "Org2",
+    "categoryName": "Category3",
+    "connectedDiscs": [
+      "Disc1Org2"
+    ],
+    "activities": [],
+    "resourceName": "VM1Org2"
+  },
+  {
+    "organizationName": "Org2",
+    "categoryName": "Category4",
+    "connectedDiscs": [
+      "Disc3Org2"
+    ],
+    "activities": [
+      {
+        "from": {
+          "date": {
+            "year": 2020,
+            "month": 7,
+            "day": 8
+          },
+          "time": {
+            "hour": 0,
+            "minute": 39,
+            "second": 0,
+            "nano": 0
+          }
+        },
+        "to": {
+          "date": {
+            "year": 2020,
+            "month": 7,
+            "day": 8
+          },
+          "time": {
+            "hour": 0,
+            "minute": 39,
+            "second": 0,
+            "nano": 0
+          }
+        }
+      },
+      {
+        "from": {
+          "date": {
+            "year": 2020,
+            "month": 7,
+            "day": 8
+          },
+          "time": {
+            "hour": 0,
+            "minute": 39,
+            "second": 0,
+            "nano": 0
+          }
+        }
+      }
+    ],
+    "resourceName": "VM2Org2"
+  }
+]

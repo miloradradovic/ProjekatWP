@@ -18,10 +18,6 @@ $(document).ready(function(){
                 }),
                 dataType: 'json',
                 complete: function(response){
-                    console.log(window.categoryName);
-                    console.log(window.numberOfCores);
-                    console.log(window.ram);
-                    console.log(window.gpu);
                     if(response.status === 200){
                         alert("Category successfully added!");
                         window.location.href = "../viewCategories/viewCategories.html";

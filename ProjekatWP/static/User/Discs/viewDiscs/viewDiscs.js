@@ -8,7 +8,6 @@ $(document).ready(function() {
         dataType: "json",
         success: function(data){
             window.discs = data;
-            console.log(window.discs);
             updateTable();
             },
         error: function(data){

@@ -8,7 +8,11 @@
       "mico@user.com"
     ],
     "resourcesNames": [
-      
+      "Disc1Org1",
+      "Disc2Org1",
+      "Disc3Org1",
+      "VM1Org1",
+      "VM2Org1"
     ]
   },
   {
@@ -19,6 +23,12 @@
       "marina@admin.com",
       "marina@user.com"
     ],
-    "resourcesNames": []
+    "resourcesNames": [
+      "Disc1Org2",
+      "Disc2Org2",
+      "Disc3Org2",
+      "VM1Org2",
+      "VM2Org2"
+    ]
   }
 ]

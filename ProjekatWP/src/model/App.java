@@ -685,6 +685,9 @@ public class App {
 		vm.setResourceName(dto.getResourceName());
 		vm.setOrganizationName(dto.getOrganizationName());
 		vm.setCategoryName(dto.getCategoryName());
+		if(dto.getConnectedDiscs() == null) {
+			dto.setConnectedDiscs(new ArrayList<String>());
+		}
 		vm.setConnectedDiscs(dto.getConnectedDiscs());
 		ArrayList<Activity> activities = new ArrayList<Activity>();
 		vm.setActivities(activities);

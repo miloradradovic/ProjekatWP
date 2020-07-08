@@ -12,7 +12,9 @@
       "Disc2Org1",
       "Disc3Org1",
       "VM1Org1",
-      "VM2Org1"
+      "VM2Org1",
+      "Disc4Org1",
+      "Disc5Org1"
     ]
   },
   {
@@ -28,7 +30,9 @@
       "Disc2Org2",
       "Disc3Org2",
       "VM1Org2",
-      "VM2Org2"
+      "VM2Org2",
+      "Disc4Org2",
+      "Disc5Org2"
     ]
   }
 ]

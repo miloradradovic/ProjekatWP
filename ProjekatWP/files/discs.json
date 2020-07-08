@@ -118,5 +118,85 @@
       }
     },
     "resourceName": "Disc3Org2"
+  },
+  {
+    "organizationName": "Org1",
+    "type": "HDD",
+    "capacity": 4,
+    "vmName": "",
+    "created": {
+      "date": {
+        "year": 2020,
+        "month": 7,
+        "day": 8
+      },
+      "time": {
+        "hour": 8,
+        "minute": 24,
+        "second": 33,
+        "nano": 402000000
+      }
+    },
+    "resourceName": "Disc4Org1"
+  },
+  {
+    "organizationName": "Org1",
+    "type": "SSD",
+    "capacity": 10,
+    "vmName": "",
+    "created": {
+      "date": {
+        "year": 2020,
+        "month": 7,
+        "day": 8
+      },
+      "time": {
+        "hour": 8,
+        "minute": 24,
+        "second": 47,
+        "nano": 912000000
+      }
+    },
+    "resourceName": "Disc5Org1"
+  },
+  {
+    "organizationName": "Org2",
+    "type": "SSD",
+    "capacity": 13,
+    "vmName": "",
+    "created": {
+      "date": {
+        "year": 2020,
+        "month": 7,
+        "day": 8
+      },
+      "time": {
+        "hour": 8,
+        "minute": 25,
+        "second": 5,
+        "nano": 928000000
+      }
+    },
+    "resourceName": "Disc4Org2"
+  },
+  {
+    "organizationName": "Org2",
+    "type": "HDD",
+    "capacity": 23,
+    "vmName": "",
+    "created": {
+      "date": {
+        "year": 2020,
+        "month": 7,
+        "day": 8
+      },
+      "time": {
+        "hour": 8,
+        "minute": 25,
+        "second": 24,
+        "nano": 604000000
+      }
+    },
+    "resourceName": "Disc5Org2"
   }
 ]
